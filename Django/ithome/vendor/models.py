@@ -12,7 +12,7 @@ class Vendor(models.Model):
 
 class Food(models.Model):
 	food_name = models.CharField(max_length = 30) # 食物名稱
-	price = models.DecimalField(max_digits = 3, decimal_places=0) # 食物價錢
+	price_name = models.DecimalField(max_digits = 3, decimal_places=0) # 食物價錢
 	food_vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE) # 代表這食物是由哪一個攤販所做的
 	
 	def __str__(self):
@@ -28,3 +28,5 @@ class VendorAdmin(admin.ModelAdmin):
 @admin.register(Food)
 class FoodAdmin(admin.ModelAdmin):
 	list_display = [field.name for field in Food._meta.fields]
+	# 過濾 price_name
+	list_filter = ('price_name',)
