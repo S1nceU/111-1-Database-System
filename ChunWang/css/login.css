@@ -1,0 +1,10 @@
+.box{
+    margin: auto;
+    width: 250px;
+    margin-top: 250px;
+    border:5px #FFAC55 solid;
+}
+.box p{
+    margin: 0;
+    padding: 20px;
+}
