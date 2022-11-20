@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}choice_dick{%endblock%}
+{% block content %}
+<div class = 'container'>
+<form name = 'mychoice' action = './' method = 'GET'>
+<label for="'flsit">最喜歡的GG</label>
+<select name = 'flist'>
+<option valus="0">超巨GG</option>
+<option valus="1">小GG</option>
+<option valus="2">中等GG</option>
+</select>
+</form>
+</div>
+<a href = '{% url "home-url"%}'>回首頁</a>
+{% endblock %}

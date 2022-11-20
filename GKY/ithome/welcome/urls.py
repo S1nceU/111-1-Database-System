@@ -19,7 +19,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index),
+    path('', views.index, name = 'home-url'),
     path('product/', views.product),
-    path('detail/<int:id>',views.detail, name = 'detail-url')
+    path('detail/<int:id>',views.detail, name = 'detail-url'),
+    path('login/', views.login),
+    path('choice_dick/', views.choice_dick, name = 'choiceDick-url')
 ]
