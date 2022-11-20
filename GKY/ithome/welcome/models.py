@@ -17,11 +17,11 @@ class PModel(models.Model):
         return self.name
 
 class Product(models.Model):
-    pmodel = models.ForeignKey(PModel, on_delete = models.CASCADE)
-    nickname = models.CharField(max_length=15, default = 'testProduct')
+    pmodel = models.ForeignKey(PModel, on_delete = models.CASCADE,verbose_name="雞雞型號")
+    nickname = models.CharField(max_length=15, default = 'testProduct',verbose_name="雞雞名稱")
     description = models.TextField(default='nothing')
-    year = models.PositiveIntegerField(default = 2022)
-    price = models.PositiveIntegerField(default = 0)
+    year = models.PositiveIntegerField(default = 2022, verbose_name="雞雞歲數")
+    price = models.PositiveIntegerField(default = 0 , verbose_name="雞雞價格")
 
     def __str__(self):
         return self.nickname

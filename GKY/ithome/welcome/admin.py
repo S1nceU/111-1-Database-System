@@ -3,6 +3,8 @@ from . import models
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('pmodel', 'nickname', 'price', 'year')
+    search_fields = ('nickname',)
+    ordering = ('id',)
 
 
 # Register your models here.
