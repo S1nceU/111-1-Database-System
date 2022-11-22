@@ -8,8 +8,20 @@
     <title>Test of Vue.js</title>
 </head>
 <body>
-    <p id="test"></p>
-    <!-- <script src="test.js" defer></script> -->
-    <script src="test.js" defer></script>
+    <div id="test">
+        {{ message }}
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+        // const { createApp } = Vue
+        // const test_View = createApp({
+        //     data() {
+        //         return {
+        //             message: 'vue testing.'
+        //         }
+        //     }
+        // });
+        // test_View.mount('#test');
+    </script>
 </body>
 </html>
