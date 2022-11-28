@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <div class="box">
+    <div class="box" id="login">
         <h2 style="padding-left: 20px;">使用者登入</h2>
-        <p>帳號:<input type="text" id="account"></p> 
+        <p>帳號:<input v-model="username" type="text" id="account"></p> 
         <br>
-        <p>密碼:<input type="text" id="password"></p>
-
+        <p>密碼:<input v-model="password" type="password" id="password"></p>
         <br>
-        <p style="padding-left: 100px;"><input type="button" value="登入" id="login"></p>
+        <p style="padding-left: 100px;"><input type="button" value="登入" id="login"></p><br>
+        <p class="text-wrapper">{{ test }}</p>
     </div>
-    
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./src/login.js" defer></script>
 </body>
 </html>
