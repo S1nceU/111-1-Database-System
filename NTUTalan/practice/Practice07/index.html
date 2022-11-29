@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List_rendering</title>
+</head>
+<body>
+    <div id="list">
+        <form @submit.prevent="addItem">
+            <input v-model="newItem">
+            <button>submit</button>
+        </form>
+        <ul>
+            <li v-for="item in items">{{ item.text }}
+            <button @click="removeItem(item)">X</button>
+            </li>
+        </ul>
+    </div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./index.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice10</title>
+</head>
+<body>
+    <div id="app">
+        <p>todo ID: {{todoID}}</p>
+        <button @click="todoID++">Feteh next data</button>
+        <p v-if="!todoData">Loading</p>
+        <pre v-else>{{ todoData }}</pre>
+    </div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./index.js" defer></script>
+</body>
+</html>
