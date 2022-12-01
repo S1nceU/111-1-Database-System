@@ -1,15 +1,17 @@
 from django.shortcuts import render
-from .models import SELLER
-from .serializers import SELLERSerializer
+from .models import Seller
+from .serializers import SellerSerializer
+
+from rest_framework.generics import GenericAPIView
 
 from rest_framework import viewsets
 from django.http import JsonResponse
 from django.db import transaction
 
 # Create your views here.
-class SELLERViewSet(viewsets.ModelViewSet):
-    queryset = SELLER.objects.all()
-    serializer_class = SELLERSerializer
+class SellerViewSet(viewsets.ModelViewSet):
+    queryset = Seller.objects.all()
+    serializer_class = SellerSerializer
 
     # def get(self, request, *args, **krgs):
     #     users = self.get_queryset()
@@ -28,3 +30,4 @@ class SELLERViewSet(viewsets.ModelViewSet):
     #     except Exception as e:
     #         data = {'error': str(e)}
     #     return JsonResponse(data)
+
