@@ -5,32 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="./src/login.js" defer></script>
     <link rel="stylesheet" href="css/login.css">
+    <!-- <script type="importsmap">{
+        "imports": {
+            "vue": 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+            "js-cookies": "https://unpkg.com/vue-cookies@1.8.2/vue-cookies.js",
+            "vue-router": "https://unpkg.com/vue-router@4"
+        }
+    }
+    </script> -->
+    <!-- <script src="https://unpkg.com/vue-cookies@1.8.2/vue-cookies.js"></script>
+    <script src="https://unpkg.com/vue-router@4"></script> -->
+    <script type="module" src="./src/login.js" defer></script>
 </head>
-
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
 
     <div class="content">
-        <!-- <a href="index.html"><img src="img/icon.PNG" alt="" class="icon"></a> -->
-    <div id="app" class="box">    
-        <div class="option">
-            <h2 style="padding-left: 15px;padding-right: 10px;text-decoration: underline;">會員登入</h2>
-            <h2>|</h2>
-            <!-- <h2 style="padding-left: 10px;"><a href="register.html" class="register">立即註冊</a></h2> -->
-        </div>
-            <p>帳號</p> 
-            <input type="text" id="account" class="textbar">
-            <br>
-            <p>密碼</p>
-            <input type="text" id="password" class="textbar">
-            <br>
-            <input type="button" class="btn1" value="登入" id="login" @click="btn_login">
-    </div>
-    </div>
-    </div>
 
+        <a href="index.html"><img src="img/icon.PNG" alt="" class="icon"></a>
+    <div class="box">    
+        <div class="option">
+        <h2 style="padding-left: 15px;padding-right: 10px;text-decoration: underline;">會員登入</h2>
+        <h2>|</h2>
+        <h2 style="padding-left: 10px;"><a href="register.html" class="register">立即註冊</a></h2>
+        </div>
+        <p>帳號</p> 
+        <input type="text" v-model="loginForm.username" class="textbar">
+        <br>
+        <p>密碼</p>
+        <input type="text" v-model="loginForm.password" class="textbar">
+        <br>
+        <input type="button" @click="Login" class="btn1" value="登入" id="login">
+    </div>
+</div>
+</div>
 </body>
 </html>
