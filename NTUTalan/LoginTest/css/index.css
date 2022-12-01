@@ -1,0 +1,178 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+ h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/**************************css reset**************************/
+/*{
+    outline: black 1px solid;
+}*/
+.whole{
+    margin: 0 auto;
+    width: 1020px;
+
+}
+.tt{
+    width: 100%;
+    position: fixed;
+    position: top;
+    background-color: rgb(35, 170, 163);
+    
+}   
+.ti{
+    float: right;
+    margin-right: 50px;
+    padding-top: 30px;
+    height: 70px;
+    display: flex;
+    
+}
+.tb{
+    height: 70px;
+    width: 100px;
+    text-align:center;
+    line-height:70px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color:rgb(35, 170, 163); 
+}
+.tb a{
+    color: white;
+    text-decoration:none;
+}
+.tb:hover{
+    background-color:rgb(22, 108, 104);
+}
+
+.content{
+    margin-top: -30px;
+    padding-top: 80px;
+    margin-left: 10%;
+    
+}
+.icon{
+    width: 250px;
+    height: 150px;
+}
+.search{
+    display: flex;
+    background-color:rgb(72, 172, 198); 
+    width: 90%;
+}
+.searchbar{
+    margin-top: 50px;
+    margin-left: 30px;
+    height: 38px;
+    width: 300px;
+}
+.sb{
+    margin-top: 53px;
+    margin-left: -50px;
+    height: 40px;
+    width: 40px;
+}
+.sb:hover{
+    filter:brightness(110%);
+}
+.suggest_row{
+    font-size: 20px;
+    width: fit-content;
+    background-color: rgb(72, 172, 198);
+    color: white;
+    margin-top: -27px;
+    margin-left: 280px;
+}
+.suggest_row a{
+    color: white;
+    text-decoration: none;
+}
+.suggest_row a:hover{
+    color: black;
+    text-decoration: none;
+}
+.cover{
+    display: flex;
+    margin-top: 40px;
+}
+.left_head_product1{
+    background-color: black;
+    background-image: url("/img/cake.PNG");
+    width: 170px;
+    height: 170px;
+    border-radius: 10px 10px 10px 10px;
+}
+.left_head_product2{
+    background-color: black;
+    background-image: url("/img/comp.PNG");
+    width: 170px;
+    height: 170px;
+    margin-top: 30px;
+    border-radius: 10px 10px 10px 10px;
+}
+.middle_head_product{
+    background-size: 700px 370px;
+    background-image: url("/img/cat.jpg");
+    width: 700px;
+    height: 370px;
+    margin-left: 70px;
+    border-radius: 10px 10px 10px 10px;
+}
+.right_head_product{
+    margin-left: 50px;
+    border:5px rgb(72, 172, 198) solid;
+    border-radius: 10px 10px 10px 10px;
+    width: 230px;
+    font-size: 20px;
+    text-align: center;
+}
+.right_head_product p{
+    padding-top: 15px;
+    text-decoration:dotted;
+    padding-left: 35px;
+    text-align: left;
+}
