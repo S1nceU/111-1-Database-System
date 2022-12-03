@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="css/register.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
@@ -18,13 +26,13 @@
         <h2 style="padding-left: 10px;text-decoration: underline;">立即註冊</h2>
         </div>
         <p>帳號</p> 
-        <input type="text" id="account" class="textbar">
+        <input type="text" id="account" class="textbar" v-model="username">
         <br>
         <p>密碼</p>
-        <input type="text" id="password" class="textbar">
+        <input type="text" id="password" class="textbar" v-model="password">
         <br>
         <p>確認密碼</p>
-        <input type="text" id="password" class="textbar">
+        <input type="text" id="password" class="textbar" v-model="confirm_pw">
         <br>
         <input type="button" class="btn1" value="註冊" id="login">
     </div>

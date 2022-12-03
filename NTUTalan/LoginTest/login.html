@@ -9,24 +9,12 @@
     <script type="importmap">
         {
           "imports": {
-            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-            "axios": "https://unpkg.com/axios/dist/axios.min.js"
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
           }
         }
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <!-- <script type="importsmap">{
-        "imports": {
-            "vue": 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-            "js-cookies": "https://unpkg.com/vue-cookies@1.8.2/vue-cookies.js",
-            "vue-router": "https://unpkg.com/vue-router@4"
-        }
-    }
-    </script> -->
-    <!-- <script src="https://unpkg.com/vue-cookies@1.8.2/vue-cookies.js"></script>
-    <script src="https://unpkg.com/vue-router@4"></script> -->
-    <script type="module" src="./src/login.js" defer></script>
+    <script type="module" src="./src/login.js"></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
@@ -41,12 +29,12 @@
         <h2 style="padding-left: 10px;"><a href="register.html" class="register">立即註冊</a></h2>
         </div>
         <p>帳號</p> 
-        <input type="text" v-model="loginForm.username" class="textbar">
+        <input type="text" id="account" class="textbar" v-model="loginForm.username">
         <br>
         <p>密碼</p>
-        <input type="text" v-model="loginForm.password" class="textbar">
+        <input type="text" id="password" class="textbar" v-model="loginForm.password">
         <br>
-        <input type="button" @click="Login" class="btn1" value="登入" id="login">
+        <input type="button" class="btn1" value="登入" id="login" @click="Login">
     </div>
 </div>
 </div>
