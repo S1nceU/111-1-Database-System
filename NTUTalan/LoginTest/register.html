@@ -9,7 +9,8 @@
     <script type="importmap">
         {
           "imports": {
-            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+            "js-cookie": "https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"
           }
         }
     </script>
@@ -26,10 +27,10 @@
         <h2 style="padding-left: 10px;text-decoration: underline;">立即註冊</h2>
         </div>
         <p>帳號</p> 
-        <input type="text" id="account" class="textbar" v-model="username">
+        <input type="text" id="account" class="textbar" v-model="registObj.username">
         <br>
         <p>密碼</p>
-        <input type="text" id="password" class="textbar" v-model="password">
+        <input type="text" id="password" class="textbar" v-model="registObj.password">
         <br>
         <p>確認密碼</p>
         <input type="text" id="password" class="textbar" v-model="confirm_pw">
