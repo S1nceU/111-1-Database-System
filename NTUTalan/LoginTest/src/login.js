@@ -1,6 +1,6 @@
-import { createApp } from 'vue/dist/vue.esm-bundler.js'
-import Cookies from 'js-cookies'
-import axios from 'axios'
+import { createApp } from 'vue'/*'vue/dist/vue.esm-bundler.js'*/
+// import Cookies from 'js-cookies'
+// import axios from 'axios'
 
 const app = createApp({
     data() {
@@ -25,14 +25,14 @@ const app = createApp({
                 alert("Error")
             }
             try{
-                let req = await axios.post('http://127.0.0.1:5173/login.html', 
+                let req = await axios.post('http://127.0.0.1:8000/api/Login/loginC/', 
                 {  
                     username: this.loginForm.username,
                     password: this.loginForm.password
                 })    
             }
             catch(err) {
-                alert("Error")
+                alert("Login Error")
             }
             //Cookies.set('login', JSON.stringify(this.loginForm), {expires: true})
             console.log(this.loginForm)

@@ -49,7 +49,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     id_number = models.CharField(unique=True, max_length=10)
-    user_status = models.TextField()  # This field type is a guess.
+    user_status = models.IntegerField()  # This field type is a guess.
 
     class Meta:
         managed = False

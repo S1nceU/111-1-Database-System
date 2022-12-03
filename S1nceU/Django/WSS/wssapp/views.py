@@ -4,7 +4,7 @@ from .serializers import SellerSerializer, CustomerSerializer
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 
 
 # Create your views here.
@@ -31,4 +31,23 @@ class SellerViewSet(viewsets.ModelViewSet):
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    
+    # @api_view(['POST'])
+    # def PostCustomer(request):
+    #     if request.username in Customer.objects.all() :
+    #         account = get_object_or_404(Customer, Customer.object.filter(username = request.account))
+    #         print(request)
 
+class LoginViewSet(viewsets.ModelViewSet):
+    
+    @action(detail=True,methods=['POST'])
+    def loginC(self,request,pk=None):
+        user = self.get_object()
+        print(user)
+        # if request.method == 'POST':
+        #     try:
+        #         account = get_object_or_404(Customer, Customer.object.filter(username = request.account))
+        #         if request.password == account.password:
+        #             return Response(status=status.HTTP_200_OK)
+        #     except:
+        #         return Response(status=status.HTTP_404_NOT_FOUND)

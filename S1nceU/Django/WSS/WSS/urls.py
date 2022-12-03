@@ -22,7 +22,7 @@ from wssapp import views
 router = DefaultRouter()
 router.register(r'seller',views.SellerViewSet)
 router.register(r'customer',views.CustomerViewSet)
-
+router.register(r'login',views.LoginViewSet,basename='Login')
 urlpatterns = [
     path(r'admin/', admin.site.urls),
     path(r'api/', include(router.urls)),
