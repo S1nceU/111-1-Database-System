@@ -1,7 +1,20 @@
 import re
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from welcome import models
+from django.core import serializers
+# Create your views here.
+from welcome.models import Music
+
+from welcome.serializers import MusicSerializer
+# rest_framework provide
+from rest_framework import viewsets
+
+
+# Create your views here.
+class MusicViewSet(viewsets.ModelViewSet):
+    queryset = Music.objects.all()
+    serializer_class = MusicSerializer
 
 # Create your views here.
 def index(request):
@@ -34,3 +47,8 @@ def login(request):
 
 def choice_dick(request):
     return render(request, 'choice_dick.html', locals())
+
+def get_dick_api(request):
+    dick = models.Product.objects.all()
+    data = serializers.serialize('json', dick)
+    return JsonResponse({'data':data})

@@ -1,0 +1,15 @@
+{% csrf %}
+<script>
+    var xhr = new XMLHttpRequest();
+    var onloadHandle = function(){
+      var data = JSON.parse(JSON.parse(xhr.responseText).data);
+      var result = document.getElementById('render');
+      var str='';
+      data.forEach(function(value){
+        str += '<div class="col-xs-6 col-md-3" style="margin-left:50px;"><h2>'+value.fields.title+'</h2><a href="#" class="thumbnail"><img src="'+value.fields.path+'" alt="" width="300" ></a><p>'+value.fields.story+'</p><p>{{photo.create_date}}</p></div>'
+      });
+      result.innerHTML = str; 
+    };
+    xhr.open('GET','http://localhost:8000/api/photos',true);
+    xhr.send(); xhr.onload = onloadHandle;
+</script>
