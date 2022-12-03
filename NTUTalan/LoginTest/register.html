@@ -15,6 +15,7 @@
         }
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./src/register.js" defer></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
@@ -35,7 +36,7 @@
         <p>確認密碼</p>
         <input type="text" id="password" class="textbar" v-model="confirm_pw">
         <br>
-        <input type="button" class="btn1" value="註冊" id="login">
+        <input type="button" class="btn1" value="註冊" id="login" @click="Register">
     </div>
 </div>
 </div>
