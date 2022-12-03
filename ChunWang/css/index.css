@@ -54,11 +54,11 @@ table {
 }*/
 .whole{
     margin: 0 auto;
-    width: 1020px;
+    width: 100%;
 
 }
 .tt{
-    width: 100%;
+    width:100%;
     position: fixed;
     position: top;
     background-color: rgb(35, 170, 163);
@@ -71,6 +71,11 @@ table {
     height: 70px;
     display: flex;
     
+    
+}
+.ti a{
+    text-decoration: none;
+    color:white;
 }
 .tb{
     height: 70px;
@@ -177,6 +182,7 @@ table {
     margin-top: 30px;
     border:5px #000000 solid;
     border-radius: 10px 10px 10px 10px;
+    overflow: auto;
 }
 .field_title{
     width: 300px;
