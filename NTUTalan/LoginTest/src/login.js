@@ -27,16 +27,17 @@ const app = createApp({
             }
             
             try{
-                let res = await axios.post('http://127.0.0.1:8000/api/Login/loginC/', 
+                let res = await axios.post('http://127.0.0.1:5500/api/Login/loginC/', 
                 {  
                     username: this.loginForm.username,
                     password: this.loginForm.password
-                })   
+                })
+                await res.then   
             }
             catch(err) {
-                alert("Post Error")
+                alert("Post Error or 帳號密碼錯誤")
             }
-            
+
             Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
                    
         },
