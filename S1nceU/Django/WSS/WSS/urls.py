@@ -20,7 +20,8 @@ from rest_framework.routers import DefaultRouter
 from wssapp import views
 
 router = DefaultRouter()
-router.register(r'wssapp',views.SellerViewSet)
+router.register(r'seller',views.SellerViewSet)
+router.register(r'customer',views.CustomerViewSet)
 
 urlpatterns = [
     path(r'admin/', admin.site.urls),

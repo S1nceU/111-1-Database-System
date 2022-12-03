@@ -1,33 +1,34 @@
-from django.shortcuts import render
-from .models import Seller
-from .serializers import SellerSerializer
+from django.shortcuts import get_object_or_404
+from .models import Seller, Customer
+from .serializers import SellerSerializer, CustomerSerializer
 
-from rest_framework.generics import GenericAPIView
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
-from rest_framework import viewsets
-from django.http import JsonResponse
-from django.db import transaction
 
 # Create your views here.
 class SellerViewSet(viewsets.ModelViewSet):
     queryset = Seller.objects.all()
     serializer_class = SellerSerializer
 
-    # def get(self, request, *args, **krgs):
-    #     users = self.get_queryset()
-    #     serializer = self.serializer_class(users, many=True)
-    #     data = serializer.data
-    #     return JsonResponse(data, safe=False)
+    @action(detail=True,methods=['get'])
+    def getSeller(self, request, pk = None):
+        seller = get_object_or_404(Seller, pk=pk)
+        result = {
+            'user_id_s' : seller.user_id_s,
+            'username' : seller.username,
+            'account' : seller.account,
+            'password' : seller.password,
+            'email' : seller.email,
+            'address' : seller.address,
+            'phone' : seller.phone,
+            'id_number' : seller.id_number,
+            # 'user_status' :  seller.user_status 
+        }   
+        return Response(result, status=status.HTTP_200_OK)
 
-    # def post(self, request, *args, **krgs):
-    #     data = request.data
-    #     try:
-    #         serializer = self.serializer_class(data=data)
-    #         serializer.is_valid(raise_exception=True)
-    #         with transaction.atomic():
-    #             serializer.save()
-    #         data = serializer.data
-    #     except Exception as e:
-    #         data = {'error': str(e)}
-    #     return JsonResponse(data)
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
 

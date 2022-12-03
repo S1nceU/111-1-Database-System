@@ -127,16 +127,16 @@ class SalesReport(models.Model):
 class Seller(models.Model):
     user_id_s = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
-    account = models.CharField(max_length=255)
+    account = models.CharField(unique=True,max_length=255)
     password = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
+    email = models.CharField(unique=True,max_length=255)
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
-    id_number = models.CharField(max_length=10)
-    user_status = models.TextField()  # This field type is a guess.
+    id_number = models.CharField(unique=True,max_length=10)
+    user_status = models.IntegerField()  # This field type is a guess.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'seller'
 
 
@@ -161,3 +161,11 @@ class ToDoThing(models.Model):
     class Meta:
         managed = False
         db_table = 'to_do_thing'
+
+# def fun_raw_sql_query(**kwargs):
+#     user_id_s = kwargs.get('user_id_s')
+#     if user_id_s:
+#         result = Seller.objects.raw('SELECT * FROM Seller WHERE user_id_s = %s',[user_id_s])
+#     else:
+#         result = Seller.objects.raw('SELECT * FROM Seller')
+#     return result
