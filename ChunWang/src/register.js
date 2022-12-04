@@ -5,7 +5,12 @@ const app = createApp({
         return {
             registObj: {
                 username:'',
-                password:''
+                password:'',
+                ID: '',
+                Name: '',
+                email: '',
+                address: '',
+                phone: ''
             },
             confirm_pw:''
         }
