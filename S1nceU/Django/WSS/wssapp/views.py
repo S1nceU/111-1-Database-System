@@ -5,7 +5,8 @@ from .serializers import SellerSerializer, CustomerSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
-
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
 
 # Create your views here.
 class SellerViewSet(viewsets.ModelViewSet):
@@ -38,16 +39,25 @@ class CustomerViewSet(viewsets.ModelViewSet):
     #         account = get_object_or_404(Customer, Customer.object.filter(username = request.account))
     #         print(request)
 
-class LoginViewSet(viewsets.ModelViewSet):
+class LoginViewSet(APIView):
+    # def get_queryset(self):
+    #     user = self.request.user
+    # def get_serializer_class(self):
+    #     return super().get_serializer_class()
     
+    renderer_classes = [JSONRenderer]
+
     @action(detail=True,methods=['POST'])
-    def loginC(self,request,pk=None):
+    def get_object(self, request, format=None):
         user = self.get_object()
         print(user)
-        # if request.method == 'POST':
-        #     try:
-        #         account = get_object_or_404(Customer, Customer.object.filter(username = request.account))
-        #         if request.password == account.password:
-        #             return Response(status=status.HTTP_200_OK)
-        #     except:
-        #         return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response({"GG":True})
+
+    # if request.method == 'POST':
+    #     try:
+    #         account = get_object_or_404(Customer, Customer.object.filter(username = request.account))
+    #         if request.password == account.password:
+    #             return Response(status=status.HTTP_200_OK)
+    #     except:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)
