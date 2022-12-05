@@ -4,7 +4,7 @@ const app = createApp({
     data() {
         return {
             loginForm: {
-                username: '',
+                account: '',
                 password: '',
                 token: ''
             }          
@@ -14,7 +14,7 @@ const app = createApp({
         async Login() {
             console.log("get in func")
             const token = 'abcdefghijklmnop'
-            let usname = this.loginForm.username
+            let usname = this.loginForm.account
             let uspw = this.loginForm.password
             console.log(this.loginForm)
 
@@ -27,9 +27,10 @@ const app = createApp({
             }
             
             try{
-                let res = await axios.post('http://127.0.0.1:5500/api/Login/loginC/', 
+                console.log("to post")
+                let res = await axios.post('http://127.0.0.1:5000/login/', 
                 {  
-                    username: this.loginForm.username,
+                    account: this.loginForm.account,
                     password: this.loginForm.password
                 })
                 await res.then   
@@ -39,15 +40,15 @@ const app = createApp({
             }
 
             Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
-                   
+        
         },
         removeCookie() {
             Cookies.remove('login')
         }
     },
     watch: {
-        username() {
-            console.log(`${this.username}`)
+        account() {
+            console.log(`${this.account}`)
         },
         password() {
             console.log(`${this.password}`)
