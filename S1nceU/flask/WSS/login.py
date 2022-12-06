@@ -16,12 +16,12 @@ def login_test():
         data = mysql_unit.login_comfirm(db,"*","seller",req_account)
         if data is None:
             print("test",data,"a",req_account,"p",req_password)
-            return "Not found"
+            return '0'
         else:
             if req_password != data['password']:
-                return 'Password is wrong!!'
+                return '1'
             else:
                 print('Hello ' + data['username'])
-                return redirect(url_for('home'))
+                return '2'
     db.close()
         
