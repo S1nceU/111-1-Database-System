@@ -287,19 +287,19 @@ table {
     font-size: 18px;
     padding-top: 10px;
 }
-.button{
+.buttom{
     width: 100%;
     height: 380px;
     background-color: rgb(35, 170, 163);
 
 }
-.button_content{
+.buttom_content{
     margin-left: 150px;
     display: flex;
     padding-top: 30px;
     color:white;
 }
-.left_button{
+.left_buttom{
     width: 250px;
     
 }
@@ -315,4 +315,24 @@ table {
 .about a:hover{
     color: rgb(184, 184, 184);
     
+}
+.order_title{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 90%;
+}
+.order_title{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 30px;
+}
+.order{
+    border-top: 5px solid black;
+}
+.order li{
+    display: flex;
+}
+.order li img{
+    width: 150px;
+    height: 150px;
 }

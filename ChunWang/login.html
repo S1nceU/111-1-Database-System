@@ -35,8 +35,20 @@
         <p>密碼</p>
         <input type="text" id="password" class="textbar" v-model="loginForm.password">
         <br>
-        <input type="button" class="btn1" value="登入" id="login" @click="Login">
-    </div>
+        <div class="wrapper">
+            <input type="radio" name="select" id="option-1" checked>
+            <input type="radio" name="select" id="option-2">
+              <label for="option-1" class="option option-1">
+                <div class="dot"></div>
+                 <span>買家</span>
+                 </label>
+              <label for="option-2" class="option option-2">
+                <div class="dot"></div>
+                 <span>賣家</span>
+              </label>
+        </div>
+        <input type="button" class="btn1" value="登入" id="login" @click="Register">
+
 </div>
 </div>
 </body>
