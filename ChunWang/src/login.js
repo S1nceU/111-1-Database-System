@@ -4,7 +4,7 @@ const app = createApp({
     data() {
         return {
             loginForm: {
-                username: '',
+                account: '',
                 password: '',
                 token: ''
             }          
@@ -15,7 +15,7 @@ const app = createApp({
         async Login() {
             console.log("get in func")
             const token = 'abcdefghijklmnop'
-            let usname = this.loginForm.username
+            let usname = this.loginForm.account
             let uspw = this.loginForm.password
             console.log(this.loginForm)
 
@@ -28,13 +28,24 @@ const app = createApp({
             }
 
             // 帳號登入處理
-            let res = await axios.post('http://127.0.0.1:5500/api/Login/loginC/', 
+            let res = await axios.post('http://127.0.0.1:5000/login/', 
             {  
-                username: this.loginForm.username,
+                username: this.loginForm.account,
                 password: this.loginForm.password
             })
-            console.log(res)
-            console.log(JSON.stringify(res))
+
+            if(res.data == 0) {
+                alert("查無帳號")
+                return
+            }
+            
+            if(res.data == 1) {
+                alert("帳號或密碼錯誤")
+                return
+            }
+
+            // 執行登入後相關事宜
+            console.log('Login success')
 
             Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
                    
