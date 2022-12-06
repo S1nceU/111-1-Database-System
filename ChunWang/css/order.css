@@ -287,19 +287,19 @@ table {
     font-size: 18px;
     padding-top: 10px;
 }
-.buttom{
+.button{
     width: 100%;
     height: 380px;
     background-color: rgb(35, 170, 163);
 
 }
-.buttom_content{
+.button_content{
     margin-left: 150px;
     display: flex;
     padding-top: 30px;
     color:white;
 }
-.left_buttom{
+.left_button{
     width: 250px;
     
 }
@@ -315,15 +315,4 @@ table {
 .about a:hover{
     color: rgb(184, 184, 184);
     
-}
-.order_title{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border-bottom: 5px solid black;
-    width: 90%;
-}
-.order_title{
-    margin-top: 30px;
-    font-weight: bold;
-    font-size: 30px;
 }
