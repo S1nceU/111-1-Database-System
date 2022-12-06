@@ -10,7 +10,8 @@ const app = createApp({
             }          
         }
     },
-    methods: {       
+    methods: {      
+
         async Login() {
             console.log("get in func")
             const token = 'abcdefghijklmnop'
@@ -25,30 +26,38 @@ const app = createApp({
             else {
                 alert("Error")
             }
-            
-            try{
-                console.log("to post")
-                let res = await axios.post('http://127.0.0.1:5000/login/', 
-                {  
-                    account: this.loginForm.account,
-                    password: this.loginForm.password
-                })
-                await res.then   
+
+            // 帳號登入處理
+            let res = await axios.post('http://127.0.0.1:5000/login/', 
+            {  
+                account : this.loginForm.account,
+                password: this.loginForm.password
+            })
+
+            if(res.data == '0') {
+                alert("查無帳號")
+                return
             }
-            catch(err) {
-                alert("Post Error or 帳號密碼錯誤")
+            
+            if(res.data == '1') {
+                alert("帳號或密碼錯誤")
+                return
             }
 
+            // 執行登入後相關事宜
+            console.log('Login success')
+
             Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
-        
+                   
         },
+
         removeCookie() {
             Cookies.remove('login')
         }
     },
     watch: {
-        account() {
-            console.log(`${this.account}`)
+        username() {
+            console.log(`${this.username}`)
         },
         password() {
             console.log(`${this.password}`)

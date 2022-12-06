@@ -14,17 +14,17 @@ app.register_blueprint(login)
 
 @app.route('/')
 def default():
-    sql_cmd = """
-        select username
-        from seller
-        """
-    query_data = db.engine.execute(sql_cmd).fetchall()
+    # sql_cmd = """
+    #     select username
+    #     from seller
+    #     """
+    # query_data = db.engine.execute(sql_cmd).fetchall()
     
-    print(query_data)
+    # print(query_data)
     # print(db.engine.execute(sql_cmd).fetchone())
     # print("OK")
-    return "123"# jsonify(query_data)
-    # return render_template('index.html')
+    # return "123"# jsonify(query_data)
+    return render_template('index.html')
 
 @app.route('/index.html')
 def home():
