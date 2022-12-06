@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邀驗鑑貨-懂你想買的</title>
     <link rel="stylesheet" href="css/index.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -21,9 +31,7 @@
         <div class="search"> <!--搜尋欄--->
             <img src="img/icon.PNG" alt="" class="icon">
             <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <input type="image" src="img/sb.png" class="sb">
-            
-            
+            <input type="image" src="img/sb.png" class="sb">       
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>
