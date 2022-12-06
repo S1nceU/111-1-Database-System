@@ -30,16 +30,16 @@ const app = createApp({
             // 帳號登入處理
             let res = await axios.post('http://127.0.0.1:5000/login/', 
             {  
-                username: this.loginForm.account,
+                account: this.loginForm.account,
                 password: this.loginForm.password
             })
 
-            if(res.data == 0) {
+            if(res.data == '0') {
                 alert("查無帳號")
                 return
             }
             
-            if(res.data == 1) {
+            if(res.data == '1') {
                 alert("帳號或密碼錯誤")
                 return
             }
