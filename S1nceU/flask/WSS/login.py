@@ -5,7 +5,7 @@ import mysql_unit
 
 login = Blueprint('login', __name__, template_folder='templates')
 
-@login.route('/login/', methods=['GET', 'POST'])
+@login.route('/login_s/', methods=['GET', 'POST'])
 def login_seller():
     db = mysql_unit.connect()
     if request.method == 'POST':
