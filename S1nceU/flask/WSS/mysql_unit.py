@@ -4,7 +4,7 @@ def connect():
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='xu.6j03cj86u;6au/65k6', db='test')
     return db
 
-def login_comfirm(db,SELECT,FROM,WHERE):
+def login_comfirm(db,FROM,WHERE):
     condition = (FROM,FROM,FROM,FROM,WHERE)
 
 
@@ -26,7 +26,7 @@ def login_comfirm(db,SELECT,FROM,WHERE):
     user_level = 0
     if data is None:
         if data_admin is None:
-            return data
+            return data,user_level
         else:
             user_level = 1
         
@@ -43,7 +43,7 @@ def login_comfirm(db,SELECT,FROM,WHERE):
             'account'  : data_admin[1],
             'password' : data_admin[2]
         }
-    print(type(data))
+    # print(type(data))
     return data,user_level
 def disconnect(db):
     db.close()

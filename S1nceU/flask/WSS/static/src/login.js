@@ -28,7 +28,7 @@ const app = createApp({
             }
 
             // 帳號登入處理
-            let res = await axios.post('http://127.0.0.1:5000/login/', 
+            let res = await axios.post('http://127.0.0.1:5000/login_s/', 
             {  
                 account : this.loginForm.account,
                 password: this.loginForm.password
