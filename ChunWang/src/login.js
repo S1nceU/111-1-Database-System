@@ -7,13 +7,13 @@ const app = createApp({
                 account: '',
                 password: '',
                 token: ''
-            }          
+            },
+            identity: ''   
         }
     },
     methods: {      
-
         async Login() {
-            console.log("get in func")
+            let url = ''
             const token = 'abcdefghijklmnop'
             let usname = this.loginForm.account
             let uspw = this.loginForm.password
@@ -28,7 +28,14 @@ const app = createApp({
             }
 
             // 帳號登入處理
-            let res = await axios.post('http://127.0.0.1:5000/login/', 
+            if(this.isBuyer) {
+                url = 'http://127.0.0.1:5000/login_c/'
+            }
+            else {
+                url = 'http://127.0.0.1:5000/login_s/'
+            }
+
+            let res = await axios.post(url, // post
             {  
                 account: this.loginForm.account,
                 password: this.loginForm.password
@@ -55,13 +62,15 @@ const app = createApp({
             Cookies.remove('login')
         }
     },
-    watch: {
-        username() {
-            console.log(`${this.username}`)
-        },
-        password() {
-            console.log(`${this.password}`)
-        }  
+    computed: {
+        isBuyer() {
+            if(this.identity == 'buyer') {
+                return true
+            }
+            else {
+                return false
+            }
+        }
     }
 })
 app.mount('.box')
