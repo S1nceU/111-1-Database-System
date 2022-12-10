@@ -5,8 +5,7 @@ const app = createApp({
         return {
             loginForm: {
                 account: '',
-                password: '',
-                token: ''
+                password: ''
             },
             identity: ''   
         }
@@ -14,18 +13,7 @@ const app = createApp({
     methods: {      
         async Login() {
             let url = ''
-            const token = 'abcdefghijklmnop'
-            let usname = this.loginForm.account
-            let uspw = this.loginForm.password
             console.log(this.loginForm)
-
-            if(usname !== '' && uspw !== '') {
-                this.loginForm.token = token
-                console.log('get in if')
-            }
-            else {
-                alert("Error")
-            }
 
             // 帳號登入處理
             if(this.isBuyer) {
@@ -35,11 +23,7 @@ const app = createApp({
                 url = 'http://127.0.0.1:5000/login_s/'
             }
 
-            let res = await axios.post(url, // post
-            {  
-                account: this.loginForm.account,
-                password: this.loginForm.password
-            })
+            let res = await axios.post(url, this.loginForm)
 
             if(res.data == '0') {
                 alert("查無帳號")

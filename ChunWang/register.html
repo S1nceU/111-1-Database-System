@@ -51,8 +51,8 @@
         <input type="text" id="phone_number" class="textbar" v-model="registObj.phone">
         <br>
         <div class="wrapper">
-            <input type="radio" name="select" id="option-1" checked>
-            <input type="radio" name="select" id="option-2">
+            <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>
+            <input type="radio" name="select" id="option-2" v-model="identity" value="seller">
               <label for="option-1" class="option option-1">
                 <div class="dot"></div>
                  <span>買家</span>
