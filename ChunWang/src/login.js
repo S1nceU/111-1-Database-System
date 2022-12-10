@@ -41,7 +41,6 @@ const app = createApp({
             Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
                    
         },
-
         removeCookie() {
             Cookies.remove('login')
         }

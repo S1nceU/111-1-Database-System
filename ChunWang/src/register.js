@@ -4,10 +4,10 @@ const app = createApp({
     data() {
         return {
             registObj: {
-                username:'',
+                account:'',
                 password:'',
                 ID: '',
-                Name: '',
+                username: '',
                 email: '',
                 address: '',
                 phone: ''
