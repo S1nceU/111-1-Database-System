@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, Blueprint, abort, jsonify
 
 from login import login
-
+from register import register
 import token_logined as TL
 
 
@@ -9,6 +9,7 @@ import token_logined as TL
 app = Flask(__name__)
 
 app.register_blueprint(login)
+app.register_blueprint(register)
 
 
 @app.route('/')
