@@ -1,7 +1,7 @@
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint, jsonify, make_response
 # from flask_sqlalchemy import SQLAlchemy
-import mysql_unit, token_logined
-
+import mysql_unit
+import token_logined as TL
 login = Blueprint('login', __name__, template_folder='templates')
 
 @login.route('/login_s/', methods=['GET', 'POST'])
@@ -24,11 +24,19 @@ def login_seller():
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
-            return '3'
+            token_login = TL.make_token(data)
+            resp = TL.setcookie_logined(token_login)
+            # login_data = TL.getcookie()
+            # TL.decode_token(login_data)
+            return resp
+            # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = token_logined.make_token(data)
-            return jsonify({"message":"Login success","token":token_login})
+            token_login = TL.make_token(data)
+            resp = TL.setcookie_logined(token_login)
+            # login_data = TL.getcookie()
+            # TL.decode_token(login_data)
+            return resp
             # return '2'
     db.close()
 
@@ -50,13 +58,22 @@ def login_customer():
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
-            return '3'
+            token_login = TL.make_token(data)
+            resp = TL.setcookie_logined(token_login)
+            # login_data = TL.getcookie()
+            # TL.decode_token(login_data)
+            return resp
+            # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = token_logined.make_token(data)
-            # return jsonify({"message":"Login success","token":token_login})  # token 製作
-            return '2'
+            token_login = TL.make_token(data)
+            resp = TL.setcookie_logined(token_login)
+            # login_data = TL.getcookie()
+            # TL.decode_token(login_data)
+            return resp
+            # return '2'
     db.close()
 
-
-        
+@login.route('/logout/')
+def login_out():
+        return TL.delcookie()

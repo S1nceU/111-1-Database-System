@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from login import login
 
+import token_logined as TL
+
 db = SQLAlchemy()
 
 app = Flask(__name__)
@@ -14,16 +16,6 @@ app.register_blueprint(login)
 
 @app.route('/')
 def default():
-    # sql_cmd = """
-    #     select username
-    #     from seller
-    #     """
-    # query_data = db.engine.execute(sql_cmd).fetchall()
-    
-    # print(query_data)
-    # print(db.engine.execute(sql_cmd).fetchone())
-    # print("OK")
-    # return "123"# jsonify(query_data)
     return render_template('index.html')
 
 @app.route('/index.html')
@@ -32,6 +24,9 @@ def home():
 
 @app.route('/login.html')
 def loginpage():
+    if TL.getcookie() != None:
+        print(TL.decode_token(TL.getcookie()))
+        return render_template('index.html')
     return render_template('login.html')
 
 @app.route('/cart.html')
