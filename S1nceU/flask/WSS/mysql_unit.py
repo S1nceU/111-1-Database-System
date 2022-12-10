@@ -3,7 +3,7 @@ import pymysql
 def connect():
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='xu.6j03cj86u;6au/65k6', db='test')
     return db
-    
+
 def disconnect(db):
     db.close()
 
@@ -52,30 +52,29 @@ def login_comfirm(db,FROM,WHERE):
 def register_insert(db,data,users):
     condition = (
         users,
+        data['username'],
         data['account'],
         data['password'],
-        data['ID'],
-        data['username'],
         data['email'],
         data['address'],
-        data['phone']
+        data['phone'],
+        data['ID']
         )
     condition_repeat = (
         data['account'],data['email'],data['ID'],
         data['account'],data['email'],data['ID'],
-        data['account'],data['email'],data['ID']
+        data['account'],data['email']
     )
+    # print(condition_repeat)
         # account,email,id_number
     sql_cmd_repeat = """
-            select *
+            (select *
             from customer, seller, admin
-            where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or
-                  seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or
-                  admin.account = '%s' or admin.email = '%s' or admin.id_number = '%s'
+            where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or admin.account = '%s' or admin.email ='%s')
             """%condition_repeat
     sql_cmd = """
-            insert into %s (account, password, id_number, username, email, address, phone)
-            value ('%s','%s','%s','%s','%s','%s','%s')
+            (insert into %s (username, account, password, email, address, phone, id_number)
+            value ('%s','%s','%s','%s','%s','%s','%s'))
             """%condition
     account = db.cursor()
     account.execute(sql_cmd_repeat)
@@ -84,6 +83,7 @@ def register_insert(db,data,users):
         account.execute(sql_cmd)
         return "Register success."
     else:
+        print(account)
         return "Something repeat!!"
 
 

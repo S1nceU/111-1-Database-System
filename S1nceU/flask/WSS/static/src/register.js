@@ -4,15 +4,16 @@ const app = createApp({
     data() {
         return {
             registObj: {
-                username:'',
+                account:'',
                 password:'',
                 ID: '',
-                Name: '',
+                username: '',
                 email: '',
                 address: '',
                 phone: ''
             },
-            confirm_pw:''
+            confirm_pw:'',
+            indentity: ''
         }
     }, 
     methods: {
@@ -20,6 +21,7 @@ const app = createApp({
             //format validattion
             let emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
             let IDReg = /^[A-Z]\d{9}/
+            let url = ''
 
             if(this.registObj.password != this.confirm_pw) {
                 alert("密碼不一致")
@@ -40,11 +42,26 @@ const app = createApp({
                 return
             }
 
-            try {
-                let res = await axios.post("http://127.0.0.1:5000/register/", this.registObj)
+            if(this.isBuyer) {
+                url = 'http://127.0.0.1:5000/register_c/'
             }
-            catch(err) {
-                alert("post error")
+            else {
+                url = 'http://127.0.0.1:5000/register_s/'
+            }
+
+            let res = await axios.post(url, this.registObj)
+            console.log(res)
+            // 傳送註冊後續事項 (待新增)
+            // ...
+        }
+    },
+    compute: {
+        isBuyer() {
+            if(this.identity == 'buyer') {
+                return true
+            }
+            else {
+                return false
             }
         }
     }
