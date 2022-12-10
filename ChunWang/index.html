@@ -20,11 +20,15 @@
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
+        <li><div v-if="logged" class="tb_name">{{text}}</div></li>
         <li><a href="index.html"><div class="tb">首頁</div></a></li>
         <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
         <li><a href="cart.html"><div class="tb">購物車</div></a></li>
         <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
+        <li><a>
+            <div v-if="!logged" class="tb">註冊/登入</div>
+            <div v-else class="tb">登出</div>
+        </a></li>
     </ul>
     </div>
     <div class="content">
