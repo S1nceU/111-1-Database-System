@@ -41,7 +41,7 @@ const app = createApp({
             }
 
             try {
-                let res = await axios.post("http://127.0.0.1:5500/api/Login/RegisterC/", this.registObj)
+                let res = await axios.post("http://127.0.0.1:5000/register/", this.registObj)
             }
             catch(err) {
                 alert("post error")

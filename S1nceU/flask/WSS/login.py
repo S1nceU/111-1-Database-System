@@ -48,7 +48,7 @@ def login_customer():
         # req_password = request.form.get("password")
         req_account  = request.json['account']
         req_password = request.json['password']
-        data,user_level = mysql_unit.login_comfirm(db,"*","customer",req_account)
+        data,user_level = mysql_unit.login_comfirm(db,"customer",req_account)
         if data is None:
             # print("test",data,"a",req_account,"p",req_password)
             print("No account."+"account = "+ req_account + " password = "+ req_password)

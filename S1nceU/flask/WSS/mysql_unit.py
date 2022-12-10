@@ -47,3 +47,55 @@ def login_comfirm(db,FROM,WHERE):
     return data,user_level
 def disconnect(db):
     db.close()
+
+def register_insert(db,data,users):
+    condition = (
+        users,
+        data['account'],
+        data['password'],
+        data['ID'],
+        data['username'],
+        data['email'],
+        data['address'],
+        data['phone']
+        )
+    condition_repeat = (
+        data['account'],data['email'],data['ID'],
+        data['account'],data['email'],data['ID'],
+        data['account'],data['email'],data['ID']
+    )
+        # account,email,id_number
+    sql_cmd_repeat = """
+            select *
+            from customer, seller, admin
+            where customer.account = %s or customer.email = %s or customer.id_number = %s or
+                  seller.account = %s or seller.email = %s or seller.id_number = %s or
+                  admin.account = %s or admin.email = %s or admin.id_number = %s
+            """%condition_repeat
+    sql_cmd = """
+            insert into %s (account, password, id_number, username, email, address, phone)
+            value (%s,%s,%s,%s,%s,%s,%s)
+            """%condition
+    account = db.cursor()
+    account.execute(sql_cmd_repeat)
+    data = account.fetchall()
+    if account == None:
+        account.execute(sql_cmd)
+        return "Register success."
+    else:
+        return "Something repeat!!"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

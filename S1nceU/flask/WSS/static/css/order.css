@@ -316,3 +316,66 @@ table {
     color: rgb(184, 184, 184);
     
 }
+.order_title{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 90%;
+}
+.order_title{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 30px;
+}
+.order{
+   border-top: 5px solid black;
+   text-align:center;
+   
+}
+.order h1{
+    font-size: 35px;
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    margin: 0;
+    line-height: 200px;
+    width: 22%;
+    
+
+}
+.order p{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    line-height: 200px;
+    width: 20%;
+
+}
+.order a{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    line-height: 200px;
+    width: 20%;
+
+}
+.order li{
+    display: flex;
+}
+.product_img{
+    display: flex;
+    /* 水平置中 */
+    justify-content: center;    
+    /* 垂直置中 */
+    align-items: center;    
+    width: 200px;
+    height: 200px;
+    border-left: 4px black solid;
+    border-right: 4px black solid;
+    border-bottom: 4px black solid;
+
+
+}
+.order li img{
+    width: 150px;
+    height: 150px;
+}
