@@ -8,5 +8,7 @@ def register_seller():
     if request.method == 'POST':
         print(request.json)
         result = mysql_unit.register_insert(db,request.json,'seller')
+        db.commit()
+        db.close()
         return result
-    db.close()
+    
