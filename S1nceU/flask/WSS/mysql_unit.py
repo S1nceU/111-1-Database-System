@@ -68,13 +68,13 @@ def register_insert(db,data,users):
     sql_cmd_repeat = """
             select *
             from customer, seller, admin
-            where customer.account = %s or customer.email = %s or customer.id_number = %s or
-                  seller.account = %s or seller.email = %s or seller.id_number = %s or
-                  admin.account = %s or admin.email = %s or admin.id_number = %s
+            where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or
+                  seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or
+                  admin.account = '%s' or admin.email = '%s' or admin.id_number = '%s'
             """%condition_repeat
     sql_cmd = """
             insert into %s (account, password, id_number, username, email, address, phone)
-            value (%s,%s,%s,%s,%s,%s,%s)
+            value ('%s','%s','%s','%s','%s','%s','%s')
             """%condition
     account = db.cursor()
     account.execute(sql_cmd_repeat)
