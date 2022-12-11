@@ -7,7 +7,7 @@ const app = createApp({
                 account: '',
                 password: ''
             },
-            identity: ''   
+            identity: 'buyer'   
         }
     },
     methods: {      
