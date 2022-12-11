@@ -13,7 +13,7 @@ const app = createApp({
                 phone: ''
             },
             confirm_pw:'',
-            indentity: ''
+            identity: ''
         }
     }, 
     methods: {
