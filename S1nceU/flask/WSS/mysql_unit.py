@@ -72,18 +72,16 @@ def register_insert(db,data,users):
             from customer, seller, admin
             where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or admin.account = '%s' or admin.email ='%s')
             """%condition_repeat
-    sql_cmd = """
-            (insert into %s (username, account, password, email, address, phone, id_number)
-            value ('%s','%s','%s','%s','%s','%s','%s'))
-            """%condition
+    sql_cmd = """ INSERT INTO %s (username, account, password, email, address, phone, id_number) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") """%condition
+    print(sql_cmd)
     account = db.cursor()
     account.execute(sql_cmd_repeat)
     data = account.fetchall()
-    if account == None:
+    if len(data) == 0:
         account.execute(sql_cmd)
         return "Register success."
     else:
-        print(account)
+        print(data)
         return "Something repeat!!"
 
 
