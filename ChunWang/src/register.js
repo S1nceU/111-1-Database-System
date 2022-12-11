@@ -55,7 +55,7 @@ const app = createApp({
             // ...
         }
     },
-    compute: {
+    computed: {
         isBuyer() {
             if(this.identity == 'buyer') {
                 return true
