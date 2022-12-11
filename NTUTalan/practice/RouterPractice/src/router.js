@@ -1,5 +1,7 @@
 // import module
-import { createRouter, createWebHistory } from 'vue-router'
+// import * as Vue from 'vue'
+//import { createRouter, createWebHistory } from 'vue-router'
+//import { createRouter } from "vue-router"
 
 // pages...
 import Home from '../components/Home.js'
@@ -18,6 +20,9 @@ const routes = [
         component: Contact
     }
 ]
-export const router = createRouter({
+const router =  VueRouter.createRouter({
+    history: VueRouter.createWebHashHistory(),
     routes: routes
 })
+
+export default router

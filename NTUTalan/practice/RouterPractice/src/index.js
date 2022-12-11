@@ -1,7 +1,7 @@
-import {createApp} from 'vue'
+// import {createApp} from 'vue'
 import App from '../view/App.js'
 import router from './router.js'
-const app = createApp({
+const app = Vue.createApp({
     components: {
         App
     },
