@@ -9,7 +9,7 @@ const selectBar = createApp({
         }
     },
     methods: {
-
+        
     },
     computed: {
         text() {
