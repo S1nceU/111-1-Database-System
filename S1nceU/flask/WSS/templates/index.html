@@ -21,7 +21,7 @@
     <div class="tt"><!--上方浮動列-->
         <ul class="ti">
             <li>
-                <div class="tb_name" id="username"></div>
+                <div v-if="logged" class="tb_name">{{welcome}}</div>
             </li>
             <li><a href="index.html"><div class="tb">首頁</div></a></li>
             <li><a href="order.html"><div class="tb">你的訂單</div></a></li>

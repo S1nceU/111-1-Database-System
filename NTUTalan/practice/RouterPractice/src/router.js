@@ -24,10 +24,10 @@ const router =  VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes: routes
 })
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async(to, from) => {
     NProgress.start()
 })
-router.afterEach((to: routes) => {
+router.afterEach(async(to, from) => {
     NProgress.done()
 })
 export default router

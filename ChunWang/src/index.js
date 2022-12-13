@@ -1,32 +1,31 @@
 import {createApp} from 'vue'
 
-
 const selectBar = createApp({
     data() {
         return {
-            account:'',
-            logged: false
+            username: 'username',
+            logged: false,
         }
     },
     methods: {
-        
-    },
-    computed: {
-        text() {
-            return '歡迎!' + this.account
+        async getData() {
+            let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
+            if(res.data == 'False') {
+                this.logged = false
+                return
+            }
+            this.username = res.data
+            this.logged = true       
+            console.log(this.output)
         }
     },
-    beforeMount() {
-        axios.post("url here", {
-            msg: ''
-        }).then(response=>{
-            this.account = response
-        }).catch(error=>{
-            console.log(error)
-            this.account = error
-            console.log(this.return)
-        })
-
+    computed:{
+        welcome() {
+            return "歡迎!" + this.username
+        }
+    },
+    created() {
+        this.getData()
     }
 })
 
