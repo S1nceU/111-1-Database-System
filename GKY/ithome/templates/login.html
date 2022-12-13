@@ -1,23 +1,43 @@
-<html>
-<title>login</title>
-<body>
-<form name = 'myform' action = './' method = 'GET'>
-    <label for='user_id'>Your id:</label>
-    <input id = 'user_id' type = 'text' name = 'user_id'>
-    <label for_'user_pass'>Your password:</label>
-    <input id ='user_pass' type ='password' name ='user_pass'>
-    <input type="submit" value ='登入'>
-    <input type="reset" value="清除重填">
-</form>
-Your ID: {{ urid | default:'未輸入ID'}} <br/>
-{% if verified %}
-    <em>u Pass</em>
-    <a href = '{% url 'choiceDick-url' %}'>登入正確 可以選GG了</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="../static/src/login.js"></script>
+</head>
+<body style="background-color:rgb(56, 131, 150);">
+    <div class="whole_page">
 
-{% else %}
-    <em>帳密打錯了哦</em>
-{% endif %}
-<a href = '{% url "home-url"%}'>回首頁</a>
+    <div class="content">
 
+        <a href="index.html"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
+    <div class="box">    
+        <div class="option">
+        <h2 style="padding-left: 15px;padding-right: 10px;text-decoration: underline;">會員登入</h2>
+        <h2>|</h2>
+        <h2 style="padding-left: 10px;"><a href="register.html" class="register">立即註冊</a></h2>
+        </div>
+        <p>帳號</p> 
+        <input type="text" id="account" class="textbar" v-model="loginForm.account">
+        <br>
+        <p>密碼</p>
+        <input type="password" id="password" class="textbar" v-model="loginForm.password">
+        <br>
+        <input type="button" class="btn1" value="登入" id="login" @click="Login">
+    </div>
+</div>
+</div>
 </body>
 </html>

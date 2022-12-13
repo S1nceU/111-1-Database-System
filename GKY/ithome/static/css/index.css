@@ -1,0 +1,318 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,h2,
+ h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/**************************css reset**************************/
+/*{
+    outline: black 1px solid;
+}*/
+.whole{
+    margin: 0 auto;
+    width: 100%;
+
+}
+.tt{
+    width:100%;
+    position: fixed;
+    position: top;
+    background-color: rgb(35, 170, 163);
+    
+}   
+.ti{
+    float: right;
+    margin-right: 50px;
+    padding-top: 30px;
+    height: 70px;
+    display: flex;
+    
+    
+}
+.ti a{
+    text-decoration: none;
+    color:white;
+}
+.tb{
+    height: 70px;
+    width: 100px;
+    text-align:center;
+    line-height:70px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color:rgb(35, 170, 163); 
+}
+.tb a{
+    color: white;
+    text-decoration:none;
+}
+.tb:hover{
+    background-color:rgb(22, 108, 104);
+}
+
+.content{
+    margin-top: -30px;
+    padding-top: 80px;
+    margin-left: 10%;
+    
+}
+.icon{
+    width: 250px;
+    height: 150px;
+}
+.search{
+    display: flex;
+    background-color:rgb(72, 172, 198); 
+    width: 90%;
+}
+.searchbar{
+    margin-top: 50px;
+    margin-left: 30px;
+    height: 38px;
+    width: 300px;
+}
+.sb{
+    margin-top: 53px;
+    margin-left: -50px;
+    height: 40px;
+    width: 40px;
+}
+.sb:hover{
+    filter:brightness(110%);
+}
+.suggest_row{
+    font-size: 20px;
+    width: fit-content;
+    background-color: rgb(72, 172, 198);
+    color: white;
+    margin-top: -27px;
+    margin-left: 280px;
+}
+.suggest_row a{
+    color: white;
+    text-decoration: none;
+}
+.suggest_row a:hover{
+    color: black;
+    text-decoration: none;
+}
+.cover{
+    display: flex;
+    margin-top: 25px;
+}
+.left_head_product1 img{
+    background-color: black;
+    width: 170px;
+    height: 170px;
+    border-radius: 10px 10px 10px 10px;
+}
+.left_head_product2 img{
+    background-color: black;
+    width: 170px;
+    height: 170px;
+    margin-top: 30px;
+    border-radius: 10px 10px 10px 10px;
+}
+.middle_head_product img{
+    width: 740px;
+    height: 380px;
+    margin-left: 30px;
+    border-radius: 10px 10px 10px 10px;
+}
+.right_head_product{
+    margin-left: 30px;
+    border:5px rgb(72, 172, 198) solid;
+    border-radius: 10px 10px 10px 10px;
+    width: 250px;
+    font-size: 20px;
+    text-align: center;
+}
+.right_head_product p{
+    padding-top: 15px;
+    text-decoration:dotted;
+    padding-left: 35px;
+    text-align: left;
+}
+.field{
+    width: 1220px;
+    margin-top: 30px;
+    border:5px #000000 solid;
+    border-radius: 10px 10px 10px 10px;
+    overflow: auto;
+}
+.field_title{
+    width: 300px;
+    height: 50px;
+    background-color: rgb(81, 135, 236);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-style: italic;
+    align-items: center; 
+    border-radius: 0px 10px 50px 0px;
+
+}
+.field_title h1{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.rank{
+    width: 40px;
+    height: 40px;
+    margin-left: -175px;
+    margin-bottom: 150px;
+    border-radius: 10px 10px 10px 10px;
+    
+}
+.row{
+    display: flex;
+    text-decoration: none;
+}
+
+.rank_product {
+    width: 170px;
+    height: 170px;
+    border-radius: 10px 10px 10px 10px;
+}
+.rank_block{
+    margin-right: 160px;
+    margin-bottom: 20px;
+}
+.coupon_block{
+    margin-bottom: 10px;
+    width: 350px;
+    display: flex;
+    background-color: rgb(76, 74, 74);
+    border-radius: 10px 10px 10px 10px;
+    padding-left: 30px;
+    word-wrap:break-word;
+}
+.coupon_block img{
+    width: 150px;
+    height: 150px;
+}
+.coupon_des{
+    background-color: rgb(76, 74, 74);
+    border-radius: 10px 10px 10px 10px;
+    color: white;
+    padding-left: 10px;
+    white-space:normal;
+}
+.like_block img{
+    width: 150px;
+    height: 150px;
+    
+}
+.like_block{
+    text-align: center;
+    font-weight:bold;
+    margin-bottom: 30px;
+    margin-left: 45px;
+    margin-top: 15px;
+}
+.like_des{
+    margin-top: 10px;
+}
+.like_des h2{
+    font-size: 25px;
+}
+.like_des p{
+    font-size: 20px;
+    color: rgb(213, 6, 6);
+}
+.something_important{
+    width: 100% auto;
+    height: 180px;
+    background-color: rgb(168, 168, 168);
+    margin-top: 30px;
+    color: rgb(88, 88, 88);
+    padding-left: 150px;
+    padding-top: 20px;
+    white-space:normal;
+}
+.important_text{
+    width: 1300px;
+}
+.important_text h2{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.important_text p{
+    padding-left: 50px;
+    font-size: 18px;
+    padding-top: 10px;
+}
+.buttom{
+    width: 100%;
+    height: 380px;
+    background-color: rgb(35, 170, 163);
+
+}
+.buttom_content{
+    margin-left: 150px;
+    display: flex;
+    padding-top: 30px;
+    color:white;
+}
+.left_buttom{
+    width: 250px;
+    
+}
+.about a{
+    display: block;
+    width: 150px;
+    padding-top: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight:bold;
+    font-size: 20px;
+}
+.about a:hover{
+    color: rgb(184, 184, 184);
+    
+}
