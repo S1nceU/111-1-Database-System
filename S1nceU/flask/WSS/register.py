@@ -11,4 +11,14 @@ def register_seller():
         db.commit()
         db.close()
         return result
+
+@register.route('/register_c/', methods=['GET', 'POST'])
+def register_customer():
+    db = mysql_unit.connect()
+    if request.method == 'POST':
+        print(request.json)
+        result = mysql_unit.register_insert(db,request.json,'customer')
+        db.commit()
+        db.close()
+        return result
     

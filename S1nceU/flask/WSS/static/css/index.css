@@ -76,6 +76,7 @@ table {
 .ti a{
     text-decoration: none;
     color:white;
+    cursor:pointer;
 }
 .tb{
     height: 70px;
@@ -92,6 +93,16 @@ table {
 }
 .tb:hover{
     background-color:rgb(22, 108, 104);
+}
+.tb_name{
+    height: 70px;
+    width: 120px;
+    text-align:left;
+    line-height:70px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color:rgb(35, 170, 163); 
+    color:white;
 }
 
 .content{

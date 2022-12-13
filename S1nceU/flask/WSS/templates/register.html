@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>邀驗鑑貨-註冊</title>
     <link rel="stylesheet" href="../static/css/register.css">
     <script type="importmap">
         {
@@ -27,7 +27,7 @@
         <h2 style="padding-left: 10px;text-decoration: underline;">立即註冊</h2>
         </div>
         <p>帳號</p> 
-        <input type="text" id="account" class="textbar" v-model="registObj.username">
+        <input type="text" id="account" class="textbar" v-model="registObj.account">
         <br>
         <p>密碼</p>
         <input type="text" id="password" class="textbar" v-model="registObj.password">
@@ -39,7 +39,7 @@
         <input type="text" id="ID" class="textbar" v-model="registObj.ID">
         <br>
         <p>暱稱</p>
-        <input type="text" id="name" class="textbar" v-model="registObj.Name">
+        <input type="text" id="name" class="textbar" v-model="registObj.username">
         <br>
         <p>Email</p>
         <input type="text" id="email" class="textbar" v-model="registObj.email">
@@ -50,6 +50,18 @@
         <p>電話</p>
         <input type="text" id="phone_number" class="textbar" v-model="registObj.phone">
         <br>
+        <div class="wrapper">
+            <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>
+            <input type="radio" name="select" id="option-2" v-model="identity" value="seller">
+              <label for="option-1" class="option option-1">
+                <div class="dot"></div>
+                 <span>買家</span>
+                 </label>
+              <label for="option-2" class="option option-2">
+                <div class="dot"></div>
+                 <span>賣家</span>
+              </label>
+        </div>
         <input type="button" class="btn1" value="註冊" id="login" @click="Register">
     </div>
 </div>

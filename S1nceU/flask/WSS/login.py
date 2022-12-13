@@ -18,9 +18,11 @@ def login_seller():
         if data is None:
             # print("test",data,"a",req_account,"p",req_password)
             print("No account."+"account = "+ req_account + " password = "+ req_password)
+            db.close()
             return '0'
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
+            db.close()
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
@@ -28,6 +30,7 @@ def login_seller():
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
+            db.close()
             return resp
             # return '3'
         else:
@@ -36,9 +39,10 @@ def login_seller():
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
+            db.close()
             return resp
             # return '2'
-    db.close()
+    
 
 @login.route('/login_c/', methods=['GET', 'POST'])
 def login_customer():
@@ -52,9 +56,11 @@ def login_customer():
         if data is None:
             # print("test",data,"a",req_account,"p",req_password)
             print("No account."+"account = "+ req_account + " password = "+ req_password)
+            db.close()
             return '0'
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
+            db.close()
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
@@ -62,6 +68,7 @@ def login_customer():
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
+            db.close()
             return resp
             # return '3'
         else:
@@ -70,10 +77,21 @@ def login_customer():
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
+            db.close()
             return resp
             # return '2'
     db.close()
 
 @login.route('/logout/')
 def login_out():
-        return TL.delcookie()
+    return TL.delcookie()
+
+@login.route('/isLogined/', methods=['GET', 'POST'])
+def isLogin():
+    if request.method == 'POST':
+        user_data = TL.getcookie()
+        print(TL.decode_token(user_data))
+        if user_data != None:
+            return TL.decode_token(user_data)['username']
+        else:
+            return "False"

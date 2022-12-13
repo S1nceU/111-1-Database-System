@@ -13,7 +13,7 @@ const app = createApp({
                 phone: ''
             },
             confirm_pw:'',
-            indentity: ''
+            identity: 'buyer'
         }
     }, 
     methods: {
@@ -55,7 +55,7 @@ const app = createApp({
             // ...
         }
     },
-    compute: {
+    computed: {
         isBuyer() {
             if(this.identity == 'buyer') {
                 return true

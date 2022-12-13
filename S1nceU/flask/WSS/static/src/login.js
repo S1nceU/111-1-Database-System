@@ -7,14 +7,13 @@ const app = createApp({
                 account: '',
                 password: ''
             },
-            identity: ''   
+            identity: 'buyer'   
         }
     },
     methods: {      
         async Login() {
             let url = ''
             console.log(this.loginForm)
-
             // 帳號登入處理
             if(this.isBuyer) {
                 url = 'http://127.0.0.1:5000/login_c/'
@@ -37,8 +36,8 @@ const app = createApp({
 
             // 執行登入後相關事宜
             console.log('Login success')
-
-            Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
+            window.location.replace("http://127.0.0.1:5000/index.html")
+            // Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
                    
         },
         removeCookie() {
