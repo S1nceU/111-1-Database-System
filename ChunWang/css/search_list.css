@@ -379,18 +379,3 @@ table {
     width: 150px;
     height: 150px;
 }
-.order_head{
-    display: flex;
-}
-.order_head p{
-    display: flex;
-    width: 200px;
-    height: 50px;
-    justify-content: center;    
-    /* 垂直置中 */
-    align-items: center;
-    border: #000000 solid 4px;
-    border-right: #000000 solid 0px;
-    border-bottom: #000000 solid 0px;
-
-}
