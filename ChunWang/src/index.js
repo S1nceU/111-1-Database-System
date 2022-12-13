@@ -29,4 +29,40 @@ const selectBar = createApp({
     }
 })
 
+const rank = createApp({
+    data() {
+        return {
+            rankItems: []
+        }
+    },
+    methods: {
+        getDefaultData() {
+            this.rankItems = [
+                {path: "../img/dog.PNG", rank: '1'},
+                {path: "../img/pig.PNG", rank: '2'},
+                {path: "../img/rabbit.PNG", rank: '3'},
+                {path: "../img/tiger.PNG", rank: '4'},
+                {path: "../img/kangaroo.PNG", rank: '5'},
+                {path: "../img/redpanda.PNG", rank: '6'}
+            ]
+        },     
+        getImgPath(path) {
+            console.log(this.rankItems)
+            return new URL(`${path}`, import.meta.url).href
+        },
+        isFirstRank(rank) {
+            if(rank == '1') {
+                return "margin-left: 30px;"
+            }
+            else {
+                return ""
+            }
+        }
+    },
+    created() {
+        this.getDefaultData()
+    }
+})
+
+rank.mount('.field')
 selectBar.mount('.tt')

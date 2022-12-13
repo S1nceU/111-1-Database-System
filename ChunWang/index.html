@@ -94,14 +94,14 @@
         <div class="field_title"> <!---暢銷排行那個框框-->
             <h1>暢銷排行</h1>
         </div>
-        <div class="row">
-            <div class="rank_block"> <!-----暢銷排行--->
+        <div class="row"><!-----暢銷排行--->
+            <!-- <div class="rank_block"> 
                 <a href=""><img src="img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
                 <img src="img/1.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="img/pig.PNG" alt="" class="rank_product"></a><!---暢銷排行商品圖片-->
-                <img src="img/2.PNG" alt="" class="rank"><!---旁行數字圖片-->
+                <a href=""><img src="img/pig.PNG" alt="" class="rank_product"></a>
+                <img src="img/2.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
                 <a href=""><img src="img/rabbit.PNG" alt="" class="rank_product"></a>
@@ -118,6 +118,10 @@
             <div class="rank_block">
                 <a href=""><img src="img/redpanda.PNG" alt="" class="rank_product"></a>
                 <img src="img/6.PNG" alt="" class="rank">
+            </div> -->
+            <div class="rank_block" v-for="block in rankItems">  
+                <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
+                <img :src="getImgPath(`../img/${block.rank}.PNG`)" alt="" class="rank"></img>  
             </div>
         </div>
     </div>
