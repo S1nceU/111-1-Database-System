@@ -10,8 +10,8 @@ SRC_PATH =  pathlib.Path(__file__).parent.absolute()
 # 結合目前的檔案路徑和static及img路徑 
 UPLOAD_FOLDER = os.path.join(SRC_PATH,  'static', 'img')
 
-@product.route('/store_img/', methods=['GET','POST'])
-def storeimg():
+@product.route('/create_product/', methods=['GET','POST'])
+def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
@@ -31,11 +31,3 @@ def storeimg():
     # path = "../static/img/"
     return render_template('storeImg.html')
     
-@product.route('/create_product/', methods=['POST'])
-def createproduct():
-    db = mysql_unit.connect()
-    if request.method == 'POST':
-        user = TL.decode_token(TL.getcookie())
-        result = mysql_unit.create_product(db,request.json,user)
-    db.close()
-    return result
