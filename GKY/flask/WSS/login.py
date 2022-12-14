@@ -15,6 +15,7 @@ def login_seller():
         print(req_account)
         print(req_password)
         data,user_level = mysql_unit.login_comfirm(db,"seller",req_account)
+        print(data)
         if data is None:
             # print("test",data,"a",req_account,"p",req_password)
             print("No account."+"account = "+ req_account + " password = "+ req_password)
@@ -26,7 +27,7 @@ def login_seller():
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
-            token_login = TL.make_token(data)
+            token_login = TL.make_token(data,2)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
@@ -35,49 +36,13 @@ def login_seller():
             # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = TL.make_token(data)
+            token_login = TL.make_token(data,0)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
             return resp
             # return '2'
-    elif request.method == 'GET':
-        # req_account = request.form.get("account")
-        # req_password = request.form.get("password")
-        req_account  = request.json['account']
-        req_password = request.json['password']
-        print(req_account)
-        print(req_password)
-        data,user_level = mysql_unit.login_comfirm(db,"seller",req_account)
-        if data is None:
-            # print("test",data,"a",req_account,"p",req_password)
-            print("No account."+"account = "+ req_account + " password = "+ req_password)
-            db.close()
-            return '0'
-        elif req_password != data['password']:
-            print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
-            db.close()
-            return '1'
-        elif user_level:
-            print(data['username'],", Hello admin auth")
-            token_login = TL.make_token(data)
-            resp = TL.setcookie_logined(token_login)
-            # login_data = TL.getcookie()
-            # TL.decode_token(login_data)
-            db.close()
-            return resp
-            # return '3'
-        else:
-            print('Hello ' + data['username'])
-            token_login = TL.make_token(data)
-            resp = TL.setcookie_logined(token_login)
-            # login_data = TL.getcookie()
-            # TL.decode_token(login_data)
-            db.close()
-            return resp
-            # return '2'
-    print(request.method)
     
 
 @login.route('/login_c/', methods=['GET', 'POST'])
@@ -100,7 +65,7 @@ def login_customer():
             return '1'
         elif user_level:
             print(data['username'],", Hello admin auth")
-            token_login = TL.make_token(data)
+            token_login = TL.make_token(data,2)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
@@ -109,7 +74,7 @@ def login_customer():
             # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = TL.make_token(data)
+            token_login = TL.make_token(data,0)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
