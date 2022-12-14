@@ -4,10 +4,9 @@
     <meta charset="utf-8">
 </head>
 <body>
-<!-- <h1>會員帳號:{{data['memberInfo']}}</h1> -->
 
-{%for a,b in data['Info'].items()%}
-    <h1>會員{{a}} :{{data['memberInfo'][b]}} </h1>
+{%for detail,get in data['Info'].items()%}
+    <h1>會員{{detail}} :{{data['memberInfo'][get]}} </h1>
 {% endfor %}
 
 </body>
