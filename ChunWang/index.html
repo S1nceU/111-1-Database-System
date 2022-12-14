@@ -26,9 +26,9 @@
         <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
         <li><a href="cart.html"><div class="tb">購物車</div></a></li>
         <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html">
-            <div v-if="!logged" class="tb">註冊/登入</div>
-            <div v-else class="tb">登出</div>
+        <li><a>
+            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+            <div v-else class="tb" @click="Logout">登出</div>
         </a></li>
     </ul>
     </div>
@@ -36,7 +36,7 @@
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
             <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <a href="search_list.html"><input type="image" src="img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
+            <a href="search_list.html"><input type="image" src="../static/img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>
@@ -122,7 +122,7 @@
             </div> -->
             <div class="rank_block" v-for="block in rankItems">  
                 <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
-                <img :src="getImgPath(`../img/${block.rank}.PNG`)" alt="" class="rank"></img>  
+                <img :src="getImgPath(`../static/img/${block.rank}.PNG`)" alt="" class="rank"></img>  
             </div>
         </div>
     </div>

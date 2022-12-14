@@ -4,7 +4,7 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false,
+            logged: false
         }
     },
     methods: {
@@ -17,6 +17,14 @@ const selectBar = createApp({
             this.username = res.data
             this.logged = true       
             console.log(this.output)
+        },
+        goLogin() {
+            window.location.replace("http://127.0.0.1:5000/login.html")
+        },
+        Logout() {
+            console.log("get in logout func")
+            Cookies.remove("WSS")
+            // axios.post("url", {})
         }
     },
     computed:{
@@ -38,12 +46,12 @@ const rank = createApp({
     methods: {
         getDefaultData() {
             this.rankItems = [
-                {path: "../img/dog.PNG", rank: '1'},
-                {path: "../img/pig.PNG", rank: '2'},
-                {path: "../img/rabbit.PNG", rank: '3'},
-                {path: "../img/tiger.PNG", rank: '4'},
-                {path: "../img/kangaroo.PNG", rank: '5'},
-                {path: "../img/redpanda.PNG", rank: '6'}
+                {path: "../static/img/dog.PNG", rank: '1'},
+                {path: "../static/img/pig.PNG", rank: '2'},
+                {path: "../static/img/rabbit.PNG", rank: '3'},
+                {path: "../static/img/tiger.PNG", rank: '4'},
+                {path: "../static/img/kangaroo.PNG", rank: '5'},
+                {path: "../static/img/redpanda.PNG", rank: '6'}
             ]
         },     
         getImgPath(path) {
