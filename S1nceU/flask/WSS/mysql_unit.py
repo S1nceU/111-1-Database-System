@@ -103,7 +103,7 @@ def create_product(db,data,seller,filename):
             return "Something is None."
     sql_cmd = """
         INSERT INTO procuct (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)
-        VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") 
+        VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") 
     """%condition
     wanna_product = db.cursor
     wanna_product.execute(sql_cmd)
