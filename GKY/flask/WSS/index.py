@@ -11,6 +11,9 @@ def index_get():
     db = mysql_unit.connect()
     if request.method == 'GET':
         print('get IN')
+        user_data = TL.getcookie()
+        username = TL.decode_token(user_data)['username']
+        print(locals())
         # 前6名(by 流水號)
         bestSeller = list()
         for i in range(1, 7):

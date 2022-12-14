@@ -8,16 +8,16 @@ def disconnect(db):
     db.close()
 
 def login_comfirm(db,FROM,WHERE):
-    condition = (FROM,FROM,FROM,FROM,WHERE)
+    condition = (FROM,FROM,FROM,FROM,FROM,WHERE)
 
 
     sql_cmd = """
-            (select %s.username,%s.account,%s.password
+            (select %s.username,%s.account,%s.password, %s.user_id_s 
             from %s
             where account = '%s' )
             """%condition
     sql_cmd_a = """
-            (select admin.username,admin.account,admin.password
+            (select admin.username,admin.account,admin.password, admin.user_id  
             from admin
             where admin.account = '%s')
             """%WHERE
@@ -38,13 +38,15 @@ def login_comfirm(db,FROM,WHERE):
         data = {
             'username' : data[0],
             'account'  : data[1],
-            'password' : data[2]
+            'password' : data[2],
+            'user_id'  : data[3], 
         }
     else:
         data = {
             'username' : data_admin[0],
             'account'  : data_admin[1],
-            'password' : data_admin[2]
+            'password' : data_admin[2],
+            'user_id'  : data_admin[3],
         }
     # print(type(data))
     return data,user_level
@@ -136,5 +138,28 @@ def memberInfo(db, who, userID):
         'user_id_number' : data[7],
     }
     return data
-        
+
+def create_product(db,data,seller,filename):
+    condition = (
+        seller,
+        data["product_name"],
+        data["price"],
+        data["description"],
+        data["pulish_date"],
+        data["status"],
+        data["total_amount"],
+        data["product"],
+        filename
+        )
+    for i in condition:
+        if i == '':
+            return "Something is None."
+    sql_cmd = """
+        INSERT INTO procuct (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)
+        VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") 
+    """%condition
+    wanna_product = db.cursor
+    wanna_product.execute(sql_cmd)
+    return "Create success."
+
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Blueprint, abort, jsonify, make_response
+from flask import Flask, render_template, request, Blueprint, abort, jsonify, make_response, redirect
 
 from login import login
 from register import register
@@ -19,17 +19,16 @@ app.register_blueprint(register)
 app.register_blueprint(product)
 app.register_blueprint(memberCenter)
 
-@app.route('/fuckyou')
+@app.route('/')
 def default():
-    print('dfsdf')
-    return '123'
+    return redirect('/home')
 
 @app.route('/index')
 def home():
     print('123dd')
     return render_template('index.html')
 
-@app.route('/login.html')
+@app.route('/login')
 def loginpage():
     if TL.getcookie() != None:
         print(TL.decode_token(TL.getcookie()))
