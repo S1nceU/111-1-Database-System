@@ -6,16 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邀驗鑑貨-懂你想買的</title>
     <link rel="stylesheet" href="../static/css/index.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="../static/src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
-    </ul>
+        <ul class="ti">
+            <li>
+                <div v-if="logged" class="tb_name">{{welcome}}</div>
+            </li>
+            <li><a href="index.html"><div class="tb">首頁</div></a></li>
+            <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
+            <li><a href="cart.html"><div class="tb">購物車</div></a></li>
+            <li><a href="member.html"><div class="tb">會員中心</div></a></li>
+            <li>
+                <a href="login.html" v-if="!logged">
+                    <div class="tb">註冊/登入</div>
+                </a>
+                <a v-else>
+                    <div class="tb">登出</div>
+                </a>
+            </li>
+        </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->

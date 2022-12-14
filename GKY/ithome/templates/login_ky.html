@@ -1,0 +1,23 @@
+<html>
+<title>login</title>
+<body>
+<form name = 'myform' action = './' method = 'GET'>
+    <label for='user_id'>Your id:</label>
+    <input id = 'user_id' type = 'text' name = 'user_id'>
+    <label for_'user_pass'>Your password:</label>
+    <input id ='user_pass' type ='password' name ='user_pass'>
+    <input type="submit" value ='登入'>
+    <input type="reset" value="清除重填">
+</form>
+Your ID: {{ urid | default:'未輸入ID'}} <br/>
+{% if verified %}
+    <em>u Pass</em>
+    <a href = '{% url 'choiceDick-url' %}'>登入正確 可以選GG了</a>
+
+{% else %}
+    <em>帳密打錯了哦</em>
+{% endif %}
+<a href = '{% url "home-url"%}'>回首頁</a>
+
+</body>
+</html>

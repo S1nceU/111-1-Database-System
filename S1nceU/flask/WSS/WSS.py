@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, Blueprint, abort, jsonify
 
-from login import login
+from login    import login
 from register import register
-import token_logined as TL
+from product  import product
 
+import token_logined as TL
 
 
 app = Flask(__name__)
 
 app.register_blueprint(login)
 app.register_blueprint(register)
-
+app.register_blueprint(product)
 
 @app.route('/')
 def default():
@@ -42,6 +43,8 @@ def orderpage():
 @app.route('/register.html')
 def registerpage():
     return render_template('register.html')
+
+
 
 
 
