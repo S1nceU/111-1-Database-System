@@ -332,29 +332,30 @@ table {
    
 }
 .order h1{
-    font-size: 35px;
+    font-size: 30px;
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 200px;
+    border-left: 4px solid #000;
+    height: 50px;
     margin: 0;
-    line-height: 200px;
-    width: 22%;
+    line-height: 50px;
+    width: 35%;
     
 
 }
 .order p{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px;
-    width: 20%;
+    height: 50px;
+    line-height: 50px;
+    width: 44%;
 
 }
 .order a{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px;
+    height: 50px;
+    line-height: 50px;
     width: 20%;
 
 }
@@ -384,7 +385,7 @@ table {
 }
 .order_head p{
     display: flex;
-    width: 200px;
+    width: 35%;
     height: 50px;
     justify-content: center;    
     /* 垂直置中 */
