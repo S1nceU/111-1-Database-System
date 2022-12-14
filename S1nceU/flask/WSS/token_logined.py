@@ -1,10 +1,14 @@
 import jwt, time
 from flask import make_response, request
 
-def make_token(data):
+def make_token(data,level):
     key = "C8AD482B1949611F810034635D3B3DB7E965D139BB41624C1FE2FF81F98917BB"
     payload = {
-        "username" : data['username']
+        "username"   : data['username'],
+        "user_id"    : data['user_id'],
+        "account"    : data["account"],
+        "user_level" : level
+        
     }
     return jwt.encode(payload, key, algorithm= 'HS256')
 

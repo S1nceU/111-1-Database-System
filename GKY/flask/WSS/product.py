@@ -15,8 +15,8 @@ def storeimg():
     if request.method == 'POST':
         try:
             file = request.files['filename']
+            print(file)
             if file.filename != '':
-                print(file)
                 file.save(os.path.join(UPLOAD_FOLDER, file.filename))
                 return redirect('/store_img')
         except:

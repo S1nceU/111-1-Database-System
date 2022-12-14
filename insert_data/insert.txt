@@ -1,0 +1,10 @@
+INSERT INTO `admin` VALUES (1, 'admin', 'admin', 'adminpassword', 'admin@admin', b'1');
+INSERT INTO `customer` VALUES (1, 'Jason', '109590123', 'password', 'ex@e456456', 'NTUT', '0987654321', 'L19516789', 0000000000);
+INSERT INTO `customer` VALUES (2, 'JasonLin', '109590001', 'password', 'ex@ex.com', 'NTUT', '0912378945', 'L123412345', 0000000000);
+INSERT INTO `customer` VALUES (3, 'GKY', '109590021', 'password', 'ex@GKY.com', 'NTUT', '0987654321', 'L789675743', 0000000000);
+INSERT INTO `seller` VALUES (1, 'Jason', '109590009', 'password', 'ex@ex', 'NTUT', '0987654321', 'L123456789', 0000000000);
+INSERT INTO `seller` VALUES (30, 'Acute Angle Gan', 'userHI', 'password', 'email@email', 'NTUT', '0987654321', 'L76895409', 0000000000);
+INSERT INTO `seller` VALUES (31, 'ponywen', '109590027', 'password', 'ponywen@gmail.com', 'GS', '09896745231', 'B785849030', 0000000000);
+INSERT INTO `seller` VALUES (32, 'Sophia', '11038025', 'password', 'Sophia@gmail.com', 'GS', '0935800017', 'B785849456', 0000000000);
+INSERT INTO `product` (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img) VALUES (1, 'computer', 2000, '他就是一台電腦', '2022-12-14 11:09:22', b'1', 1, NULL);
+INSERT INTO product (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)  VALUES (1, 'cat', 10000, '可愛貓貓', '2022-12-14 13:38:22', 1, 1,NULL);

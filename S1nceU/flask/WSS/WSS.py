@@ -21,7 +21,7 @@ def default():
 def home():
     return render_template('index.html')
 
-@app.route('/login.html')
+@app.route('/login')
 def loginpage():
     if TL.getcookie() != None:
         print(TL.decode_token(TL.getcookie()))
