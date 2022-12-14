@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, Blueprint, abort, jsonify, ma
 from login import login
 from register import register
 from index import index
+from product import product
 
 import token_logined as TL
 # import mysql_unit
@@ -14,6 +15,7 @@ app = Flask(__name__)
 app.register_blueprint(index)
 app.register_blueprint(login)
 app.register_blueprint(register)
+app.register_blueprint(product)
 
 @app.route('/fuckyou')
 def default():
