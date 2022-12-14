@@ -35,10 +35,12 @@ def login_seller():
             # return '3'
         else:
             print('Hello ' + data['username'])
+            print(data)
             token_login = TL.make_token(data,0)
             resp = TL.setcookie_logined(token_login)
-            # login_data = TL.getcookie()
-            # TL.decode_token(login_data)
+            login_data = TL.getcookie()
+            print(TL.decode_token(login_data))
+
             db.close()
             return resp
             # return '2'
