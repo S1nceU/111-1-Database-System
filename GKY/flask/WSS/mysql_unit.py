@@ -84,6 +84,8 @@ def register_insert(db,data,users):
         print(data)
         return "Something repeat!!"
 
+
+# productID 流水號
 def product_get(db, productID):
     condition = (productID)
 
@@ -104,3 +106,35 @@ def product_get(db, productID):
         'product_description' : data[4],
     }
     return data
+# who: 'seller', 'customer'
+def memberInfo(db, who, userID):
+    if who == 'seller':
+        sql_cmd = """
+            (select *
+            from %s
+            where  user_id_s = %d
+            )
+            """%(who, userID)
+    elif who == 'customers':
+        sql_cmd = """
+            (select *
+            from '%s'
+            where user_id_c = '%s'
+            )
+            """%(who, userID)
+    account = db.cursor()
+    account.execute(sql_cmd)
+    data = account.fetchone()
+    data = {
+        'user_id' : data[0],
+        'user_name' : data[1],
+        'user_account' : data[2],
+        'user_password' : data[3],
+        'user_email' : data[4],
+        'user_address' : data[5],
+        'user_phone' : data[6],
+        'user_id_number' : data[7],
+    }
+    return data
+        
+

@@ -4,6 +4,7 @@ from login import login
 from register import register
 from index import index
 from product import product
+from memberCenter import memberCenter
 
 import token_logined as TL
 # import mysql_unit
@@ -16,6 +17,7 @@ app.register_blueprint(index)
 app.register_blueprint(login)
 app.register_blueprint(register)
 app.register_blueprint(product)
+app.register_blueprint(memberCenter)
 
 @app.route('/fuckyou')
 def default():

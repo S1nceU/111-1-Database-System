@@ -6,8 +6,6 @@ import mysql_unit
 import token_logined as TL
 index = Blueprint('index', __name__, template_folder='templates')
 
-
-
 @index.route('/home', methods = ['GET'])
 def index_get():
     db = mysql_unit.connect()
