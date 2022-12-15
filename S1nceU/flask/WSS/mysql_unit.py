@@ -127,7 +127,8 @@ def create_product(db,data,seller_id,filename):
         db.commit()                                              # push商品
         p_id = get_product_id(db,seller_id,data["product_name"]) # 拿到本商品的ID
         label_dict = get_label(db)                               # 得到所有標籤的字典  ex. {"3c" : 2}
-        set_c = set_category(db,p_id,label_dict[data["label"]])  # 設定商品標籤
+        print(label_dict[data["label"]])
+        set_category(db,p_id,label_dict[data["label"]])          # 設定商品標籤
         return "Create success."
     else:
         return "There is a same product name in your product list."

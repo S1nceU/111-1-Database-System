@@ -1,6 +1,6 @@
 from flask import request, Blueprint, redirect, render_template
 from datetime import datetime
-import os
+import os, uuid
 import pathlib
 import mysql_unit
 import token_logined as TL
@@ -15,20 +15,26 @@ def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    print(currentTime)
     if request.method == 'POST':
-        try:
-            # file = request.files['filename']
-            # user = TL.decode_token(TL.getcookie())
-            # print(file)
-            # if file.filename != '':
-            #     file.filename = currentTime + user["user_id"] + ".png"
-            #     file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            result = mysql_unit.create_product(db,request.json,1, currentTime + ".png")# file.filename)
-            # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
-            db.close()
-            return result
-        except:
-            pass
+        # try:
+        file = request.files['filename']
+        # user = TL.decode_token(TL.getcookie())
+        print(file)
+        if file.filename != '':
+
+            # file.filename = currentTime + user["user_id"] + ".png"
+            file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + "1")) + ".png"
+            print(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+            print(file.filename + "fonfo")
+        result = mysql_unit.create_product(db,request.form,1, file.filename)
+        # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
+        db.close()
+        return result
+        # except:
+        #     print("error RRRRRRRRR")
+        #     pass
     db.close()
     # print(request.method)
     # path = "../static/img/"
