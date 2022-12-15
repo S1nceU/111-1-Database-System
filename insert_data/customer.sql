@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 80030
  Source Host           : localhost:3306
- Source Schema         : test
+ Source Schema         : world
 
  Target Server Type    : MySQL
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 14/12/2022 11:29:13
+ Date: 15/12/2022 12:25:31
 */
 
 SET NAMES utf8mb4;
@@ -30,18 +30,18 @@ CREATE TABLE `customer`  (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `id_number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `user_status` int(10) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+  `user_status` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id_c`) USING BTREE,
   UNIQUE INDEX `123`(`account`) USING BTREE,
   UNIQUE INDEX `321`(`email`) USING BTREE,
   UNIQUE INDEX `2`(`id_number`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of customer
 -- ----------------------------
-INSERT INTO `customer` VALUES (1, 'Jason', '109590123', 'password', 'ex@e456456', 'NTUT', '0987654321', 'L19516789', 0000000000);
-INSERT INTO `customer` VALUES (2, 'JasonLin', '109590001', 'password', 'ex@ex.com', 'NTUT', '0912378945', 'L123412345', 0000000000);
-INSERT INTO `customer` VALUES (3, 'GKY', '109590021', 'password', 'ex@GKY.com', 'NTUT', '0987654321', 'L789675743', 0000000000);
+INSERT INTO `customer` VALUES (1, 'Jason', '109590123', 'password', 'ex@e456456', 'NTUT', '0987654321', 'L19516789', b'0');
+INSERT INTO `customer` VALUES (2, 'JasonLin', '109590001', 'password', 'ex@ex.com', 'NTUT', '0912378945', 'L123412345', b'0');
+INSERT INTO `customer` VALUES (3, 'GKY', '109590021', 'password', 'ex@GKY.com', 'NTUT', '0987654321', 'L789675743', b'0');
 
 SET FOREIGN_KEY_CHECKS = 1;

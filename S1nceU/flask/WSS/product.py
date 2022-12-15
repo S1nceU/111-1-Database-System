@@ -17,17 +17,44 @@ def createproduct():
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     if request.method == 'POST':
         try:
-            file = request.files['filename']
-            user = TL.decode_token(TL.getcookie())
-            print(file)
-            if file.filename != '':
-                file.filename = currentTime + user["user_id"] + ".png"
-                file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            result = mysql_unit.create_product(db,request.json,user["user_id"],file.filename)
+            # file = request.files['filename']
+            # user = TL.decode_token(TL.getcookie())
+            # print(file)
+            # if file.filename != '':
+            #     file.filename = currentTime + user["user_id"] + ".png"
+            #     file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+            result = mysql_unit.create_product(db,request.json,1, currentTime + ".png")# file.filename)
+            # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
+            db.close()
             return result
         except:
             pass
-    print(request.method)
+    db.close()
+    # print(request.method)
     # path = "../static/img/"
-    return render_template('storeImg.html')
-    
+    # return render_template('storeImg.html')
+    return "Create error!!"
+
+@product.route('/get_label/', methods=['GET'])
+def get_label():
+    db = mysql_unit.connect()
+    if request.method == 'GET':
+        label_list = mysql_unit.get_label(db)
+        db.close()
+        result = []
+        for i in label_list.keys():
+            result.append(i)
+        return result
+
+@product.route('/set_label/', methods=['POST'])
+def set_label():
+    db = mysql_unit.connect()
+    label_list = mysql_unit.get_label(db)
+    if request.method == 'POST':
+        seller_id = request.json["seller_id"]
+        product_name = request.json["product"]
+        label = label_list[request.json["label"]]
+        product_id = mysql_unit.get_product_id(db,seller_id,product_name)
+
+        db.close()
+        return 
