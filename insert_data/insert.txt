@@ -1,3 +1,145 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+CREATE TABLE `world`.`ADMIN`  (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NULL,
+  `user_status` bit(1) NULL,
+  PRIMARY KEY (`user_id`)
+);
+
+CREATE TABLE `world`.`CART_PRODUCT`  (
+  `product_id` int NOT NULL,
+  `user_id_c` int NOT NULL,
+  `amount` int NULL,
+  PRIMARY KEY (`product_id`, `user_id_c`),
+  CONSTRAINT `fk_CART_PRODUCT_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `world`.`CUSTOMER` (`user_id_c`),
+  CONSTRAINT `fk_CART_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+);
+
+CREATE TABLE `world`.`CATEGORY`  (
+  `product_id` int NOT NULL,
+  `label_id` int NOT NULL,
+  PRIMARY KEY (`product_id`, `label_id`),
+  CONSTRAINT `fk_CATEGORY_LABEL_1` FOREIGN KEY (`label_id`) REFERENCES `world`.`LABEL` (`label_id`),
+  CONSTRAINT `fk_CATEGORY_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+);
+
+CREATE TABLE `world`.`CUSTOMER`  (
+  `user_id_c` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `id_number` varchar(10) NOT NULL DEFAULT '',
+  `user_status` bit(1) NULL,
+  PRIMARY KEY (`user_id_c`),
+  UNIQUE INDEX `123`(`account`),
+  UNIQUE INDEX `321`(`email`),
+  UNIQUE INDEX `2`(`id_number`)
+);
+
+CREATE TABLE `world`.`LABEL`  (
+  `label_id` int NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`label_id`)
+);
+
+CREATE TABLE `world`.`manage_t`  (
+  `user_id` int NOT NULL,
+  `ticket_id` int NOT NULL,
+  PRIMARY KEY (`user_id`, `ticket_id`),
+  CONSTRAINT `fk_manage_t_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `world`.`ADMIN` (`user_id`),
+  CONSTRAINT `fk_manage_t_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `world`.`TICKET` (`ticket_id`)
+);
+
+CREATE TABLE `world`.`ORDER`  (
+  `order_id` int NOT NULL AUTO_INCREMENT,
+  `total_price` float(10, 2) NOT NULL,
+  `order_time` datetime NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `status` int NOT NULL,
+  `user_id_c` int NOT NULL,
+  `ticket_id` int NULL,
+  PRIMARY KEY (`order_id`),
+  CONSTRAINT `fk_ORDER_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `world`.`CUSTOMER` (`user_id_c`),
+  CONSTRAINT `fk_ORDER_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `world`.`TICKET` (`ticket_id`)
+);
+
+CREATE TABLE `world`.`ORDER_PRODUCT`  (
+  `order_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `amount` int NULL,
+  PRIMARY KEY (`order_id`, `product_id`),
+  CONSTRAINT `fk_ORDER_PRODUCT_ORDER_1` FOREIGN KEY (`order_id`) REFERENCES `world`.`ORDER` (`order_id`),
+  CONSTRAINT `fk_ORDER_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+);
+
+CREATE TABLE `world`.`PRODUCT`  (
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `user_id_s` int NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `price` int NOT NULL,
+  `description` varchar(255) NULL,
+  `publish_date` varchar(255) NOT NULL,
+  `status` int NOT NULL,
+  `total_amount` int NOT NULL,
+  `product_img` varchar(255) NULL,
+  PRIMARY KEY (`product_id`),
+  UNIQUE INDEX `name_same`(`product_name`),
+  CONSTRAINT `fk_PRODUCT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+);
+
+CREATE TABLE `world`.`SALES_REPORT`  (
+  `report_id` int NOT NULL AUTO_INCREMENT,
+  `sales_results` varchar(255) NOT NULL,
+  `sales_score` int NOT NULL,
+  `user_id_s` int NOT NULL,
+  PRIMARY KEY (`report_id`),
+  CONSTRAINT `fk_SALES_REPORT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+);
+
+CREATE TABLE `world`.`SELLER`  (
+  `user_id_s` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `id_number` varchar(10) NOT NULL,
+  `user_status` bit(1) NULL,
+  PRIMARY KEY (`user_id_s`),
+  UNIQUE INDEX `1`(`account`),
+  UNIQUE INDEX `2`(`email`),
+  UNIQUE INDEX `3`(`id_number`)
+);
+
+CREATE TABLE `world`.`TICKET`  (
+  `ticket_id` int NOT NULL AUTO_INCREMENT,
+  `effective_date` datetime NOT NULL,
+  `amount` varchar(255) NOT NULL,
+  `discount` varchar(255) NOT NULL,
+  `user_id_s` int NOT NULL,
+  PRIMARY KEY (`ticket_id`),
+  CONSTRAINT `fk_TICKET_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+);
+
+CREATE TABLE `world`.`TO_DO_THING`  (
+  `event_id` int NOT NULL AUTO_INCREMENT,
+  `event_content` varchar(255) NULL,
+  `event_state` bit(1) NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`event_id`),
+  CONSTRAINT `fk_TO_DO_THING_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `world`.`ADMIN` (`user_id`)
+);
+
+SET FOREIGN_KEY_CHECKS=1;
+
 INSERT INTO `admin` VALUES (1, 'admin', 'admin', 'adminpassword', 'admin@admin', b'1');
 INSERT INTO `customer` VALUES (1, 'Jason', '109590123', 'password', 'ex@e456456', 'NTUT', '0987654321', 'L19516789', b'0');
 INSERT INTO `customer` VALUES (2, 'JasonLin', '109590001', 'password', 'ex@ex.com', 'NTUT', '0912378945', 'L123412345', b'0');
@@ -7,13 +149,20 @@ INSERT INTO `seller` VALUES (30, 'Acute Angle Gan', 'userHI', 'password', 'email
 INSERT INTO `seller` VALUES (31, 'ponywen', '109590027', 'password', 'ponywen@gmail.com', 'GS', '09896745231', 'B785849030', b'0');
 INSERT INTO `seller` VALUES (32, 'Sophia', '11038025', 'password', 'Sophia@gmail.com', 'GS', '0935800017', 'B785849456', b'0');
 INSERT INTO `seller` VALUES (33, 'Roy', 'royis87', 'password', 'Roy@gmail.com', 'NT', '0945695175', 'F156765345', b'0');
-INSERT INTO `product` VALUES (1, 1, 'computer', 2000, '他就是一台電腦', '2022-12-14 11:09:22', b'1', 1, NULL);
-INSERT INTO `product` VALUES (2, 1, 'cat', 10000, '可愛貓貓', '2022-12-14 13:38:22', b'1', 1, NULL);
-INSERT INTO `product` VALUES (3, 33, 'body', 2000000, '硬化的腎臟', '2022-12-14 14:15:57', b'1', 2, NULL);
+INSERT INTO `product` VALUES (1, 1, 'computer', 2000, '他就是一台電腦', '2022-12-14 11:09:22', 1, 1, NULL);
+INSERT INTO `product` VALUES (2, 1, 'cat', 10000, '可愛貓貓', '2022-12-14 13:38:22', 1, 1, NULL);
+INSERT INTO `product` VALUES (3, 33, 'body', 2000000, '硬化的腎臟', '2022-12-14 14:15:57', 1, 2, NULL);
+INSERT INTO `product` VALUES (8, 1, 'milktea', 60, '桂花凍貴妃歐雷', '12/15/22_19_44_32', 1, 50, '12/15/22_19_44_32.png');
+INSERT INTO `product` VALUES (12, 1, 'chips', 28, '樂事洋芋片', '12/15/22_19_54_04', 1, 200, '12/15/22_19_54_04.png');
+INSERT INTO `product` VALUES (28, 1, 'dog', 2000, '可愛的小狗狗', '12/15/22_20_23_17', 1, 20, '12/15/22_20_23_17.png');
+INSERT INTO `product` VALUES (29, 1, 'milk bottle', 3000, '喬伊小姐的大奶罐', '12/15/22_23_03_21', 1, 2, '51d7a659-9ee9-5737-bad4-3c385a32e4e6.png');
+INSERT INTO `product` VALUES (30, 1, 'i5-13600K', 9900, '小哥哥艾里最愛你了', '12/15/22_23_07_19', 1, 1, 'a669706e-441a-50ce-83a5-91f001dbe8f3.png');
+INSERT INTO `product` VALUES (31, 1, 'i9-13900K', 19900, '這也是蕭詠之未來會有的東西', '12/15/22_23_09_38', 1, 1, '5b33b286-0549-5807-821b-4936d8695587.png');
 INSERT INTO `label` VALUES (1, 'organ');
 INSERT INTO `label` VALUES (2, '3C');
+INSERT INTO `label` VALUES (3, 'doll');
 INSERT INTO `category` VALUES (3, 1);
-
-
-
-
+INSERT INTO `category` VALUES (30, 2);
+INSERT INTO `category` VALUES (31, 2);
+INSERT INTO `category` VALUES (28, 3);
+INSERT INTO `category` VALUES (29, 3);
