@@ -4,234 +4,63 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>邀驗鑑貨-懂你想買的</title>
-    <link rel="stylesheet" href="css/index.css">
+    <title>訂單</title>
+    <link rel="stylesheet" href="../static/css/member.css">
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
         <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
+        <li><a href="order.html"><div class="tb" >你的訂單</div></a></li>
         <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
+        <li><a href="member.html"><div class="tb" style="background-color: rgb(14, 93, 79);">會員中心</div></a></li>
         <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
     </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
-            <img src="img/icon.PNG" alt="" class="icon">
-            <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <input type="image" src="img/sb.png" class="sb">
+            <img src="../static/img/icon.PNG" alt="" class="icon">
             
             
         </div>
-        <div class="suggest_row"> <!--搜尋欄下面的推薦-->
-            <span>|</span>
-            <a href="">3C</a>
-            <span>|</span>
-            <a href="">周邊</a>
-            <span>|</span>
-            <a href="">NB</a>
-            <span>|</span>
-            <a href="">數位</a>
-            <span>|</span>
-            <a href="">家電</a>
-            <span>|</span>
-            <a href="">日用</a>
-            <span>|</span>
-            <a href="">食用</a>
-            <span>|</span>
-            <a href="">生活</a>
-            <span>|</span>
-            <a href="">運動戶外</a>
-            <span>|</span>
-            <a href="">美妝</a>
-            <span>|</span>
-            <a href="">品牌評鑑</a>
-            <span>|</span>
-            <a href="">書店</a>
-        </div>
-    
-    <div class="cover">
-    
-    <div class="left_head_product"> <!---中間大圖左邊的兩張小圖-->
-        <div class="left_head_product1">
-            <a href=""><img src="/img/catlaptop.jpg" alt=""></a>
-        </div>
-        <div class="left_head_product2">
-            <a href=""><img src="/img/phone.jpg" alt=""></a>
-        </div>
+        <div class="cover">
+            <div class="left_list"> <!--選項欄位-->
+                <h1>(會員ID)</h1>
+                
+                <a href="#">我的帳戶</a>
+                <a href="#">信用卡</a>
+                <a href="#">修改密碼</a>
+                <a href="#">登出</a>
+                
+                
+            </div>
+            <div class="right_data">
+                <div class="flex">
+                    <div class="right_data_title">
+                        <p>姓名</p>
+                        <p>Email</p>
+                        <p>電話</p>
+                        <p>身分證字號</p>
+                        <p>地址</p>
+                    </div>
+                    <div class="right_data_content">
+                        <p>王小明</p>
+                        <p>t109590015@ntut.org.tw</p>
+                        <p>0979832575</p>
+                        <p>M543215487</p>
+                        <p>高雄市鳳山區自治街65巷8號5樓</p>
+                    </div>
+                </div>
+                <div class="left">
+                    <button class="button-40" role="button">儲存</button>
+                </div>
+                
 
-    </div>
-    <div class="middle_head_product"> <!--中間那張大圖-->
-        <a href=""><img src="/img/scenry.jpg" alt=""></a>
-
-    </div>
-    <div class="right_head_product"> <!--右邊會員獨享那個欄位-->
-        <h1>會員獨享</h1>
+            </div>
+        </div>
         
-        <p>◼24小時快速到貨</p>
-        <p>◼鑑賞期退貨保證</p>
-        <p>◼多元付款方式</p>
-        <p>◼銀行分期零利率</p>
-        
-        
-    </div>
-    </div>
-    <div class="field">
-        <div class="field_title"> <!---暢銷排行那個框框-->
-            <h1>暢銷排行</h1>
-        </div>
-        <div class="row">
-            <div class="rank_block"> <!-----暢銷排行--->
-                <a href=""><img src="/img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
-                <img src="/img/1.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="/img/pig.PNG" alt="" class="rank_product"></a><!---暢銷排行商品圖片-->
-                <img src="/img/2.PNG" alt="" class="rank"><!---旁行數字圖片-->
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="/img/rabbit.PNG" alt="" class="rank_product"></a>
-                <img src="/img/3.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="/img/tiger.PNG" alt="" class="rank_product"></a>
-                <img src="/img/4.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="/img/kangaroo.PNG" alt="" class="rank_product"></a>
-                <img src="/img/5.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="/img/redpanda.PNG" alt="" class="rank_product"></a>
-                <img src="/img/6.PNG" alt="" class="rank">
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <div class="field_title"><!---折價券的框框-->
-            <h1>你的折價券</h1>
-        </div>
-        <div class="row">
-            <div class="coupon_block" style="margin-left: 20px;">
-                <a href=""><img src="/img/coupon.png" alt="" ></a> <!---折價券圖片-->
-                <div class="coupon_des">
-                    <h1>89折</h1>
-                    <p>廚房家電單品滿1元現抵89折折價券</p>
-                </div> 
-            </div>
-            <div class="coupon_block" style="margin-left: 20px;">
-                <a href=""><img src="/img/coupon.png" alt="" ></a>
-                <div class="coupon_des">
-                    <h1>79折</h1>
-                    <p>酷酷空調單品滿10000元現抵79折折價券(部分商品)</p>
-                </div> 
-            </div>
-            <div class="coupon_block" style="margin-left: 20px;">
-                <a href=""><img src="/img/coupon.png" alt="" ></a>
-                <div class="coupon_des">
-                    <h1>滿599免運</h1>
-                    <p>全館消費滿599可兌換運費折抵</p>
-                </div> 
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <div class="field_title"><!---猜你喜歡那個框框-->
-            <h1>猜你喜歡</h1>
-        </div>
-        <div class="row">
-            <div class="like_block" >
-                <a href=""><img src="/img/sand_fish.jpg" alt="" ></a> <!---猜你喜歡商品圖片-->
-                <div class="like_des">
-                    <h2>沙魚</h2><!--商品名稱-->
-                    <p>$450</p><!---商品價格-->
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/soft_s.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>軟絲</h2>
-                    <p>$850</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/flower_crab.png" alt="" ></a>
-                <div class="like_des">
-                    <h2>花蟹</h2>
-                    <p>$750</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/small_crab.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>小一點的花蟹</h2>
-                    <p>$450</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/smallest_crab.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>再小一點的花蟹</h2>
-                    <p>$350</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/big_sand_mom.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>大沙母</h2>
-                    <p>$850</p>
-                </div> 
-            </div>
-        </div>
-        <div class="row">
-            <div class="like_block" >
-                <a href=""><img src="/img/sea_gua.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>海瓜子</h2>
-                    <p>$180</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/butter_bae.jpeg" alt="" ></a>
-                <div class="like_des">
-                    <h2>奶油貝</h2>
-                    <p>$250</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/生蠔.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>生蠔</h2>
-                    <p>$180</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/mu_gua.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>木瓜螺</h2>
-                    <p>$350</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/小花龍.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>小花龍</h2>
-                    <p>$1250</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="/img/water_gu.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>水姑娘</h2>
-                    <p>$1680</p>
-                </div> 
-            </div>
-        </div>
-    </div>
     
-</div>
+    </div>
 <div class="something_important">
     <div class="important_text"> <!---政令宣導-->
         <h2>政令宣導</h2>
@@ -240,10 +69,10 @@
         <p>3. 收件人違反動物傳染病防治條例第34條第3項規定，未將郵遞寄送輸入之應施檢疫物送交輸出入動物檢疫機關銷燬者，處新臺幣3萬元以上15萬元以下罰鍰。</p>
     </div>
 </div>
-<div class="button"> <!---底部資訊-->
-    <div class="button_content">
-        <div class="left_button">
-            <img src="img/icon_button.PNG" alt="" class="icon">
+<div class="buttom"> <!---底部資訊-->
+    <div class="buttom_content">
+        <div class="left_buttom">
+            <img src="../static/img/icon_button.PNG" alt="" class="icon">
             <p style="margin-top: 30px;">高雄市鳳山區自治街65巷8號5樓</p>
             <p>電話(不含例假日)：0800-091-000</p>
             <p>本公司不會以此電話號碼撥打給您，如有來電顯示此號碼，請勿理會</p>

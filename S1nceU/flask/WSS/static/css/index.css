@@ -85,11 +85,13 @@ table {
     line-height:70px;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
     background-color:rgb(35, 170, 163); 
 }
 .tb a{
     color: white;
     text-decoration:none;
+    cursor: pointer;
 }
 .tb:hover{
     background-color:rgb(22, 108, 104);

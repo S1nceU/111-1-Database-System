@@ -328,36 +328,9 @@ table {
 }
 .order{
    border-top: 5px solid black;
-   text-align:center;
    
 }
-.order h1{
-    font-size: 35px;
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    margin: 0;
-    line-height: 200px;
-    width: 22%;
-    
 
-}
-.order p{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px;
-    width: 20%;
-
-}
-.order a{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px;
-    width: 20%;
-
-}
 .order li{
     display: flex;
 }
@@ -379,18 +352,76 @@ table {
     width: 150px;
     height: 150px;
 }
-.order_head{
-    display: flex;
+.product_des{
+    width: 64%;
+    height: 200px;
+    border-bottom: 4px solid #000;
+    border-right: #000 4px solid;
+    padding-left: 10px;
+    padding-right: 10px;
 }
-.order_head p{
-    display: flex;
-    width: 200px;
-    height: 50px;
-    justify-content: center;    
-    /* 垂直置中 */
-    align-items: center;
-    border: #000000 solid 4px;
-    border-right: #000000 solid 0px;
-    border-bottom: #000000 solid 0px;
+.product_des h1{
+    margin: 0;
+    margin-top: 10px;
+    font-size: 40px;
+}
+.product_des p{
+    margin-top: 8px;
+    font-size: 18px;
+    text-indent:2em;
+}
+.add_to_cart{
+    width: 20%;
+    border-bottom: 4px solid #000;
+    border-right: #000 4px solid;
+    text-align: center;
+    line-height: 50px;     
+}
+.add_to_cart p{
+    margin: 0;
+}
 
-}
+
+/* CSS */
+.button-68 {
+
+    background-color: #4baed8;
+    border-radius: 8px;
+    border-style: none;
+    box-shadow: rgba(39, 174, 96, .15) 0 4px 9px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1.5;
+    outline: none;
+    padding: 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+  
+  .button-68:hover {
+    background-color: #0850a8;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+  }
+  
+  .button-68:active {
+    transform: translateY(2px);
+    transition-duration: .35s;
+  }
+  
+  .button-68:hover {
+    box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
+  }
+

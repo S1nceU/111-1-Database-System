@@ -394,3 +394,15 @@ table {
     border-bottom: #000000 solid 0px;
 
 }
+
+.total{
+
+    border-top: 4px solid #000;
+    width: 90%;
+    display: flex;
+}
+.total h1{
+    margin-top: 10px;
+    font-size:40px;
+    padding-left: 20px;
+}

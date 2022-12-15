@@ -101,7 +101,6 @@ def create_product(db,data,seller_id,filename):
         data["price"],
         data["description"],
         currentTime,
-        data["status"],
         data["total_amount"],
         filename
         )
@@ -119,7 +118,7 @@ def create_product(db,data,seller_id,filename):
     """%condition_repeat
     sql_cmd = """
         INSERT INTO product (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)
-        VALUES (%s,\"%s\",%s,\"%s\",\"%s\",%s,%s,\"%s\") 
+        VALUES (%s,\"%s\",%s,\"%s\",\"%s\",1,%s,\"%s\") 
     """%condition
     wannaproduct = db.cursor()
     wannaproduct.execute(sql_cmd_repeat)

@@ -15,33 +15,28 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/index.js"></script>
+    <script type="module" src="./src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-        <ul class="ti">
-            <li v-if="logged" class="tb_name"> {{welcome}}</li>
-            <li><a href="index"><div class="tb">首頁</div></a></li>
-            <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-            <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-            <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-            <li>
-                <a href="login" v-if="!logged">
-                    <div class="tb">註冊/登入</div>
-                </a>
-                <a v-else>
-                    <div class="tb">登出</div>
-                </a>
-            </li>
-        </ul>
+    <ul class="ti">
+        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+        <li><a href="index.html"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+        <li><a href="saler.html"><div class="tb">賣場</div></a></li>
+        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
+        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
+        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
+        <li><a>
+            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+            <div v-else class="tb" @click="Logout">登出</div>
+        </a></li>
+    </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
             <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <input type="image" src="../static/img/sb.png" class="sb">
-            
-            
+            <a href="search_list.html"><input type="image" src="../static/img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>
@@ -82,7 +77,7 @@
 
     </div>
     <div class="middle_head_product"> <!--中間那張大圖-->
-        <a href=""><img src="../static/img/scenry.jpg" alt=""></a>
+        <a href="product.html"><img src="../static/img/scenry.jpg" alt=""></a>
 
     </div>
     <div class="right_head_product"> <!--右邊會員獨享那個欄位-->
@@ -100,30 +95,34 @@
         <div class="field_title"> <!---暢銷排行那個框框-->
             <h1>暢銷排行</h1>
         </div>
-        <div class="row">
-            <div class="rank_block"> <!-----暢銷排行--->
-                <a href=""><img src="../static/img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
-                <img src="../static/img/1.PNG" alt="" class="rank">
+        <div class="row"><!-----暢銷排行--->
+            <!-- <div class="rank_block"> 
+                <a href=""><img src="img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                <img src="img/1.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="../static/img/pig.PNG" alt="" class="rank_product"></a><!---暢銷排行商品圖片-->
-                <img src="../static/img/2.PNG" alt="" class="rank"><!---旁行數字圖片-->
+                <a href=""><img src="img/pig.PNG" alt="" class="rank_product"></a>
+                <img src="img/2.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="../static/img/rabbit.PNG" alt="" class="rank_product"></a>
-                <img src="../static/img/3.PNG" alt="" class="rank">
+                <a href=""><img src="img/rabbit.PNG" alt="" class="rank_product"></a>
+                <img src="img/3.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="../static/img/tiger.PNG" alt="" class="rank_product"></a>
-                <img src="../static/img/4.PNG" alt="" class="rank">
+                <a href=""><img src="img/tiger.PNG" alt="" class="rank_product"></a>
+                <img src="img/4.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="../static/img/kangaroo.PNG" alt="" class="rank_product"></a>
-                <img src="../static/img/5.PNG" alt="" class="rank">
+                <a href=""><img src="img/kangaroo.PNG" alt="" class="rank_product"></a>
+                <img src="img/5.PNG" alt="" class="rank">
             </div>
             <div class="rank_block">
-                <a href=""><img src="../static/img/redpanda.PNG" alt="" class="rank_product"></a>
-                <img src="../static/img/6.PNG" alt="" class="rank">
+                <a href=""><img src="img/redpanda.PNG" alt="" class="rank_product"></a>
+                <img src="img/6.PNG" alt="" class="rank">
+            </div> -->
+            <div class="rank_block" v-for="block in rankItems">  
+                <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
+                <img :src="getImgPath(`../static/img/${block.rank}.PNG`)" alt="" class="rank"></img>  
             </div>
         </div>
     </div>
@@ -258,9 +257,9 @@
         <p>3. 收件人違反動物傳染病防治條例第34條第3項規定，未將郵遞寄送輸入之應施檢疫物送交輸出入動物檢疫機關銷燬者，處新臺幣3萬元以上15萬元以下罰鍰。</p>
     </div>
 </div>
-<div class="button"> <!---底部資訊-->
-    <div class="button_content">
-        <div class="left_button">
+<div class="buttom"> <!---底部資訊-->
+    <div class="buttom_content">
+        <div class="left_buttom">
             <img src="../static/img/icon_button.PNG" alt="" class="icon">
             <p style="margin-top: 30px;">高雄市鳳山區自治街65巷8號5樓</p>
             <p>電話(不含例假日)：0800-091-000</p>
