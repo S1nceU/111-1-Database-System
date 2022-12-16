@@ -22,9 +22,8 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/login.html")
         },
         Logout() {
-            console.log("get in logout func")
             Cookies.remove("WSS")
-            // axios.post("url", {})
+            axios.post("http://127.0.0.1:5000/logout/", {})
         }
     },
     computed:{

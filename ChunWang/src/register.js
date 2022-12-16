@@ -22,7 +22,35 @@ const app = createApp({
             let emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
             let IDReg = /^[A-Z]\d{9}/
             let url = ''
-
+            if(this.registObj.account == "") {
+                alert("帳號不可為空")
+                return
+            }
+            if(this.registObj.password == "") {
+                alert("密碼不可為空")
+                return
+            }
+            if(this.registObj.ID == "") {
+                alert("身分證字號不可為空")
+                return
+            }
+            if(this.registObj.username == "") {
+                alert("暱稱不可為空")
+                return
+            }
+            if(this.registObj.email == "") {
+                alert("電子郵件不可為空")
+                return
+            }
+            if(this.registObj.address == "") {
+                alert("地址不可為空")
+                return
+            }
+            if(this.registObj.phone == "") {
+                alert("電話不可為空")
+                return
+            }
+            
             if(this.registObj.password != this.confirm_pw) {
                 alert("密碼不一致")
                 this.registObj.password = ''
