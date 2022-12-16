@@ -84,9 +84,10 @@ def login_customer():
             # return '2'
     db.close()
 
-@login.route('/logout/')
+@login.route('/logout/', methods=['GET'])
 def login_out():
-    return TL.delcookie()
+    if request.method == 'GET':
+        return TL.delcookie()
 
 @login.route('/isLogined/', methods=['GET', 'POST'])
 def isLogin():

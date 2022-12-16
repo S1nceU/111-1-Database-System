@@ -17,28 +17,28 @@ def createproduct():
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     print(currentTime)
     if request.method == 'POST':
-        # try:
-        file = request.files['filename']
-        # user = TL.decode_token(TL.getcookie())
-        print(file)
-        if file.filename != '':
-
-            # file.filename = currentTime + user["user_id"] + ".png"
-            file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + "1")) + ".png"
-            print(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            print(file.filename + "fonfo")
-        result = mysql_unit.create_product(db,request.form,1, file.filename)
-        # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
-        db.close()
-        return result
-        # except:
-        #     print("error RRRRRRRRR")
-        #     pass
-    db.close()
-    # print(request.method)
-    # path = "../static/img/"
-    # return render_template('storeImg.html')
+        try:
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
+            file = request.files['filename']
+            if file.filename != '':
+                file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + "1")) + ".png"
+                file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+            result = mysql_unit.create_product(db, request.form, user_id, file.filename)
+            # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
+            db.close()
+            return result
+        except:
+            print("error RRRRRRRRR")
+            db.close()
+            return render_template("upload_product.html")
+    # for label
+    elif request.method == 'GET':
+        get_label = mysql_unit.get_label(db)
+        length_label = len(get_label)
+        label = list()
+        for i in get_label.keys():
+            label.append(i)
+        return render_template('storeImg.html', data = locals())
     return "Create error!!"
 
 @product.route('/get_label/', methods=['GET'])

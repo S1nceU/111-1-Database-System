@@ -15,28 +15,37 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./src/index.js"></script>
+    <script type="module" src="../static/src/index.js"></script>
 </head>
 <body>
+
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
-        <li><a href="index.html"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-        <li><a href="saler.html"><div class="tb">賣場</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a>
-            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
-            <div v-else class="tb" @click="Logout">登出</div>
-        </a></li>
-    </ul>
+        <ul class="ti">
+            <li>
+                <div class="tb_name" id="username"></div>
+            </li>
+            <div class="tb_name"><font color="black">hey {{data['username']}}~</font></div>
+            <li><a href="home"><div class="tb">首頁</div></a></li>
+            <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
+            <li><a href="cart.html"><div class="tb">購物車</div></a></li>
+            <li><a href="member.html"><div class="tb">會員中心</div></a></li>
+            <li>
+                <a href="login" v-if="!logged">
+                    <div class="tb">註冊/登入</div>
+                </a>
+                <a v-else>
+                    <div class="tb">登出</div>
+                </a>
+            </li>
+        </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
             <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <a href="search_list.html"><input type="image" src="../static/img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
+            <input type="image" src="../static/img/sb.png" class="sb">
+            
+            
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>
@@ -77,7 +86,7 @@
 
     </div>
     <div class="middle_head_product"> <!--中間那張大圖-->
-        <a href="product.html"><img src="../static/img/scenry.jpg" alt=""></a>
+        <a href=""><img src="../static/img/scenry.jpg" alt=""></a>
 
     </div>
     <div class="right_head_product"> <!--右邊會員獨享那個欄位-->
@@ -95,35 +104,13 @@
         <div class="field_title"> <!---暢銷排行那個框框-->
             <h1>暢銷排行</h1>
         </div>
-        <div class="row"><!-----暢銷排行--->
-            <!-- <div class="rank_block"> 
-                <a href=""><img src="img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
-                <img src="img/1.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/pig.PNG" alt="" class="rank_product"></a>
-                <img src="img/2.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/rabbit.PNG" alt="" class="rank_product"></a>
-                <img src="img/3.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/tiger.PNG" alt="" class="rank_product"></a>
-                <img src="img/4.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/kangaroo.PNG" alt="" class="rank_product"></a>
-                <img src="img/5.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/redpanda.PNG" alt="" class="rank_product"></a>
-                <img src="img/6.PNG" alt="" class="rank">
-            </div> -->
-            <div class="rank_block" v-for="block in rankItems">  
-                <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
-                <img :src="getImgPath(`../static/img/${block.rank}.PNG`)" alt="" class="rank"></img>  
-            </div>
+        <div class="row">  
+            {%for pd in range(5) %}
+                <div class="rank_block"> <!-----暢銷排行--->
+                    <a href="http://127.0.0.1:5000/product/{{data['bestSeller'][pd]['product_id']}}"><img src="../static/img/{{data['bestSeller'][pd]['product_img']}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                    <img src="../static/img/{{pd+1}}.PNG" alt="" class="rank">
+                </div>
+            {% endfor %}
         </div>
     </div>
     <div class="field">

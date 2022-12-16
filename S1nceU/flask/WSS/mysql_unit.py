@@ -182,6 +182,25 @@ def product_get(db, productID):
     }
     return data
 
+def product_get_all(db):
+    sql_cmd = """
+        SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
+        FROM   product
+    """
+    ppd = db.cursor()
+    ppd.execute(sql_cmd)
+    data = ppd.fetchall()
+    result = []
+    for i in data:
+        result.append({
+            'product_id' : i[0],
+            'product_name' : i[1],
+            'product_img' : i[2],
+            'product_price' : i[3],
+            'product_description' : i[4]
+        })
+    return result
+
 # set product label
 def set_category(db,product_id,label_id):
     condition = (product_id,label_id)
@@ -204,9 +223,64 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
+def memberInfo(db, who, userID):
+    # print('userID = ', userID)
+    if who == 'seller':
+        sql_cmd = """
+            (select *
+            from %s
+            where  user_id_s = %d
+            )
+            """%(who, userID)
+    elif who == 'customers':
+        sql_cmd = """
+            (select *
+            from '%s'
+            where user_id_c = %s
+            )
+            """%(who, userID)
+    account = db.cursor()
+    account.execute(sql_cmd)
+    data = account.fetchone()
+    data = {
+        'user_id' : data[0],
+        'user_name' : data[1],
+        'user_account' : data[2],
+        'user_password' : data[3],
+        'user_email' : data[4],
+        'user_address' : data[5],
+        'user_phone' : data[6],
+        'user_id_number' : data[7],
+    }
+    return data
 
-
-
+def get_sallerProduct(db, sallerID):
+    productlist = list()
+    sql_cmd = """
+              (select *
+               from product
+               where product.user_id_s = %d
+              )
+            """%(sallerID)
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    # print(data[0])
+    # print('len of data',len(data))
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['amount'] = list()
+    temp['product_id'] = list()
+    for i in range(len(data)):
+        temp['productName'].append(data[i][2])
+        temp['product_img'].append(data[i][8])
+        temp['price'].append(data[i][3])
+        temp['amount'].append(data[i][7])
+        temp['product_id'].append(data[i][0])
+    # print(temp)
+    return temp
 
 
 

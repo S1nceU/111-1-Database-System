@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./src/login.js"></script>
+    <script type="module" src="../static/src/login.js"></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
@@ -36,7 +36,7 @@
         <input type="text" type="password" id="password" class="textbar" v-model="loginForm.password">
         <br>
         <div class="wrapper">
-            <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>
+            <input type="radio" name="select" id="option-1" checked v-model="identity" value="buyer">
             <input type="radio" name="select" id="option-2" v-model="identity" value="seller">
               <label for="option-1" class="option option-1">
                 <div class="dot"></div>
