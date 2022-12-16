@@ -32,7 +32,7 @@ def product_get(id):
     if request.method == 'GET':
         print('product get IN')
         product = mysql_unit.product_get(db, id)
-        print(locals())
+        # print(locals())
         return render_template('product.html', data = locals())
     db.close()
 

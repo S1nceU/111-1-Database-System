@@ -204,6 +204,7 @@ def product_get(db, productID):
         'product_price' : data[3],
         'product_description' : data[4],
     }
+    print('product data:', data)
     return data
 # who: 'seller', 'customer'
 

@@ -107,7 +107,7 @@
         <div class="row">  
             {%for pd in data['bestSeller'] %}
                 <div class="rank_block"> <!-----暢銷排行--->
-                <a href=""><img src="../static/img/{{pd['product_name']}}.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                <a href=""><img src="../static/img/{{pd['product_img']}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                 <img src="../static/img/{{pd['product_id']}}.PNG" alt="" class="rank">
                 </div>
             {% endfor %}
