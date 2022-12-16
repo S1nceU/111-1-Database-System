@@ -238,6 +238,30 @@ def memberInfo(db, who, userID):
     }
     return data
 
-# def get_sallerProduct(db, sallerID):
+def get_sallerProduct(db, sallerID):
+    productlist = list()
+    sql_cmd = """
+              (select *
+               from product
+               where product.user_id_s = %d
+              )
+            """%(sallerID)
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    # print(data[0])
+    # print('len of data',len(data))
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['amount'] = list()
+    for i in range(len(data)):
+        temp['productName'].append(data[i][2])
+        temp['product_img'].append(data[i][8])
+        temp['price'].append(data[i][3])
+        temp['amount'].append(data[i][7])
+    # print(temp)
+    return temp
     
 

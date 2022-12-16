@@ -16,6 +16,8 @@ def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    user_data = TL.getcookie()
+    user_id = TL.decode_token(user_data)['user_id']
     print(currentTime)
     print(request.method)
     if request.method == 'POST':
@@ -27,7 +29,7 @@ def createproduct():
             print(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, file.filename))
             print(file.filename + "fonfo")
-        result = mysql_unit.create_product(db,request.form,1, file.filename)
+        result = mysql_unit.create_product(db,request.form,user_id, file.filename)
         db.close()
         return render_template('storeImg.html')
     elif request.method == 'GET':

@@ -37,27 +37,18 @@
             </div>
             <div class="order">
                 <ul>
-                    
+
+                    {% for p in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <img src="../static/img/dog.PNG">
+                            <img src="../static/img/{{data['product']['product_img'][p]}}">
                         </div>
-                        <h1>柯基</h1>
-                        <p>$1999</p>
-                        <p>1</p>
+                        <h1>{{data['product']['productName'][p]}}</h1>
+                        <p>${{data['product']['price'][p]}}</p>
+                        <p>{{data['product']['amount'][p]}}</p>
                         <a href="#">刪除</a>
                     </li>
-
-                    <li>
-                        <div class="product_img">
-                            <img src="../static/img/cat.jpg">
-                        </div>
-                        <h1>貓</h1>
-                        <p>$2999</p>
-                        <p>9</p>
-                        <a href="#">刪除</a>
-                    </li>
-
+                    {% endfor %}
                 </ul>
             </div>
         </div>
