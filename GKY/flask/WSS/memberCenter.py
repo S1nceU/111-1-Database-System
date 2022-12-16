@@ -11,6 +11,7 @@ def memberInfoGet(id):
         memberInfo = mysql_unit.memberInfo(db, 'seller', id)
         # print(locals())
         user_data = TL.getcookie()
+        # userid + userlevel
         username = TL.decode_token(user_data)['username']
         if username != memberInfo['user_name']:
             print('False')

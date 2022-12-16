@@ -4,9 +4,23 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <form method="POST" enctype="multipart/form-data"  action="/create_product">
+    <form name = 'myform' action = "/create_product" enctype="multipart/form-data"  method = 'POST'>
+        <!-- <form method="POST"  action="/create_product"> -->
         <input type="file"  name="filename" accept=".png" required>
+        <label for='product_name'>Your product_name:</label>
+        <input id = 'product_name' type = 'text' name = 'product_name'>
+        <label for='price'>Your price:</label>
+        <input id ='price' type ='text' name ='price'>
+        <label for='description'>Your description:</label>
+        <input id ='description' type ='text' name ='description'>
+        <label for='label'>Your label:</label>
+        <input id ='label' type ='text' name ='label'>
+        <label for='total_amount'>Your total_amount:</label>
+        <input id ='total_amount' type ='text' name ='total_amount'>        
+        <!-- <input type="submit" value ='登入'> -->
+        <input type="reset" value="清除重填">
         <input type="submit" value="上傳">
     </form>
+    
 </body>
 </html>

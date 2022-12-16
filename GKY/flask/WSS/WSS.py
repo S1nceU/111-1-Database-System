@@ -21,19 +21,29 @@ app.register_blueprint(memberCenter)
 
 @app.route('/')
 def default():
-    return redirect('/home')
+    # 抓 username
+    try:
+        user = TL.getcookie()
+        loginsuccess = TL.decode_token(user)['username']
+        return redirect('/home')
+    except:
+        return redirect('/login')
 
 @app.route('/index')
 def home():
     print('123dd')
-    return render_template('index.html')
+    return redirect('/home')
+
+@app.route('/index.html')
+def redir():
+    return redirect('/home')
 
 @app.route('/login')
 def loginpage():
     if TL.getcookie() != None:
         print(TL.decode_token(TL.getcookie()))
-        return render_template('index.html')
-    return render_template('login.html')
+        return redirect('/home')
+    return redirect('/home')
 
 @app.route('/cart.html')
 def cartpage():

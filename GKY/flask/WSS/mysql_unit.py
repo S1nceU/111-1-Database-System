@@ -1,5 +1,5 @@
 import pymysql
-
+from datetime import datetime
 def connect():
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='38173991', db='world')
     return db
@@ -7,17 +7,18 @@ def connect():
 def disconnect(db):
     db.close()
 
+# login
 def login_comfirm(db,FROM,WHERE):
-    condition = (FROM,FROM,FROM,FROM,FROM,WHERE)
+    condition = (FROM,WHERE)
 
 
     sql_cmd = """
-            (select %s.username,%s.account,%s.password, %s.user_id_s 
+            (select *
             from %s
             where account = '%s' )
             """%condition
     sql_cmd_a = """
-            (select admin.username,admin.account,admin.password, admin.user_id  
+            (select *
             from admin
             where admin.account = '%s')
             """%WHERE
@@ -36,21 +37,23 @@ def login_comfirm(db,FROM,WHERE):
     # if len(data) == 0:
     if user_level == 0:
         data = {
-            'username' : data[0],
-            'account'  : data[1],
-            'password' : data[2],
-            'user_id'  : data[3], 
+            'user_id'  : data[0],
+            'username' : data[1],
+            'account'  : data[2],
+            'password' : data[3],
         }
     else:
         data = {
-            'username' : data_admin[0],
-            'account'  : data_admin[1],
-            'password' : data_admin[2],
-            'user_id'  : data_admin[3],
+            'user_id'  : data[0],
+            'username' : data[1],
+            'account'  : data[2],
+            'password' : data[3],
         }
-    # print(type(data))
+    print(data)
     return data,user_level
 
+
+# create account
 def register_insert(db,data,users):
     condition = (
         users,
@@ -67,6 +70,7 @@ def register_insert(db,data,users):
         data['account'],data['email'],data['ID'],
         data['account'],data['email']
     )
+    
     # print(condition_repeat)
         # account,email,id_number
     sql_cmd_repeat = """
@@ -75,7 +79,7 @@ def register_insert(db,data,users):
             where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or admin.account = '%s' or admin.email ='%s')
             """%condition_repeat
     sql_cmd = """ INSERT INTO %s (username, account, password, email, address, phone, id_number) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") """%condition
-    print(sql_cmd)
+    # print(sql_cmd)
     account = db.cursor()
     account.execute(sql_cmd_repeat)
     data = account.fetchall()
@@ -83,8 +87,101 @@ def register_insert(db,data,users):
         account.execute(sql_cmd)
         return "Register success."
     else:
-        print(data)
         return "Something repeat!!"
+
+# get product_id by product_name 
+def get_product_id(db,seller_id,product_name):
+    sql_cmd = """
+        SELECT product_id
+        FROM product
+        WHERE user_id_s = %s AND product_name = "%s"
+    """%(seller_id,product_name)
+    product_id = db.cursor()
+    product_id.execute(sql_cmd)
+    result = product_id.fetchone()
+    return result[0]
+
+# create product
+def create_product(db,data,seller_id,filename):
+    currentDateAndTime = datetime.now()
+    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    condition = (
+        seller_id,
+        data["product_name"],
+        data["price"],
+        data["description"],
+        currentTime,
+        data["total_amount"],
+        filename
+        )
+    for i in condition:
+        if i == '':
+            return "Something is None."
+    condition_repeat = (
+        data["product_name"],
+        seller_id
+    )
+    sql_cmd_repeat = """
+        SELECT *
+        FROM product
+        WHERE product.product_name ="%s" AND product.user_id_s = %s
+    """%condition_repeat
+    sql_cmd = """
+        INSERT INTO product (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)
+        VALUES (%s,\"%s\",%s,\"%s\",\"%s\",1,%s,\"%s\") 
+    """%condition
+    wannaproduct = db.cursor()
+    wannaproduct.execute(sql_cmd_repeat)
+    if len(wannaproduct.fetchall()) == 0:
+        wannaproduct.execute(sql_cmd)                            # 執行後存著
+        db.commit()                                              # push商品
+        p_id = get_product_id(db,seller_id,data["product_name"]) # 拿到本商品的ID
+        label_dict = get_label(db)                               # 得到所有標籤的字典  ex. {"3c" : 2}
+        print(label_dict[data["label"]])
+        set_category(db,p_id,label_dict[data["label"]])          # 設定商品標籤
+        return "Create success."
+    else:
+        return "There is a same product name in your product list."
+
+# get all of labels
+def get_label(db):
+    sql_cmd = """
+        SELECT *
+        FROM label
+    """
+    label = db.cursor()
+    label.execute(sql_cmd)
+    result = {}
+    for i in label.fetchall():
+        result[i[1]] = i[0]
+    print('拿到的label list', result)
+    return result
+
+# set product label
+def set_category(db,product_id,label_id):
+    condition = (product_id,label_id)
+    print(condition)
+    sql_cmd_repeat = """
+        SELECT *
+        FROM category
+        WHERE product_id = %s AND label_id = %s
+    """%condition
+    sql_cmd = """
+        INSERT INTO category (product_id,label_id)
+        VALUES (%s,%s) 
+    """%condition
+    category = db.cursor()
+    category.execute(sql_cmd_repeat)
+    if len(category.fetchall()) == 0:
+        category.execute(sql_cmd)
+        db.commit()
+        return "Create success."
+    else:
+        return "There is a same product label in your product category."
+
+
+
+
 
 
 # productID 流水號
@@ -109,6 +206,7 @@ def product_get(db, productID):
     }
     return data
 # who: 'seller', 'customer'
+
 def memberInfo(db, who, userID):
     if who == 'seller':
         sql_cmd = """
@@ -138,28 +236,3 @@ def memberInfo(db, who, userID):
         'user_id_number' : data[7],
     }
     return data
-
-def create_product(db,data,seller,filename):
-    condition = (
-        seller,
-        data["product_name"],
-        data["price"],
-        data["description"],
-        data["pulish_date"],
-        data["status"],
-        data["total_amount"],
-        data["product"],
-        filename
-        )
-    for i in condition:
-        if i == '':
-            return "Something is None."
-    sql_cmd = """
-        INSERT INTO procuct (user_id_s,product_name,price,description,publish_date,status,total_amount,product_img)
-        VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\") 
-    """%condition
-    wanna_product = db.cursor
-    wanna_product.execute(sql_cmd)
-    return "Create success."
-
-
