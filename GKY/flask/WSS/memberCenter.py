@@ -4,19 +4,27 @@ import mysql_unit
 import token_logined as TL
 memberCenter = Blueprint('memberCenter', __name__, template_folder='templates')
 
-@memberCenter.route('/memberCenter/<int:id>', methods = ['GET', 'POST'])
-def memberInfoGet(id):
+@memberCenter.route('/memberCenter', methods = ['GET', 'POST'])
+def memberInfoGet():
     db = mysql_unit.connect()
     if request.method == 'GET':
-        memberInfo = mysql_unit.memberInfo(db, 'seller', id)
-        # print(locals())
         user_data = TL.getcookie()
+        id = TL.decode_token(user_data)['user_id']
+        level = TL.decode_token(user_data)['user_level']
+        if(level == 0):
+            level = 'seller'
+        elif(level == 1):
+            level = 'customer'
+        elif(level == 2):
+            level = 'admin'
+        print('level = ', level)
+        memberInfo = mysql_unit.memberInfo(db, level, id)
+        # print(locals())
         # userid + userlevel
-        username = TL.decode_token(user_data)['username']
-        if username != memberInfo['user_name']:
-            print('False')
-        else:
-            print('success')
+        # if username != memberInfo['user_name']:
+        #     print('False')
+        # else:
+        #     print('success')
         Info =  {
             "帳號":'user_account',"密碼":'user_password',
             "身分證":'user_id_number',"暱稱":'user_name',

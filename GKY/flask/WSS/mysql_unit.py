@@ -208,6 +208,7 @@ def product_get(db, productID):
 # who: 'seller', 'customer'
 
 def memberInfo(db, who, userID):
+    # print('userID = ', userID)
     if who == 'seller':
         sql_cmd = """
             (select *
@@ -219,7 +220,7 @@ def memberInfo(db, who, userID):
         sql_cmd = """
             (select *
             from '%s'
-            where user_id_c = '%s'
+            where user_id_c = %s
             )
             """%(who, userID)
     account = db.cursor()
@@ -236,3 +237,7 @@ def memberInfo(db, who, userID):
         'user_id_number' : data[7],
     }
     return data
+
+# def get_sallerProduct(db, sallerID):
+    
+

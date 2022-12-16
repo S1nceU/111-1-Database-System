@@ -5,6 +5,8 @@ from register import register
 from index import index
 from product import product
 from memberCenter import memberCenter
+from salerProduct import saler
+
 
 import token_logined as TL
 # import mysql_unit
@@ -18,6 +20,7 @@ app.register_blueprint(login)
 app.register_blueprint(register)
 app.register_blueprint(product)
 app.register_blueprint(memberCenter)
+app.register_blueprint(saler)
 
 @app.route('/')
 def default():
