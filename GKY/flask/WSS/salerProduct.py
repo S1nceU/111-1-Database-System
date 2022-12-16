@@ -12,7 +12,7 @@ def salerProduct():
     product = mysql_unit.get_sallerProduct(db, user_id)
     # print(len(product))
     length = len(product['productName'])
-    print(product['product_img'])
+    print(product['product_id'])
     # print(locals())
     if request.method == 'GET':
         return render_template('saler.html', data = locals())

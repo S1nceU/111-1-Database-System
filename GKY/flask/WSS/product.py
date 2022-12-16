@@ -18,26 +18,23 @@ def createproduct():
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     user_data = TL.getcookie()
     user_id = TL.decode_token(user_data)['user_id']
-    print(currentTime)
-    print(request.method)
     if request.method == 'POST':
-        # print('requestData:',request.args.get())
-        print('requestData:',request.form)
         file = request.files['filename']
         if file.filename != '':
             file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + "1")) + ".png"
-            print(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            print(file.filename + "fonfo")
         result = mysql_unit.create_product(db,request.form,user_id, file.filename)
         db.close()
         return render_template('storeImg.html')
+    # for label
     elif request.method == 'GET':
-        return render_template('storeImg.html')
+        get_label = mysql_unit.get_label(db)
+        length_label = len(get_label)
+        label = list()
+        for i in get_label.keys():
+            label.append(i)
+        return render_template('storeImg.html', data = locals())
     db.close()
-    # print(request.method)
-    # path = "../static/img/"
-    # return render_template('storeImg.html')
     return "Create error!!"
 
 @product.route('/get_label/', methods=['GET'])

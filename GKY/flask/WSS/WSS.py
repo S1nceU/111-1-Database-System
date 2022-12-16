@@ -11,8 +11,6 @@ from salerProduct import saler
 import token_logined as TL
 # import mysql_unit
 
-
-
 app = Flask(__name__)
 
 app.register_blueprint(index)
@@ -46,7 +44,7 @@ def loginpage():
     if TL.getcookie() != None:
         print(TL.decode_token(TL.getcookie()))
         return redirect('/home')
-    return redirect('/home')
+    return render_template('login.html')
 
 @app.route('/cart.html')
 def cartpage():

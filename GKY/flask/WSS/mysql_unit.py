@@ -154,7 +154,7 @@ def get_label(db):
     result = {}
     for i in label.fetchall():
         result[i[1]] = i[0]
-    print('拿到的label list', result)
+    # print('拿到的label list', result)
     return result
 
 # set product label
@@ -257,11 +257,13 @@ def get_sallerProduct(db, sallerID):
     temp['product_img'] = list()
     temp['price'] = list()
     temp['amount'] = list()
+    temp['product_id'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
         temp['price'].append(data[i][3])
         temp['amount'].append(data[i][7])
+        temp['product_id'].append(data[i][0])
     # print(temp)
     return temp
     
