@@ -65,19 +65,19 @@ def memberInfoGet():
         }
         return render_template('memberCenter.html',data =  locals())
 
-@template.route('/seller', methods = ['GET'])
+@template.route('/seller_mart', methods = ['GET'])
 def salerProduct():
     try:
         db = mysql_unit.connect()
         user_data = TL.getcookie()
         user_id = TL.decode_token(user_data)['user_id']
         product = mysql_unit.get_sallerProduct(db, user_id)
-        # print(len(product))
+        print(len(product))
         length = len(product['productName'])
         print(product['product_id'])
         # print(locals())
         if request.method == 'GET':
-            return render_template('saler.html', data = locals())
+            return render_template('seller.html', data = locals())
     except:
         print("You are guest!!")
         return redirect('/home')

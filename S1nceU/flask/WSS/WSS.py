@@ -32,7 +32,7 @@ def home():
 def loginpage():
     if TL.getcookie() != None:
         print(TL.decode_token(TL.getcookie()))
-        return render_template('index.html')
+        return redirect('/home')
     return render_template('login.html')
 
 @app.route('/cart')
@@ -51,7 +51,13 @@ def orderpage():
 def registerpage():
     return render_template('register.html')
 
+@app.route('/upload_product')
+def upload_product():
+    return render_template('upload_product.html')
 
+@app.route('/seller')
+def seller():
+    return redirect('/seller_mart')
 
 
 

@@ -21,15 +21,16 @@ def decode_token(token):
         return None
 def setcookie_logined(token_login):
     resp = make_response('login success')
-    resp.set_cookie(key='WSS', value=token_login,expires=time.time()+60)
+    resp.set_cookie(key='WSS', value=token_login,expires=time.time()+600)
     return resp
 
 def getcookie():
     WSS = request.cookies.get('WSS')
     return WSS
 
-def delcookie():
+def delcookie():   # 沒用到
     print('del')
     resp = make_response('delete cookie')
-    resp.set_cookie(key='WSS', value='',expired=0)
+    # resp.set_cookie(key='WSS', value='',expired=0)
+    resp.delete_cookie('WSS',domain="127.0.0.1:5000")
     return resp

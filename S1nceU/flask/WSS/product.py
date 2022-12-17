@@ -15,22 +15,21 @@ def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
-    print(currentTime)
     if request.method == 'POST':
-        try:
-            user_id = TL.decode_token(TL.getcookie())["user_id"]
-            file = request.files['filename']
-            if file.filename != '':
-                file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + "1")) + ".png"
-                file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            result = mysql_unit.create_product(db, request.form, user_id, file.filename)
-            # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
-            db.close()
-            return result
-        except:
-            print("error RRRRRRRRR")
-            db.close()
-            return render_template("upload_product.html")
+        # try:
+        user_id = TL.decode_token(TL.getcookie())["user_id"]
+        file = request.files['filename']
+        if file.filename != '':
+            file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + str(user_id))) + ".png"
+            file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        result = mysql_unit.create_product(db, request.form, user_id, file.filename)
+        # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
+        db.close()
+        return redirect("/seller")
+        # except:
+        #     print("error RRRRRRRRR")
+        #     db.close()
+        #     return render_template("upload_product.html")
     # for label
     elif request.method == 'GET':
         get_label = mysql_unit.get_label(db)

@@ -1,4 +1,4 @@
-from flask import request, Blueprint, jsonify, make_response
+from flask import request, Blueprint, render_template
 # from flask_sqlalchemy import SQLAlchemy
 import mysql_unit
 import token_logined as TL
@@ -84,9 +84,10 @@ def login_customer():
             # return '2'
     db.close()
 
-@login.route('/logout/', methods=['GET'])
+@login.route('/logout/', methods=['POST'])
 def login_out():
-    if request.method == 'GET':
+    if request.method == 'POST':
+        print("logout")
         return TL.delcookie()
 
 @login.route('/isLogined/', methods=['GET', 'POST'])
@@ -98,3 +99,4 @@ def isLogin():
             return TL.decode_token(user_data)['username']
         else:
             return "False"
+

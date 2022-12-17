@@ -13,6 +13,14 @@ const app = createApp({
     methods: {      
         async Login() {
             let url = ''
+            if(this.loginForm.account == "") {
+                alert("帳號不可為空")
+                return
+            }
+            if(this.loginForm.password == "") {
+                alert("密碼不可為空")
+                return
+            }
             console.log(this.loginForm)
             // 帳號登入處理
             if(this.isBuyer) {
@@ -36,9 +44,7 @@ const app = createApp({
 
             // 執行登入後相關事宜
             console.log('Login success')
-            window.location.replace("http://127.0.0.1:5000/index.html")
-            // Cookies.set('login', JSON.stringify(this.loginForm), {expires: 1})
-                   
+            window.location.replace("http://127.0.0.1:5000/home")
         },
         removeCookie() {
             Cookies.remove('login')

@@ -5,16 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的賣場</title>
-    <link rel="stylesheet" href="../static/css/saler.css">
+    <link rel="stylesheet" href="../static/css/seller.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/saler.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb" style="background-color: rgb(14, 93, 79);">賣場</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
+        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+        <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+        <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
+        <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
+        <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+        <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+        <li><a>
+            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+            <div v-else class="tb" @click="Logout">登出</div>
+        </a></li>
     </ul>
     </div>
     <div class="content">
@@ -25,14 +40,15 @@
         </div>
         <div class="order_title">
             <p style="font-size:50px;margin-bottom: 50px;">新增商品</p>
-            <a href="upload_product.html"><button class="button-49" role="button">新增商品</button></a>
+            <a href="upload_product.html"><button class="button-68" role="button">新增商品</button></a>
             <p style="font-size:50px;margin-top: 50px;">商店</p>
             <div class="order_head">
                 <p>圖片</p>
                 <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width: 12%;">商品價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 12%;">數量</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="order">
@@ -46,8 +62,15 @@
                         </div>
                         <h1>{{data['product']['productName'][p]}}</h1>
                         <p>${{data['product']['price'][p]}}</p>
+                        <div class="coupon">
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                        </div>
                         <p>{{data['product']['amount'][p]}}</p>
-                        <a href="#" class="operation">刪除</a>
+                        <a href="#" class="delete_item">刪除</a>
                     </li>
                     {% endfor %}
                 </ul>
