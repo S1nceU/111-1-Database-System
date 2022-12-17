@@ -4,7 +4,7 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: true
         }
     },
     methods: {
@@ -19,11 +19,14 @@ const selectBar = createApp({
             console.log(this.output)
         },
         goLogin() {
-            window.location.replace("http://127.0.0.1:5000/login.html")
+            window.location.replace("http://127.0.0.1:5000/login")
         },
-        Logout() {
-            Cookies.remove("WSS")
-            // axios.post("http://127.0.0.1:5000/logout/", {})
+        async Logout() {
+            console.log("get in Logout")
+            Cookies.remove("WSS", {path: ''})
+            this.logged = false
+            let logout = await axios.post("http://127.0.0.1:5000/logout/", {})
+            window.location.reload()
         }
     },
     computed:{
