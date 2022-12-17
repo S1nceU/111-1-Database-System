@@ -98,7 +98,7 @@
         <div class="row"><!-----暢銷排行--->
            <div class="rank_block" v-for="block in rankItems">  
                 <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
-                <img :src="getImgPath(`../static/img/${block.rank}.PNG`)" alt="" class="rank"></img>  
+                <img :src="getImgPath(`../img/${block.rank}.PNG`)" alt="" class="rank"></img>  
             </div>
         </div>
         <!-- 以下註解的程式為後端用的 -->

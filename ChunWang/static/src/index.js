@@ -65,12 +65,12 @@ const rank = createApp({
     methods: {
         getDefaultData() {
             this.rankItems = [
-                {path: "../static/img/dog.PNG", rank: '1'},
-                {path: "../static/img/pig.PNG", rank: '2'},
-                {path: "../static/img/rabbit.PNG", rank: '3'},
-                {path: "../static/img/tiger.PNG", rank: '4'},
-                {path: "../static/img/kangaroo.PNG", rank: '5'},
-                {path: "../static/img/redpanda.PNG", rank: '6'}
+                {path: "../img/dog.PNG", rank: '1'},
+                {path: "../img/pig.PNG", rank: '2'},
+                {path: "../img/rabbit.PNG", rank: '3'},
+                {path: "../img/tiger.PNG", rank: '4'},
+                {path: "../img/kangaroo.PNG", rank: '5'},
+                {path: "../img/redpanda.PNG", rank: '6'}
             ]
         },     
         getImgPath(path) {
