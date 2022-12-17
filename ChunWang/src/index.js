@@ -1,5 +1,4 @@
 import {createApp} from 'vue'
-import Cookies from 'js-cookie'
 
 const selectBar = createApp({
     data() {
