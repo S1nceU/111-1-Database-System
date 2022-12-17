@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的賣場</title>
-    <link rel="stylesheet" href="../static/css/saler.css">
+    <link rel="stylesheet" href="../static/css/seller.css">
     <script type="importmap">
         {
           "imports": {
@@ -40,14 +40,15 @@
         </div>
         <div class="order_title">
             <p style="font-size:50px;margin-bottom: 50px;">新增商品</p>
-            <a href="" @click.prevent="goCart()"><button class="button-68" role="button">加入購物車</button></a>
+            <a href="" @click.prevent="goUpload()"><button class="button-68" role="button">新增商品</button></a>
             <p style="font-size:50px;margin-top: 150px;">商店</p>
             <div class="order_head">
                 <p>圖片</p>
                 <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width: 12%;">商品價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 12%;">庫存</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="order">
@@ -58,8 +59,15 @@
                         </div>
                         <h1>柯基</h1>
                         <p>$1999</p>
+                        <div class="coupon">
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                        </div>
                         <p>1</p>
-                        <a href="#">刪除</a>
+                        <a href="#" class="delete_item">刪除</a>
                     </li>
                     <li>
                         <div class="product_img">
@@ -67,9 +75,17 @@
                         </div>
                         <h1>貓</h1>
                         <p>$2999</p>
+                        <div class="coupon">
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                        </div>
                         <p>9</p>
-                        <a href="#">刪除</a>
+                        <a href="#" class="delete_item">刪除</a>
                     </li>
+                    
 
                 </ul>
             </div>
