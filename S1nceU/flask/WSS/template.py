@@ -1,5 +1,4 @@
 from flask import request, Blueprint, render_template,redirect
-# from flask_sqlalchemy import SQLAlchemy
 import mysql_unit
 import token_logined as TL
 
@@ -63,7 +62,7 @@ def memberInfoGet():
             "Email":'user_email',"居住地":'user_address',
             "電話":'user_phone',
         }
-        return render_template('memberCenter.html',data =  locals())
+        return render_template('member.html',data =  locals())
 
 @template.route('/seller_mart', methods = ['GET'])
 def salerProduct():

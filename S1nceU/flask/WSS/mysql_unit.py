@@ -233,16 +233,19 @@ def memberInfo(db, who, userID):
             where  user_id_s = %d
             )
             """%(who, userID)
-    elif who == 'customers':
+        whois = "賣家"
+    elif who == 'customer':
         sql_cmd = """
             (select *
-            from '%s'
-            where user_id_c = %s
+            from %s
+            where user_id_c = %d
             )
             """%(who, userID)
+        whois = "買家"
     account = db.cursor()
     account.execute(sql_cmd)
     data = account.fetchone()
+    print(data)
     data = {
         'user_id' : data[0],
         'user_name' : data[1],
@@ -252,6 +255,7 @@ def memberInfo(db, who, userID):
         'user_address' : data[5],
         'user_phone' : data[6],
         'user_id_number' : data[7],
+        'user_level' : whois
     }
     return data
 

@@ -7,7 +7,7 @@ def make_token(data,level):
         "username"   : data['username'],
         "user_id"    : data['user_id'],
         "account"    : data["account"],
-        "user_level" : level
+        "user_level" : level  # 0 is seller, 1 is customer, 2 is admin
         
     }
     return jwt.encode(payload, key, algorithm= 'HS256')

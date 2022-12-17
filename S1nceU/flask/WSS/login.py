@@ -1,5 +1,4 @@
-from flask import request, Blueprint, render_template
-# from flask_sqlalchemy import SQLAlchemy
+from flask import request, Blueprint, jsonify
 import mysql_unit
 import token_logined as TL
 login = Blueprint('login', __name__, template_folder='templates')
@@ -75,7 +74,7 @@ def login_customer():
             # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = TL.make_token(data,0)
+            token_login = TL.make_token(data,1)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
@@ -94,9 +93,10 @@ def login_out():
 def isLogin():
     if request.method == 'POST':
         user_data = TL.getcookie()
-        print(TL.decode_token(user_data))
+        print(jsonify(TL.decode_token(user_data)))
         if user_data != None:
-            return TL.decode_token(user_data)['username']
+            return jsonify(TL.decode_token(user_data))
+            # return TL.decode_token(user_data)['username']
         else:
             return "False"
 

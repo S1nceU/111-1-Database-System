@@ -40,30 +40,33 @@
         </div>
         <div class="cover">
             <div class="left_list"> <!--選項欄位-->
-                <h1>(會員ID)</h1>
+                <h1><p>會員編號:{{data['memberInfo']['user_id']}}</p></h1>
                 
                 <a href="#">我的帳戶</a>
                 <a href="#">信用卡</a>
                 <a href="#">修改密碼</a>
-                <a href="#">登出</a>
-                
+                <a href="#">登出</a>               
                 
             </div>
             <div class="right_data">
                 <div class="flex">
                     <div class="right_data_title">
+                        <p>帳號</p>
                         <p>姓名</p>
                         <p>Email</p>
                         <p>電話</p>
                         <p>身分證字號</p>
                         <p>地址</p>
+                        <p>帳號類別</p>
                     </div>
                     <div class="right_data_content">
-                        <p>王小明</p>
-                        <p>t109590015@ntut.org.tw</p>
-                        <p>0979832575</p>
-                        <p>M543215487</p>
-                        <p>高雄市鳳山區自治街65巷8號5樓</p>
+                        <p>{{data['memberInfo']['user_account']}}</p>
+                        <p>{{data['memberInfo']['user_name']}}</p>
+                        <p>{{data['memberInfo']['user_email']}}</p>
+                        <p>{{data['memberInfo']['user_phone']}}</p>
+                        <p>{{data['memberInfo']['user_id_number']}}</p>
+                        <p>{{data['memberInfo']['user_address']}}</p>
+                        <p>{{data['memberInfo']['user_level']}}</p>
                     </div>
                 </div>
                 <div class="left">

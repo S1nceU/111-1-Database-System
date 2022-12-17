@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Blueprint, abort, jsonify, redirect
+from flask import Flask, render_template, redirect
 
 from login    import login
 from register import register
@@ -41,7 +41,7 @@ def cartpage():
 
 @app.route('/member')
 def memberpage():
-    return render_template('member.html')
+    return redirect('/memberCenter')
 
 @app.route('/order')
 def orderpage():
