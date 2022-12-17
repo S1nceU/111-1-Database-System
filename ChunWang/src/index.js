@@ -1,4 +1,5 @@
 import {createApp} from 'vue'
+import Cookies from 'js-cookie'
 
 const selectBar = createApp({
     data() {
@@ -23,7 +24,7 @@ const selectBar = createApp({
         },
         Logout() {
             Cookies.remove("WSS")
-            axios.post("http://127.0.0.1:5000/logout/", {})
+            // axios.post("http://127.0.0.1:5000/logout/", {})
         }
     },
     computed:{
