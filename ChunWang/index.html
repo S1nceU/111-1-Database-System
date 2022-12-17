@@ -15,14 +15,14 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./src/index.js"></script>
+    <script type="module" src="./static/src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
         <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
         <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-        <li><a><div @click="goSaler()" class="tb">賣場</div></a></li>
+        <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
         <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
         <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
         <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
@@ -96,35 +96,20 @@
             <h1>暢銷排行</h1>
         </div>
         <div class="row"><!-----暢銷排行--->
-            <!-- <div class="rank_block"> 
-                <a href=""><img src="img/dog.PNG" alt="" class="rank_product" style="margin-left: 30px;"></a>
-                <img src="img/1.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/pig.PNG" alt="" class="rank_product"></a>
-                <img src="img/2.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/rabbit.PNG" alt="" class="rank_product"></a>
-                <img src="img/3.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/tiger.PNG" alt="" class="rank_product"></a>
-                <img src="img/4.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/kangaroo.PNG" alt="" class="rank_product"></a>
-                <img src="img/5.PNG" alt="" class="rank">
-            </div>
-            <div class="rank_block">
-                <a href=""><img src="img/redpanda.PNG" alt="" class="rank_product"></a>
-                <img src="img/6.PNG" alt="" class="rank">
-            </div> -->
-            <div class="rank_block" v-for="block in rankItems">  
+           <div class="rank_block" v-for="block in rankItems">  
                 <a href=""><img :src="getImgPath(block.path)" alt="" class="rank_product" :style="isFirstRank(block.rank)"></img></a>
                 <img :src="getImgPath(`../static/img/${block.rank}.PNG`)" alt="" class="rank"></img>  
             </div>
         </div>
+        <!-- 以下註解的程式為後端用的 -->
+        <!-- <div class="row">  
+            {%for pd in range(5) %}
+                <div class="rank_block">
+                    <a href="http://127.0.0.1:5000/product/{{data['bestSeller'][pd]['product_id']}}"><img src="../static/img/{{data['bestSeller'][pd]['product_img']}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                    <img src="../static/img/{{pd+1}}.PNG" alt="" class="rank">
+                </div>
+            {% endfor %}
+        </div> -->
     </div>
     <div class="field">
         <div class="field_title"><!---折價券的框框-->
