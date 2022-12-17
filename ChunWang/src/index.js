@@ -4,7 +4,7 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: true
+            logged: false
         }
     },
     methods: {
@@ -18,15 +18,32 @@ const selectBar = createApp({
             this.logged = true       
             console.log(this.output)
         },
-        goLogin() {
-            window.location.replace("http://127.0.0.1:5000/login")
-        },
-        async Logout() {
+        Logout() {
             console.log("get in Logout")
             Cookies.remove("WSS", {path: ''})
             this.logged = false
-            let logout = await axios.post("http://127.0.0.1:5000/logout/", {})
             window.location.reload()
+        },
+        goLogin() {
+            window.location.replace("http://127.0.0.1:5000/login")
+        },
+        goHome() {
+            window.location.replace("http://127.0.0.1:5000/home")
+        },
+        goSaler() {
+            window.location.replace("http://127.0.0.1:5000/login")
+        },
+        goOrder() {
+            window.location.replace("http://127.0.0.1:5000/order")
+        },
+        goCart() {
+            window.location.replace("http://127.0.0.1:5000/cart")
+        },
+        goMember() {
+            window.location.replace("http://127.0.0.1:5000/login")
+        },
+        goRegister() {
+            window.location.replace("http://127.0.0.1:5000/register")
         }
     },
     computed:{

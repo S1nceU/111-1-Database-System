@@ -21,11 +21,11 @@
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
         <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
-        <li><a href="index.html"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-        <li><a href="saler.html"><div class="tb">賣場</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
+        <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+        <li><a><div @click="goSaler()" class="tb">賣場</div></a></li>
+        <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
+        <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+        <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
         <li><a>
             <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
             <div v-else class="tb" @click="Logout">登出</div>
