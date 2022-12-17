@@ -15,19 +15,19 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./src/login.js"></script>
+    <script type="module" src="./static/src/login.js"></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
 
     <div class="content">
 
-        <a href="index.html"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
+        <a href="" @click.prevent="goHome()"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
     <div class="box">    
         <div class="option">
         <h2 style="padding-left: 15px;padding-right: 10px;text-decoration: underline;">會員登入</h2>
         <h2>|</h2>
-        <h2 style="padding-left: 10px;"><a href="register.html" class="register">立即註冊</a></h2>
+        <h2 style="padding-left: 10px;"><a href="" class="register" @click.prevent="goRegister()">立即註冊</a></h2>
         </div>
         <p>帳號</p> 
         <input type="text" id="account" class="textbar" v-model="loginForm.account">

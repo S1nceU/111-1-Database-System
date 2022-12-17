@@ -40,7 +40,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/login")
+            window.location.replace("http://127.0.0.1:5000/member")
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
@@ -55,4 +55,17 @@ const selectBar = createApp({
         this.getData()
     }
 })
+
+const content = createApp({
+    data() {
+        return {
+        }
+    },
+    methods: {
+        goCart() {
+            window.location.replace("http://127.0.0.1:5000/cart")
+        }
+    }
+})
 selectBar.mount('.tt')
+content.mount('.content')
