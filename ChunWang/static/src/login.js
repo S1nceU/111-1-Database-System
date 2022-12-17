@@ -46,8 +46,11 @@ const app = createApp({
             console.log('Login success')
             window.location.replace("http://127.0.0.1:5000/index.html")
         },
-        removeCookie() {
-            Cookies.remove('login')
+        goRegister() {
+            window.location.replace("http://127.0.0.1:5000/register")
+        },
+        goHome() {
+            window.location.replace("http://127.0.0.1:5000/home")
         }
     },
     computed: {
@@ -61,4 +64,4 @@ const app = createApp({
         }
     }
 })
-app.mount('.box')
+app.mount('.whole_page')

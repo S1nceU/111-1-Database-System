@@ -81,6 +81,14 @@ const app = createApp({
             console.log(res)
             // 傳送註冊後續事項 (待新增)
             // ...
+        },
+        goLogin() {
+            console.log("go Login")
+            window.location.replace("http://127.0.0.1:5000/login")
+        },
+        goHome() {
+            console.log("go Home")
+            window.location.replace("http://127.0.0.1:5000/home")
         }
     },
     computed: {
@@ -95,4 +103,4 @@ const app = createApp({
     }
 })
 
-app.mount('.box')
+app.mount('.whole_page')
