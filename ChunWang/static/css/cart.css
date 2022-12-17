@@ -232,12 +232,16 @@ table {
 
 }
 .coupon{
-    width: 21%;
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     height: 200px;
-    line-height: 200px;
-    
+    line-height: 200px; 
+    width: 21%;
+
+}
+.coupon select{
+    width: 150px;
+    height: 30px;
 
 }
 .delete_item{
