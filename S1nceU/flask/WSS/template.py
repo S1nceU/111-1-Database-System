@@ -4,6 +4,7 @@ import token_logined as TL
 
 template = Blueprint('template', __name__, template_folder='templates')
 
+# 首頁
 @template.route('/home', methods = ['GET'])
 def index_get():
     db = mysql_unit.connect()
@@ -35,6 +36,7 @@ def product_get(id):
         return render_template('product.html', data = locals())
     db.close()
 
+# 會員中心
 @template.route('/memberCenter', methods = ['GET', 'POST'])
 def memberInfoGet():
     db = mysql_unit.connect()
@@ -64,13 +66,16 @@ def memberInfoGet():
         }
         return render_template('member.html',data =  locals())
 
+# 賣家可視的賣場
 @template.route('/seller_mart', methods = ['GET'])
 def salerProduct():
     try:
         db = mysql_unit.connect()
         user_data = TL.getcookie()
-        user_id = TL.decode_token(user_data)['user_id']
-        product = mysql_unit.get_sallerProduct(db, user_id)
+        user = TL.decode_token(user_data)
+        if user['user_level'] != 0:
+            len(0)
+        product = mysql_unit.get_sallerProduct(db, user['user_id'])
         print(len(product))
         length = len(product['productName'])
         print(product['product_id'])
@@ -78,8 +83,28 @@ def salerProduct():
         if request.method == 'GET':
             return render_template('seller.html', data = locals())
     except:
-        print("You are guest!!")
+        print("You are not seller!!")
         return redirect('/home')
     # get token 
     # get data from database
     # render template
+
+# admin頁面
+@template.route('/admin_view', methods = ['GET'])
+def admin_view():
+    try:
+        db = mysql_unit.connect()
+        user_data = TL.getcookie()
+        user = TL.decode_token(user_data)
+        if user['user_level'] != 2:
+            len(1)
+        user = mysql_unit.admin_user_view(db)
+        user_length = len(user)
+        product = mysql_unit.admin_product_view(db)
+        product_length = len(product)
+        if request.method == 'GET':
+            return render_template('admin.html', data = locals())
+    except:
+        print("You don't have permission!!")
+        return redirect('/home')
+

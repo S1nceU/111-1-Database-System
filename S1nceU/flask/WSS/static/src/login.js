@@ -41,7 +41,10 @@ const app = createApp({
                 alert("帳號或密碼錯誤")
                 return
             }
-
+            if(res.data == 'Account has been disabled!!') {
+                alert("帳號已被停用")
+                return
+            }
             // 執行登入後相關事宜
             console.log('Login success')
             window.location.replace("http://127.0.0.1:5000/home")

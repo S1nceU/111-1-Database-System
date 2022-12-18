@@ -29,26 +29,17 @@
                 <!---<p style="width: 20%;">商品價格</p>---
                 <p style="width: 20%;">數量</p>--->
                 <p style="width: 20%; border-right: black solid 4px;">操作</p>
-
+                
             </div>
             <div class="order">
                 <ul>
+                    {% for p in range(data['user_length']) %}
                     <li>
-                        <h1>t109590015</h1>
-                        <p>12345</p>
+                        <h1>{{data['user'][p]['user_account']}}</h1>
+                        <p>{{data['user'][p]['user_username']}}</p>
                         <a href="#">停用</a>
                     </li>
-                    <li>
-                        <h1>t109590009</h1>
-                        <p>12346</p>
-                        <a href="#">停用</a>
-                    </li>
-                    <li>
-                        <h1>t109590021</h1>
-                        <p>12347</p>
-                        <a href="#">停用</a>
-                    </li>
-
+                    {% endfor %}
                 </ul>
             </div>
             <p style="font-size:50px;margin-top: 30px;">商品列表</p>
@@ -62,21 +53,13 @@
             </div>
             <div class="order" >
                 <ul>
+                    {% for p in range(data['product_length']) %}
                     <li>
-                        <h1>狗骨頭</h1>
-                        <p>12345</p>
-                        <a href="#">停用</a>
+                        <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
+                        <p>{{data['product'][p]['product_id']}}</p>
+                        <a href="#">刪除</a>
                     </li>
-                    <li>
-                        <h1>貓飼料</h1>
-                        <p>12346</p>
-                        <a href="#">停用</a>
-                    </li>
-                    <li>
-                        <h1>豬肉</h1>
-                        <p>12347</p>
-                        <a href="#">停用</a>
-                    </li>
+                    {% endfor %}
 
                 </ul>
             </div>

@@ -36,14 +36,16 @@ def login_comfirm(db,FROM,WHERE):
             return data,user_level
         else:
             user_level = 1
+            data = data_admin
         
-    # if len(data) == 0:
+
     if user_level == 0:
         data = {
             'user_id'  : data[0],
             'username' : data[1],
             'account'  : data[2],
             'password' : data[3],
+            'status'   : data[8]
         }
     else:
         data = {
@@ -51,6 +53,7 @@ def login_comfirm(db,FROM,WHERE):
             'username' : data[1],
             'account'  : data[2],
             'password' : data[3],
+            'status'   : data[5]
         }
     print(data)
     return data,user_level
@@ -287,9 +290,70 @@ def get_sallerProduct(db, sallerID):
     # print(temp)
     return temp
 
+def admin_user_view(db):
+    result = []
+    sql_cmd_seller = """
+        SELECT seller.account, seller.username
+        FROM   seller
+    """
+    sql_cmd_customer = """
+        SELECT customer.account, customer.username
+        FROM   customer
+    """
+    data = db.cursor()
+    data.execute(sql_cmd_seller)
+    seller   = data.fetchall()
+    data.execute(sql_cmd_customer)
+    customer = data.fetchall()
+    for i in seller:
+        result.append({"user_account" : i[0], "user_username" : i[1]})
+    for i in customer:
+        result.append({"user_account" : i[0], "user_username" : i[1]})
+    return result
 
+def admin_product_view(db):
+    result = []
+    sql_cmd = """
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username
+        FROM   product
+        JOIN   seller ON product.user_id_s = seller.user_id_s
+        ORDER BY product.user_id_s
+    """
+    data = db.cursor()
+    data.execute(sql_cmd)
+    data = data.fetchall()
+    print(data)
+    for i in data:
+        result.append({"product_name" : i[0], "product_id" : i[1]})
+    return result
 
+def account_status(db,level,user_id,wanna_status):
+    sql_cmd = """"""
+    if level == "seller":
+        condition = (wanna_status,user_id)
+        sql_cmd = """
+            UPDATE seller
+            SET    seller.user_status = %s
+            WHERE  seller.user_id_s = %s 
+        """ %condition
+    elif level == "customer":
+        condition = (wanna_status,user_id)
+        sql_cmd = """
+            UPDATE customer
+            SET    customer.user_status = %s
+            WHERE  customer.user_id_c = %s 
+        """ %condition
+    operation = db.cursor()
+    operation.execute(sql_cmd)
+    return "Change status success."
 
-
-
-
+def product_status(db,product_id,wanna_status):
+    condition = (wanna_status,product_id)
+    sql_cmd = """
+        UPDATE product
+        SET    product.status = %s
+        WHERE  product.product_id = %s
+    """%condition
+    operation = db.cursor()
+    operation.execute(sql_cmd)
+    return "Change status success."

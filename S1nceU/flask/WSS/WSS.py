@@ -4,6 +4,7 @@ from login    import login
 from register import register
 from product  import product
 from template import template
+from admin    import admin
 import token_logined as TL
 
 
@@ -13,10 +14,11 @@ app.register_blueprint(login)
 app.register_blueprint(register)
 app.register_blueprint(product)
 app.register_blueprint(template)
-
+app.register_blueprint(admin)
 @app.route('/')
 def default():
-    # 抓 username
+    # 抓 幹
+    tokencorrect()
     try:
         user = TL.getcookie()
         loginsuccess = TL.decode_token(user)['username']
@@ -26,6 +28,7 @@ def default():
 
 @app.route('/index')
 def home():
+    tokencorrect()
     return redirect('/home')
 
 @app.route('/login')
@@ -37,14 +40,17 @@ def loginpage():
 
 @app.route('/cart')
 def cartpage():
+    tokencorrect()
     return render_template('cart.html')
 
 @app.route('/member')
 def memberpage():
+    tokencorrect()
     return redirect('/memberCenter')
 
 @app.route('/order')
 def orderpage():
+    tokencorrect()
     return render_template('order.html')
 
 @app.route('/register')
@@ -53,13 +59,34 @@ def registerpage():
 
 @app.route('/upload_product')
 def upload_product():
+    tokencorrect()
     return render_template('upload_product.html')
 
 @app.route('/seller')
 def seller():
+    tokencorrect()
     return redirect('/seller_mart')
 
+@app.route('/admin')
+def admin():
+    tokencorrect()
+    return redirect('/幹')
+    # return redirect('/admin_view')
 
-
+def tokencorrect():
+    user_data = TL.getcookie()
+    try:
+        if user_data == None:
+            return redirect('/home')
+        else:
+            username = user_data["username"]   
+            uer_id   = user_data["user_id"]    
+            account  = user_data["account"]    
+            level    = user_data["user_level"] 
+    except:
+        print("Don't modify your token!!")
+        TL.delcookie()
+        return redirect('/home')
 if __name__ == '__main__':
     app.run(debug=True)
+ 

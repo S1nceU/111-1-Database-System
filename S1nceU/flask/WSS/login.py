@@ -19,6 +19,10 @@ def login_seller():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
+        elif data['status'] != 1:
+            db.close
+            return 'Account has been disabled!!'
+
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
             db.close()
@@ -91,6 +95,7 @@ def login_out():
 
 @login.route('/isLogined/', methods=['GET', 'POST'])
 def isLogin():
+    
     if request.method == 'POST':
         user_data = TL.getcookie()
         print(jsonify(TL.decode_token(user_data)))
