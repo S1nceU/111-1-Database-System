@@ -13,6 +13,7 @@ def index_get():
         print('get IN')
         try:
             user_data = TL.getcookie()
+            print("test")
             username = TL.decode_token(user_data)['username']
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
@@ -75,14 +76,16 @@ def salerProduct():
         user = TL.decode_token(user_data)
         if user['user_level'] != 0:
             len(0)
-        product = mysql_unit.get_sallerProduct(db, user['user_id'])
+        product = mysql_unit.get_sellerProduct(db, user['user_id'])
         print(len(product))
         length = len(product['productName'])
         print(product['product_id'])
         # print(locals())
         if request.method == 'GET':
+            db.close()
             return render_template('seller.html', data = locals())
     except:
+        db.close()
         print("You are not seller!!")
         return redirect('/home')
     # get token 
@@ -92,19 +95,35 @@ def salerProduct():
 # admin頁面
 @template.route('/admin_view', methods = ['GET'])
 def admin_view():
+    db = mysql_unit.connect()
     try:
-        db = mysql_unit.connect()
-        user_data = TL.getcookie()
-        user = TL.decode_token(user_data)
-        if user['user_level'] != 2:
-            len(1)
-        user = mysql_unit.admin_user_view(db)
-        user_length = len(user)
-        product = mysql_unit.admin_product_view(db)
-        product_length = len(product)
         if request.method == 'GET':
+            user_data = TL.getcookie()
+            user = TL.decode_token(user_data)
+            if user['user_level'] != 2:
+                len(1)
+            user = mysql_unit.admin_user_view(db)
+            user_length = len(user)
+            product = mysql_unit.admin_product_view(db)
+            product_length = len(product)
             return render_template('admin.html', data = locals())
     except:
         print("You don't have permission!!")
         return redirect('/home')
 
+# 賣場頁面 (非賣家頁面)
+@template.route('/mart/<int:id>', methods = ['GET'])
+def mart(id):
+    db = mysql_unit.connect()
+    # try:
+    if request.method == 'GET':
+        user_id = id
+        product = mysql_unit.get_sellerProduct(db,user_id)
+        length = len(product)
+        if request.method == 'GET':
+            # db.close()
+            return render_template('example.html', data = locals())
+    # except:
+    #     db.close()
+    #     print("Service error!!")
+    #     return redirect('/home')

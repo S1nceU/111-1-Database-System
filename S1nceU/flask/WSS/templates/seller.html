@@ -57,8 +57,7 @@
                     {% for p in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"></a>
-                            <img src="../static/img/{{data['product']['product_img'][p]}}"></a>
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                         </div>
                         <h1>{{data['product']['productName'][p]}}</h1>
                         <p>${{data['product']['price'][p]}}</p>

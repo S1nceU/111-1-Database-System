@@ -70,11 +70,11 @@ def seller():
 @app.route('/admin')
 def admin():
     tokencorrect()
-    return redirect('/幹')
-    # return redirect('/admin_view')
+    return redirect('/admin_view')
 
 def tokencorrect():
     user_data = TL.getcookie()
+    print("你被登出了")
     try:
         if user_data == None:
             return redirect('/home')

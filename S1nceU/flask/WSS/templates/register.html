@@ -14,15 +14,15 @@
         }
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/register.js" defer></script>
+    <script type="module" src="./static/src/register.js" defer></script>
 </head>
 <body style="background-color:rgb(56, 131, 150);">
     <div class="whole_page">
         <div class="content">
-    <a href="index.html"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
+    <a href="" @click.prevent="goHome()"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
     <div class="box">
         <div class="option">
-        <h2 style="padding-left: 15px;padding-right: 10px;"><a href="login.html" class="login">會員登入</a></h2>
+        <h2 style="padding-left: 15px;padding-right: 10px;"><a href="" @click.prevent="goLogin()" class="login">會員登入</a></h2>
         <h2>|</h2>
         <h2 style="padding-left: 10px;text-decoration: underline;">立即註冊</h2>
         </div>

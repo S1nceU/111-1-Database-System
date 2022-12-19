@@ -1,33 +1,33 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE `world`.`ADMIN`  (
+CREATE TABLE `test`.`ADMIN`  (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `account` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NULL,
-  `user_status` bit(1) NULL,
+  `user_status` int NULL,
   PRIMARY KEY (`user_id`)
 );
 
-CREATE TABLE `world`.`CART_PRODUCT`  (
+CREATE TABLE `test`.`CART_PRODUCT`  (
   `product_id` int NOT NULL,
   `user_id_c` int NOT NULL,
   `amount` int NULL,
   PRIMARY KEY (`product_id`, `user_id_c`),
-  CONSTRAINT `fk_CART_PRODUCT_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `world`.`CUSTOMER` (`user_id_c`),
-  CONSTRAINT `fk_CART_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+  CONSTRAINT `fk_CART_PRODUCT_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `test`.`CUSTOMER` (`user_id_c`),
+  CONSTRAINT `fk_CART_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `test`.`PRODUCT` (`product_id`)
 );
 
-CREATE TABLE `world`.`CATEGORY`  (
+CREATE TABLE `test`.`CATEGORY`  (
   `product_id` int NOT NULL,
   `label_id` int NOT NULL,
   PRIMARY KEY (`product_id`, `label_id`),
-  CONSTRAINT `fk_CATEGORY_LABEL_1` FOREIGN KEY (`label_id`) REFERENCES `world`.`LABEL` (`label_id`),
-  CONSTRAINT `fk_CATEGORY_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+  CONSTRAINT `fk_CATEGORY_LABEL_1` FOREIGN KEY (`label_id`) REFERENCES `test`.`LABEL` (`label_id`),
+  CONSTRAINT `fk_CATEGORY_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `test`.`PRODUCT` (`product_id`)
 );
 
-CREATE TABLE `world`.`CUSTOMER`  (
+CREATE TABLE `test`.`CUSTOMER`  (
   `user_id_c` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `account` varchar(255) NOT NULL,
@@ -36,28 +36,28 @@ CREATE TABLE `world`.`CUSTOMER`  (
   `address` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `id_number` varchar(10) NOT NULL DEFAULT '',
-  `user_status` bit(1) NULL,
+  `user_status` int NULL,
   PRIMARY KEY (`user_id_c`),
   UNIQUE INDEX `123`(`account`),
   UNIQUE INDEX `321`(`email`),
   UNIQUE INDEX `2`(`id_number`)
 );
 
-CREATE TABLE `world`.`LABEL`  (
+CREATE TABLE `test`.`LABEL`  (
   `label_id` int NOT NULL AUTO_INCREMENT,
   `label` varchar(255) NOT NULL,
   PRIMARY KEY (`label_id`)
 );
 
-CREATE TABLE `world`.`manage_t`  (
+CREATE TABLE `test`.`manage_t`  (
   `user_id` int NOT NULL,
   `ticket_id` int NOT NULL,
   PRIMARY KEY (`user_id`, `ticket_id`),
-  CONSTRAINT `fk_manage_t_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `world`.`ADMIN` (`user_id`),
-  CONSTRAINT `fk_manage_t_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `world`.`TICKET` (`ticket_id`)
+  CONSTRAINT `fk_manage_t_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `test`.`ADMIN` (`user_id`),
+  CONSTRAINT `fk_manage_t_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `test`.`TICKET` (`ticket_id`)
 );
 
-CREATE TABLE `world`.`ORDER`  (
+CREATE TABLE `test`.`ORDER`  (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `total_price` float(10, 2) NOT NULL,
   `order_time` datetime NOT NULL,
@@ -66,20 +66,20 @@ CREATE TABLE `world`.`ORDER`  (
   `user_id_c` int NOT NULL,
   `ticket_id` int NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `fk_ORDER_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `world`.`CUSTOMER` (`user_id_c`),
-  CONSTRAINT `fk_ORDER_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `world`.`TICKET` (`ticket_id`)
+  CONSTRAINT `fk_ORDER_CUSTOMER_1` FOREIGN KEY (`user_id_c`) REFERENCES `test`.`CUSTOMER` (`user_id_c`),
+  CONSTRAINT `fk_ORDER_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `test`.`TICKET` (`ticket_id`)
 );
 
-CREATE TABLE `world`.`ORDER_PRODUCT`  (
+CREATE TABLE `test`.`ORDER_PRODUCT`  (
   `order_id` int NOT NULL,
   `product_id` int NOT NULL,
   `amount` int NULL,
   PRIMARY KEY (`order_id`, `product_id`),
-  CONSTRAINT `fk_ORDER_PRODUCT_ORDER_1` FOREIGN KEY (`order_id`) REFERENCES `world`.`ORDER` (`order_id`),
-  CONSTRAINT `fk_ORDER_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `world`.`PRODUCT` (`product_id`)
+  CONSTRAINT `fk_ORDER_PRODUCT_ORDER_1` FOREIGN KEY (`order_id`) REFERENCES `test`.`ORDER` (`order_id`),
+  CONSTRAINT `fk_ORDER_PRODUCT_PRODUCT_1` FOREIGN KEY (`product_id`) REFERENCES `test`.`PRODUCT` (`product_id`)
 );
 
-CREATE TABLE `world`.`PRODUCT`  (
+CREATE TABLE `test`.`PRODUCT`  (
   `product_id` int NOT NULL AUTO_INCREMENT,
   `user_id_s` int NOT NULL,
   `product_name` varchar(255) NOT NULL,
@@ -91,19 +91,19 @@ CREATE TABLE `world`.`PRODUCT`  (
   `product_img` varchar(255) NULL,
   PRIMARY KEY (`product_id`),
   UNIQUE INDEX `name_same`(`product_name`),
-  CONSTRAINT `fk_PRODUCT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+  CONSTRAINT `fk_PRODUCT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `test`.`SELLER` (`user_id_s`)
 );
 
-CREATE TABLE `world`.`SALES_REPORT`  (
+CREATE TABLE `test`.`SALES_REPORT`  (
   `report_id` int NOT NULL AUTO_INCREMENT,
   `sales_results` varchar(255) NOT NULL,
   `sales_score` int NOT NULL,
   `user_id_s` int NOT NULL,
   PRIMARY KEY (`report_id`),
-  CONSTRAINT `fk_SALES_REPORT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+  CONSTRAINT `fk_SALES_REPORT_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `test`.`SELLER` (`user_id_s`)
 );
 
-CREATE TABLE `world`.`SELLER`  (
+CREATE TABLE `test`.`SELLER`  (
   `user_id_s` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `account` varchar(255) NOT NULL,
@@ -112,30 +112,30 @@ CREATE TABLE `world`.`SELLER`  (
   `address` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `id_number` varchar(10) NOT NULL,
-  `user_status` bit(1) NULL,
+  `user_status` int NULL,
   PRIMARY KEY (`user_id_s`),
   UNIQUE INDEX `1`(`account`),
   UNIQUE INDEX `2`(`email`),
   UNIQUE INDEX `3`(`id_number`)
 );
 
-CREATE TABLE `world`.`TICKET`  (
+CREATE TABLE `test`.`TICKET`  (
   `ticket_id` int NOT NULL AUTO_INCREMENT,
   `effective_date` datetime NOT NULL,
   `amount` varchar(255) NOT NULL,
   `discount` varchar(255) NOT NULL,
   `user_id_s` int NOT NULL,
   PRIMARY KEY (`ticket_id`),
-  CONSTRAINT `fk_TICKET_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `world`.`SELLER` (`user_id_s`)
+  CONSTRAINT `fk_TICKET_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `test`.`SELLER` (`user_id_s`)
 );
 
-CREATE TABLE `world`.`TO_DO_THING`  (
+CREATE TABLE `test`.`TO_DO_THING`  (
   `event_id` int NOT NULL AUTO_INCREMENT,
   `event_content` varchar(255) NULL,
   `event_state` bit(1) NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`event_id`),
-  CONSTRAINT `fk_TO_DO_THING_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `world`.`ADMIN` (`user_id`)
+  CONSTRAINT `fk_TO_DO_THING_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `test`.`ADMIN` (`user_id`)
 );
 
 SET FOREIGN_KEY_CHECKS=1;

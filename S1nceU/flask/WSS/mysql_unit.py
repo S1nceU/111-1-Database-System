@@ -262,7 +262,7 @@ def memberInfo(db, who, userID):
     }
     return data
 
-def get_sallerProduct(db, sallerID):
+def get_sellerProduct(db, sallerID):
     productlist = list()
     sql_cmd = """
               (select *
