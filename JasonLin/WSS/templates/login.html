@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邀驗鑑貨-登入</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/login.js"></script>
+</head>
+<body style="background-color:rgb(56, 131, 150);">
+    <div class="whole_page">
+
+    <div class="content">
+
+        <a href="" @click.prevent="goHome()"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
+    <div class="box">    
+        <div class="option">
+        <h2 style="padding-left: 15px;padding-right: 10px;text-decoration: underline;">會員登入</h2>
+        <h2>|</h2>
+        <h2 style="padding-left: 10px;"><a href="" class="register" @click.prevent="goRegister()">立即註冊</a></h2>
+        </div>
+        <p>帳號</p> 
+        <input type="text" id="account" class="textbar" v-model="loginForm.account">
+        <br>
+        <p>密碼</p>
+        <input type="text" type="password" id="password" class="textbar" v-model="loginForm.password">
+        <br>
+        <div class="wrapper">
+            <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>
+            <input type="radio" name="select" id="option-2" v-model="identity" value="seller">
+              <label for="option-1" class="option option-1">
+                <div class="dot"></div>
+                 <span>買家</span>
+                 </label>
+              <label for="option-2" class="option option-2">
+                <div class="dot"></div>
+                 <span>賣家</span>
+              </label>
+        </div>
+        <input type="button" class="btn1" value="登入" id="login" @click="Login">
+
+</div>
+</div>
+</body>
+</html>

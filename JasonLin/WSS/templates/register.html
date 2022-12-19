@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邀驗鑑貨-註冊</title>
+    <link rel="stylesheet" href="../static/css/register.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/register.js" defer></script>
+</head>
+<body style="background-color:rgb(56, 131, 150);">
+    <div class="whole_page">
+        <div class="content">
+    <a href="" @click.prevent="goHome()"><img src="../static/img/icon.PNG" alt="" class="icon"></a>
+    <div class="box">
+        <div class="option">
+        <h2 style="padding-left: 15px;padding-right: 10px;"><a href="" @click.prevent="goLogin()" class="login">會員登入</a></h2>
+        <h2>|</h2>
+        <h2 style="padding-left: 10px;text-decoration: underline;">立即註冊</h2>
+        </div>
+        <p>帳號</p> 
+        <input type="text" id="account" class="textbar" v-model="registObj.account">
+        <br>
+        <p>密碼</p>
+        <input type="text" id="password" class="textbar" v-model="registObj.password">
+        <br>
+        <p>確認密碼</p>
+        <input type="text" id="confirm_password" class="textbar" v-model="confirm_pw">
+        <br>
+        <p>身分證</p>
+        <input type="text" id="ID" class="textbar" v-model="registObj.ID">
+        <br>
+        <p>暱稱</p>
+        <input type="text" id="name" class="textbar" v-model="registObj.username">
+        <br>
+        <p>Email</p>
+        <input type="text" id="email" class="textbar" v-model="registObj.email">
+        <br>
+        <p>居住地</p>
+        <input type="text" id="place" class="textbar" v-model="registObj.address">
+        <br>
+        <p>電話</p>
+        <input type="text" id="phone_number" class="textbar" v-model="registObj.phone">
+        <br>
+        <div class="wrapper">
+            <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>
+            <input type="radio" name="select" id="option-2" v-model="identity" value="seller">
+              <label for="option-1" class="option option-1">
+                <div class="dot"></div>
+                 <span>買家</span>
+                 </label>
+              <label for="option-2" class="option option-2">
+                <div class="dot"></div>
+                 <span>賣家</span>
+              </label>
+        </div>
+        <input type="button" class="btn1" value="註冊" id="login" @click="Register">
+    </div>
+</div>
+</div>
+</body>
+</html>
