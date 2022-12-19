@@ -10,16 +10,31 @@ const selectBar = createApp({
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+
+            if(await res.data == 'False') {
                 this.logged = false
                 return
             }
-            this.username = res.data
-            this.logged = true       
-            console.log(this.output)
+            let data = await JSON.parse(res.data)
+
+            this.username = data.username
+            this.logged = true
+            
+            let accountLevel = data.level
+
+            if(accountLevel == '0') {
+                this.goSeller()
+            }
+
+            if(accountLevel == '1') {
+                this.goHome()
+            }
+
+            if(accountLevel == '2') {
+                this.goAdmin()
+            } 
         },
         Logout() {
-            console.log("get in Logout")
             Cookies.remove("WSS", {path: ''})
             this.logged = false
             window.location.reload()
@@ -44,6 +59,9 @@ const selectBar = createApp({
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
+        },
+        goAdmin() {
+            
         }
     },
     computed:{
