@@ -326,51 +326,45 @@ table {
     font-weight: bold;
     font-size: 30px;
 }
-.order{
+.user_list{
    border-top: 5px solid black;
    text-align:center;
    
 }
-.order h1{
+.user_list h1{
     font-size: 30px;
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     border-left: 4px solid #000;
-    height: 50px;
+    height: 200px;
     margin: 0;
     line-height: 50px;
     width: 35%;
     
 
 }
-.order p{
+.user_list p{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    line-height: 50px;
+    width: 30%;
+
+}
+.delete{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     height: 50px;
     line-height: 50px;
-    width: 44%;
+    width: 20%;
 
 }
-
-.order li{
+.user_list li{
     display: flex;
 }
-.product_img{
-    display: flex;
-    /* 水平置中 */
-    justify-content: center;    
-    /* 垂直置中 */
-    align-items: center;    
-    width: 200px;
-    height: 200px;
-    border-left: 4px black solid;
-    border-right: 4px black solid;
-    border-bottom: 4px black solid;
 
-
-}
-.order li img{
-    width: 150px;
+.product_list li img{
+    width:  150px;
     height: 150px;
 }
 .order_head{
@@ -387,5 +381,53 @@ table {
     border-right: #000000 solid 0px;
     border-bottom: #000000 solid 0px;
     background-color: gray;
+
+}
+
+.product_list{
+    border-top: 5px solid black;
+    text-align:center;
+    
+}
+.product_list h1{
+    font-size: 30px;
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    border-left: 4px solid #000;
+    height: 200px;
+    margin: 0;
+    line-height: 50px;
+    width: 20%;
+    
+
+}
+.product_list p{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    line-height: 50px;
+    width: 20%;
+
+}
+.product_list li{
+display: flex;
+}
+.product_img{
+    display: flex;
+    /* 水平置中 */
+    justify-content: center;    
+    /* 垂直置中 */
+    align-items: center;    
+    width: 30%;
+    height: 200px;
+    border-left: 4px black solid;
+    border-bottom: 4px black solid;
+}
+.delete2{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 50px;
+    line-height: 50px;
+    width: 10%;
 
 }

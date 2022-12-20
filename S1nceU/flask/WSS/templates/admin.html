@@ -25,38 +25,46 @@
             <p style="font-size:50px;">帳戶列表</p>
             <div class="order_head">
                 <p>用戶帳號</p>
-                <p style="width: 44%;">用戶名稱</p>
                 <!---<p style="width: 20%;">商品價格</p>---
                 <p style="width: 20%;">數量</p>--->
+                <p style="width: 30%;">身分</p>
+                <p style="width: 30%;">用戶ID</p>
                 <p style="width: 20%; border-right: black solid 4px;">操作</p>
                 
             </div>
-            <div class="order">
+            <div class="user_list">
                 <ul>
                     {% for p in range(data['user_length']) %}
                     <li>
                         <h1>{{data['user'][p]['user_account']}}</h1>
-                        <p>{{data['user'][p]['user_username']}}</p>
-                        <a href="#">停用</a>
+                        <p>{{data['user'][p]['user_level']}}</p>
+                        <p>{{data['user'][p]['user_id']}}</p>
+                        <a href="#" class="delete">停用</a>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             <p style="font-size:50px;margin-top: 30px;">商品列表</p>
             <div class="order_head">
-                <p>商品名稱</p>
-                <p style="width: 44%;">商品ID</p>
+                <p style="width: 30%;">商品圖片</p>
+                <p style="width:20%">商品名稱</p>
+                <p style="width:20%">商品ID</p>
                 <!---<p style="width: 20%;">商品價格</p>---
                 <p style="width: 20%;">數量</p>--->
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width:20%">用戶ID</p>
+                <p style="width: 10%; border-right: black solid 4px;">操作</p>
 
             </div>
-            <div class="order" >
+            <div class="product_list" >
                 <ul>
                     {% for p in range(data['product_length']) %}
                     <li>
+                        <div class="product_img">
+                            <img src="../static/img/{{data['product'][p]['product_img']}}">
+                        </div>
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
+                        <p>{{data['product'][p]['user_id']}}</p>
                         <a href="#">刪除</a>
                     </li>
                     {% endfor %}

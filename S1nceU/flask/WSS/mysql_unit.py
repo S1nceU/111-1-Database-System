@@ -293,11 +293,11 @@ def get_sellerProduct(db, sallerID):
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
-        SELECT seller.account, seller.username
+        SELECT seller.account, seller.user_id_s
         FROM   seller
     """
     sql_cmd_customer = """
-        SELECT customer.account, customer.username
+        SELECT customer.account, customer.user_id_c
         FROM   customer
     """
     data = db.cursor()
@@ -306,15 +306,15 @@ def admin_user_view(db):
     data.execute(sql_cmd_customer)
     customer = data.fetchall()
     for i in seller:
-        result.append({"user_account" : i[0], "user_username" : i[1]})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "賣家"})
     for i in customer:
-        result.append({"user_account" : i[0], "user_username" : i[1]})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "買家"})
     return result
 
 def admin_product_view(db):
     result = []
     sql_cmd = """
-        SELECT product.product_name, product.product_id, product.user_id_s, seller.username
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img
         FROM   product
         JOIN   seller ON product.user_id_s = seller.user_id_s
         ORDER BY product.user_id_s
@@ -322,9 +322,8 @@ def admin_product_view(db):
     data = db.cursor()
     data.execute(sql_cmd)
     data = data.fetchall()
-    print(data)
     for i in data:
-        result.append({"product_name" : i[0], "product_id" : i[1]})
+        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4]})
     return result
 
 def account_status(db,level,user_id,wanna_status):

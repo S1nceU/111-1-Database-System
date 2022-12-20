@@ -20,7 +20,7 @@ def login_seller():
             db.close()
             return '0'
         elif data['status'] != 1:
-            db.close
+            db.close()
             return 'Account has been disabled!!'
 
         elif req_password != data['password']:
@@ -34,7 +34,7 @@ def login_seller():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return "admin"
+            return resp
             # return '3'
         else:
             print('Hello ' + data['username'])
@@ -45,7 +45,7 @@ def login_seller():
             print(TL.decode_token(login_data))
 
             db.close()
-            return "seller"
+            return resp
             # return '2'
     
 
@@ -63,6 +63,9 @@ def login_customer():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
+        elif data['status'] != 1:
+            db.close()
+            return 'Account has been disabled!!'
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
             db.close()
@@ -74,7 +77,7 @@ def login_customer():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return "admin"
+            return resp
             # return '3'
         else:
             print('Hello ' + data['username'])
@@ -83,7 +86,7 @@ def login_customer():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return "customer"
+            return resp
             # return '2'
     db.close()
 
