@@ -119,7 +119,8 @@ def mart(id):
     if request.method == 'GET':
         user_id = id
         product = mysql_unit.get_sellerProduct(db,user_id)
-        length = len(product)
+        length = len(product['productName'])
+        print(product)
         if request.method == 'GET':
             # db.close()
             return render_template('example.html', data = locals())

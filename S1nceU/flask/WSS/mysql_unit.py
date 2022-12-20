@@ -357,3 +357,68 @@ def product_status(db,product_id,wanna_status):
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
+
+def cart_add(db,data,user_id):
+    condition = (
+        data["product_id"],
+        user_id,
+        data["amount"],
+        )
+    sql_cmd = """
+        INSERT INTO cart_product (product_id,user_id_c,amount)
+        VALUES (%s,%s,%s) 
+    """%condition
+    wannacart = db.cursor()
+    wannacart.execute(sql_cmd)
+    return "add success."
+    
+def cart_delete(db,data,user_id):
+    condition = (
+        data["product_id"],
+        user_id,
+        )
+    sql_cmd = """
+        DELETE
+        FROM cart_product
+        WHERE product_id = %s AND user_id_c = %s
+    """%condition
+    print(sql_cmd   )
+    nocart = db.cursor()
+    nocart.execute(sql_cmd)
+    return "delete success."
+    
+def cart_check(db,user_id):
+    condition = (user_id)
+    sql_cmd = """
+        SELECT cart_product.product_id, cart_product.amount
+        FROM cart_product
+        WHERE user_id_c  = %s
+        """%condition
+    print(condition)
+    ppd = db.cursor()
+    ppd.execute(sql_cmd)
+    data = ppd.fetchall()
+    ###奇妙的多值判斷###
+    temp = ("")
+    for i in data:
+        temp = temp + "product_id = " + str(i[0]) + " or "
+    temp = temp[:-3]
+    ###奇妙的多值判斷###
+    sql_cmd_repeat = """
+        select product.product_img, product.product_name, product.price
+        from product
+        where %s
+        """%temp
+    ppd2 = db.cursor()
+    ppd2.execute(sql_cmd_repeat)
+    data2 = ppd2.fetchall()
+    result = []; run = -1
+    for i in data2:
+        run += 1
+        result.append({
+            'product_img' : i[0],
+            'product_name' : i[1],
+            'product_price' : i[2],
+            'amount' : data[run][1]
+        })
+    return result

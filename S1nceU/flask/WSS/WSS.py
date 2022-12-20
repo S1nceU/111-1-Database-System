@@ -5,6 +5,8 @@ from register import register
 from product  import product
 from template import template
 from admin    import admin
+from cart     import cart
+
 import token_logined as TL
 
 
@@ -15,6 +17,7 @@ app.register_blueprint(register)
 app.register_blueprint(product)
 app.register_blueprint(template)
 app.register_blueprint(admin)
+app.register_blueprint(cart)
 @app.route('/')
 def default():
     # 抓 幹
