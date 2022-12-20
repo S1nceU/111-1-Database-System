@@ -351,14 +351,7 @@ table {
     width: 44%;
 
 }
-.order a{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 50px;
-    line-height: 50px;
-    width: 20%;
 
-}
 .order li{
     display: flex;
 }
