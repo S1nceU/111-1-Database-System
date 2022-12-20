@@ -16,10 +16,8 @@ const selectBar = createApp({
             }
             this.username = res.data
             this.logged = true       
-            console.log(this.output)
         },
         Logout() {
-            console.log("get in Logout")
             Cookies.remove("WSS", {path: ''})
             this.logged = false
             window.location.reload()
