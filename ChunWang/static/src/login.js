@@ -48,7 +48,7 @@ const app = createApp({
             }
             // 執行登入後相關事宜
             console.log('Login success')
-            window.location.replace("http://127.0.0.1:5000/index.html")
+            window.location.replace("http://127.0.0.1:5000/home")
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")

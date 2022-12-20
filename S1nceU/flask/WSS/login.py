@@ -34,7 +34,7 @@ def login_seller():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return resp
+            return "admin"
             # return '3'
         else:
             print('Hello ' + data['username'])
@@ -45,7 +45,7 @@ def login_seller():
             print(TL.decode_token(login_data))
 
             db.close()
-            return resp
+            return "seller"
             # return '2'
     
 
@@ -74,7 +74,7 @@ def login_customer():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return resp
+            return "admin"
             # return '3'
         else:
             print('Hello ' + data['username'])
@@ -83,7 +83,7 @@ def login_customer():
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
             db.close()
-            return resp
+            return "customer"
             # return '2'
     db.close()
 

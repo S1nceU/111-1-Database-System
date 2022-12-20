@@ -15,13 +15,12 @@ const selectBar = createApp({
                 this.logged = false
                 return
             }
-            let data = await JSON.parse(res.data)
-
-            this.username = data.username
+            let data = await res.data
+            this.username = await data.username
+            let accountLevel = await data.user_level
             this.logged = true
-            
-            let accountLevel = data.level
-
+      
+            console.log(accountLevel)
             if(accountLevel == '0') {
                 this.goSeller()
             }
