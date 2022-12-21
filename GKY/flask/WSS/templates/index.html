@@ -13,7 +13,7 @@
           }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="../static/src/index.js"></script>
 </head>
@@ -24,19 +24,16 @@
             <li>
                 <div class="tb_name" id="username"></div>
             </li>
-            <li><div class="tb">hey: {{data['username']}}~</div></li>
-            <li><a href="home"><div class="tb">首頁</div></a></li>
-            <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-            <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-            <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-            <li>
-                <a href="login" v-if="!logged">
-                    <div class="tb">註冊/登入</div>
-                </a>
-                <a v-else>
-                    <div class="tb">登出</div>
-                </a>
-            </li>
+            <div class="tb_name">hey {{data['username']}}~</div>
+            <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
+            <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
+            <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+            <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+            <li><a>
+                <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+                <div v-else class="tb" @click="Logout">登出</div>
+            </a></li>
         </ul>
     </div>
     <div class="content">
@@ -105,10 +102,10 @@
             <h1>暢銷排行</h1>
         </div>
         <div class="row">  
-            {%for pd in data['bestSeller'] %}
+            {%for pd in range(5) %}
                 <div class="rank_block"> <!-----暢銷排行--->
-                <a href="http://127.0.0.1:5000/product/{{pd['product_id']}}"><img src="../static/img/{{pd['product_img']}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
-                <img src="../static/img/{{pd['product_id']}}.PNG" alt="" class="rank">
+                    <a href="http://127.0.0.1:5000/product/{{data['bestSeller'][pd]['product_id']}}"><img src="../static/img/{{data['bestSeller'][pd]['product_img']}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                    <img src="../static/img/{{pd+1}}.PNG" alt="" class="rank">
                 </div>
             {% endfor %}
         </div>
@@ -244,9 +241,9 @@
         <p>3. 收件人違反動物傳染病防治條例第34條第3項規定，未將郵遞寄送輸入之應施檢疫物送交輸出入動物檢疫機關銷燬者，處新臺幣3萬元以上15萬元以下罰鍰。</p>
     </div>
 </div>
-<div class="button"> <!---底部資訊-->
-    <div class="button_content">
-        <div class="left_button">
+<div class="buttom"> <!---底部資訊-->
+    <div class="buttom_content">
+        <div class="left_buttom">
             <img src="../static/img/icon_button.PNG" alt="" class="icon">
             <p style="margin-top: 30px;">高雄市鳳山區自治街65巷8號5樓</p>
             <p>電話(不含例假日)：0800-091-000</p>

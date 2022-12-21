@@ -6,15 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品</title>
     <link rel="stylesheet" href="../static/css/product.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="../static/src/order.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
+        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+            <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
+            <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
+            <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+            <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+            <li><a>
+                <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+                <div v-else class="tb" @click="Logout">登出</div>
+            </a></li>
     </ul>
     </div>
     <div class="content">
@@ -28,8 +43,9 @@
             <div class="product">
                 <img src="../static/img/{{data['product']['product_img']}}">
                 <div class="product_des">
-                    <h1>產品名稱</h1>
-                    <p class="product_price">產品價格{{data['product']['product_price']}}$</p>
+                    <h1>{{data['product']['product_name']}}</h1>
+                    <p class="product_price">產品價格 ${{data['product']['product_price']}}</p>
+                    <p>{{data['product']['product_description']}}</p>
                     <div class="button_row">
                         <button class="button-68" role="button">加入購物車</button>
                         <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
