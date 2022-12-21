@@ -128,3 +128,24 @@ def mart(id):
     #     db.close()
     #     print("Service error!!")
     #     return redirect('/home')
+
+
+# 標籤搜尋
+@template.route('/search/<string:tag>', methods = ['GET'])
+def search(tag):
+    db = mysql_unit.connect()
+    message = None
+    if request.method == 'GET':
+        print('search get IN')
+        # print('tag = ', tag)
+        data = mysql_unit.product_get_tag(db, tag)
+        # print(data)
+        length = len(data['productName'])
+        if(length == 0):
+            message = '查無此標籤'
+
+        # print(type(length))
+        print(locals())
+        return render_template('search_list.html', data = locals())
+    db.close()
+    

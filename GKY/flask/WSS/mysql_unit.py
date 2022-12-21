@@ -423,3 +423,29 @@ def cart_check(db,user_id):
     return result
 
 
+# 標籤搜尋
+def product_get_tag(db, tag):
+    sql_cmd = """
+    SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
+    FROM `product`
+    JOIN `category` ON `product`.`product_id` = `category`.`product_id`
+    JOIN `label` ON `category`.`label_id` = `label`.`label_id`
+    WHERE `label`.`label` = '%s';
+    """%tag
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['product_id'] = list()
+    temp['description'] = list()
+    for i in range(len(data)):
+        temp['product_id'].append(data[i][0])
+        temp['productName'].append(data[i][1])
+        temp['product_img'].append(data[i][3])
+        temp['price'].append(data[i][2])
+        temp['description'].append(data[i][4])
+    # print(temp)
+    return temp

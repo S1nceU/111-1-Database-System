@@ -10,7 +10,7 @@ SRC_PATH =  pathlib.Path(__file__).parent.absolute()
 # 結合目前的檔案路徑和static及img路徑 
 UPLOAD_FOLDER = os.path.join(SRC_PATH,  'static', 'img')
 
-@product.route('/upload_product/', methods=['GET','POST'])
+@product.route('/upload_product', methods=['GET','POST'])
 def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
