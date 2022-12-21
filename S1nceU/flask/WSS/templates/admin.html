@@ -39,7 +39,11 @@
                         <h1>{{data['user'][p]['user_account']}}</h1>
                         <p>{{data['user'][p]['user_level']}}</p>
                         <p>{{data['user'][p]['user_id']}}</p>
-                        <a href="#" class="delete">停用</a>
+                        {% if data['user'][p]['user_status'] %}
+                            <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
+                        {% else %}
+                            <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
@@ -65,7 +69,7 @@
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
                         <p>{{data['product'][p]['user_id']}}</p>
-                        <a href="#">刪除</a>
+                        <a href="#" class="delete2">刪除</a>
                     </li>
                     {% endfor %}
 
@@ -119,5 +123,15 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function disable(level, id){
+        await fetch('admin_status_account/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'user_level': level,'user_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function enable(level, id){
+        await fetch('admin_status_account/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'user_level': level,'user_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+</script>
 </body>
 </html>

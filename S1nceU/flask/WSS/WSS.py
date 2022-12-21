@@ -76,8 +76,8 @@ def admin():
     return redirect('/admin_view')
 
 def tokencorrect():
-    user_data = TL.getcookie()
-    print("你被登出了")
+    user_data: dict = TL.getcookie()
+    user_data = TL.decode_token(user_data)
     try:
         if user_data == None:
             return redirect('/home')

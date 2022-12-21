@@ -336,7 +336,7 @@ table {
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     border-left: 4px solid #000;
-    height: 200px;
+    height: 75px;
     margin: 0;
     line-height: 50px;
     width: 35%;
@@ -346,7 +346,7 @@ table {
 .user_list p{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 200px;
+    height: 75px;
     line-height: 50px;
     width: 30%;
 
@@ -354,7 +354,7 @@ table {
 .delete{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 50px;
+    height: 75px;
     line-height: 50px;
     width: 20%;
 
@@ -426,8 +426,9 @@ display: flex;
 .delete2{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 50px;
+    height: 200px;
     line-height: 50px;
+    
     width: 10%;
 
 }

@@ -293,11 +293,11 @@ def get_sellerProduct(db, sallerID):
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
-        SELECT seller.account, seller.user_id_s
+        SELECT seller.account, seller.user_id_s, seller.user_status
         FROM   seller
     """
     sql_cmd_customer = """
-        SELECT customer.account, customer.user_id_c
+        SELECT customer.account, customer.user_id_c, customer.user_status
         FROM   customer
     """
     data = db.cursor()
@@ -306,9 +306,9 @@ def admin_user_view(db):
     data.execute(sql_cmd_customer)
     customer = data.fetchall()
     for i in seller:
-        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "賣家"})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "seller", "user_status" : i[2]})
     for i in customer:
-        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "買家"})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
     return result
 
 def admin_product_view(db):
