@@ -23,7 +23,7 @@
             <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
             <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
             <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
-            <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+            <li v-if="this.accountLevel == '0'"><a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a></li>
             <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
