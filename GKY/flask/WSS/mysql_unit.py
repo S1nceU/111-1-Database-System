@@ -452,7 +452,6 @@ def product_get_tag(db, tag):
 
 
 def product_search_content(db, content):
-    
     sql_cmd = """
     SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
     FROM `product`

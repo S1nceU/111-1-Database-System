@@ -139,7 +139,7 @@ def search(tag):
         data = mysql_unit.product_get_tag(db, tag)
         length = len(data['productName'])
         if(length == 0):
-            message = '查無此標籤'
+            message = '查無資料'
         else:
             message = "共%s筆資料" % length
         return render_template('search_list.html', data = locals())
@@ -161,7 +161,7 @@ def searchResult(content):
         data = mysql_unit.product_search_content(db, content)
         length = len(data['productName'])
         if(length == 0):
-            message = '查無此標籤'
+            message = '查無資料'
         else:
             message = "共%s筆資料" % length
         return render_template('search_list.html', data = locals())
