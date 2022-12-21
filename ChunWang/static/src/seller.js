@@ -4,7 +4,8 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {
@@ -18,12 +19,12 @@ const selectBar = createApp({
                 return
             }
             this.username = await loginData.username
-            let accountLevel = await loginData.user_level
-            if(accountLevel != '0') {
+            this.accountLevel = await loginData.user_level
+            this.logged = true    
+            if(this.accountLevel != '0') {
                 alert("您沒有權限")
                 this.goHome()
             }
-            this.logged = true    
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})
