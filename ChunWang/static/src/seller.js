@@ -10,12 +10,20 @@ const selectBar = createApp({
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
+                alert("請先登入")
                 this.logged = false
+                this.goLogin()
                 return
             }
-            this.username = res.data
-            this.logged = true       
+            this.username = await loginData.username
+            let accountLevel = await loginData.user_level
+            if(accountLevel != '0') {
+                alert("您沒有權限")
+                this.goHome()
+            }
+            this.logged = true    
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})

@@ -18,20 +18,7 @@ const selectBar = createApp({
             let data = await res.data
             this.username = await data.username
             let accountLevel = await data.user_level
-            this.logged = true
-      
-            console.log(accountLevel)
-            if(accountLevel == '0') {
-                this.goSeller()
-            }
-
-            if(accountLevel == '1') {
-                this.goHome()
-            }
-
-            if(accountLevel == '2') {
-                this.goAdmin()
-            } 
+            this.logged = true    
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})
@@ -60,7 +47,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/register")
         },
         goAdmin() {
-            
+            window.location.replace("http://127.0.0.1:5000/admin")
         }
     },
     computed:{
