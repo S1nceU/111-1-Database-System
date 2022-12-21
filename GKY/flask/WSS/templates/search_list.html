@@ -40,11 +40,11 @@
             
         </div>
         <div class="order_title">
-            <p style="font-size:50px;">搜尋結果</p>
+            {% if data['message']%}
+            <p style="font-size:50px;">搜尋結果 : {{data['message']}}</p>
+            {% endif %}
             <div class="order">
-                {% if data['message'] %}
-                <p style="font-size:300px;">{{data['message']}}</p>
-                {% endif %}
+                
                 <ul>
                     {% for i in range(data['length']) %}
                     <li>

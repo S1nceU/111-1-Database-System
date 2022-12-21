@@ -143,7 +143,8 @@ def search(tag):
         length = len(data['productName'])
         if(length == 0):
             message = '查無此標籤'
-
+        else:
+            message = "共%s筆資料" % length
         # print(type(length))
         print(locals())
         return render_template('search_list.html', data = locals())
