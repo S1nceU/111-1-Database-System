@@ -186,6 +186,7 @@ def product_get(db, productID):
     }
     return data
 
+# get all of products
 def product_get_all(db):
     sql_cmd = """
         SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
@@ -227,6 +228,7 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
+# get member information
 def memberInfo(db, who, userID):
     # print('userID = ', userID)
     if who == 'seller':
@@ -262,14 +264,15 @@ def memberInfo(db, who, userID):
     }
     return data
 
-def get_sellerProduct(db, sallerID):
+# get product by seller's user_id_s
+def get_sellerProduct(db, sellerID):
     productlist = list()
     sql_cmd = """
               (select *
                from product
                where product.user_id_s = %d
               )
-            """%(sallerID)
+            """%(sellerID)
     PD = db.cursor()
     PD.execute(sql_cmd)
     data = PD.fetchall()
@@ -290,6 +293,7 @@ def get_sellerProduct(db, sallerID):
     # print(temp)
     return temp
 
+# view all of users for admin
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
@@ -311,10 +315,11 @@ def admin_user_view(db):
         result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
     return result
 
+# view all of users for admin with user_id
 def admin_product_view(db):
     result = []
     sql_cmd = """
-        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img, product.status
         FROM   product
         JOIN   seller ON product.user_id_s = seller.user_id_s
         ORDER BY product.user_id_s
@@ -323,9 +328,10 @@ def admin_product_view(db):
     data.execute(sql_cmd)
     data = data.fetchall()
     for i in data:
-        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4]})
+        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4], "product_status" : i[5]})
     return result
 
+# set account status 
 def account_status(db,level,user_id,wanna_status):
     sql_cmd = """"""
     if level == "seller":
@@ -346,6 +352,7 @@ def account_status(db,level,user_id,wanna_status):
     operation.execute(sql_cmd)
     return "Change status success."
 
+# set product status
 def product_status(db,product_id,wanna_status):
     condition = (wanna_status,product_id)
     sql_cmd = """
@@ -353,10 +360,12 @@ def product_status(db,product_id,wanna_status):
         SET    product.status = %s
         WHERE  product.product_id = %s
     """%condition
+    print(sql_cmd)
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
 
+# add product to cart with user_id
 def cart_add(db,data,user_id):
     condition = (
         data["product_id"],
@@ -370,7 +379,8 @@ def cart_add(db,data,user_id):
     wannacart = db.cursor()
     wannacart.execute(sql_cmd)
     return "add success."
-    
+
+# del product to cart with user_id
 def cart_delete(db,data,user_id):
     condition = (
         data["product_id"],
@@ -386,6 +396,7 @@ def cart_delete(db,data,user_id):
     nocart.execute(sql_cmd)
     return "delete success."
     
+# view cart by user_id
 def cart_check(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -421,3 +432,23 @@ def cart_check(db,user_id):
             'amount' : data[run][1]
         })
     return result
+
+# add ticket for seller
+def ticket_add(db,data,user_id):
+    print("test")
+    condition = (
+        data['effective_date'],
+        data['amount'],
+        data['discount'],
+        user_id
+    ) 
+    sql_cmd = """
+    INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    VALUES (\"%s\", \"%s\", \"%s\",%s)
+    """%condition
+    print(sql_cmd)
+    addticket = db.cursor()
+    addticket.execute(sql_cmd)
+    return "Ticket add success."
+
+# def ticket_view():
