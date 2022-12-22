@@ -50,16 +50,18 @@
             </div>
             <div class="order">
                 <ul>
+                    {% for i in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <img src="../static/img/dog.PNG">
+                            <img src="../static/img/{{data['result'][i]['product_img']}}">
                         </div>
-                        <h1>柯基</h1>
-                        <p>$1999</p>
-                        <p>1</p>
+                        <h1>{{data['result'][i]['product_name']}}</h1>
+                        <p>{{data['result'][i]['product_price']}}</p>
+                        <p>{{data['result'][i]['amount']}}</p>
                         <a href="#">刪除</a>
                     </li>
-                    <li>
+                    {% endfor %}
+                    <!-- <li>
                         <div class="product_img">
                             <img src="../static/img/cat.jpg">
                         </div>
@@ -67,7 +69,7 @@
                         <p>$2999</p>
                         <p>9</p>
                         <a href="#">刪除</a>
-                    </li>
+                    </li> -->
                     
 
                 </ul>
