@@ -31,16 +31,16 @@
         </li>
         <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
         <li><a>
-            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
-            <div v-else class="tb" @click="Logout">登出</div>
+            <div v-if="!logged" class="tb" @click="goLogin()">註冊/登入</div>
+            <div v-else class="tb" @click="Logout()">登出</div>
         </a></li>
     </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
-            <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <a href="search_list.html"><input type="image" src="../static/img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
+            <input type="text" v-model="searchText" placeholder="輸入你想找的商品" class="searchbar">
+            <a href="" @click.prevent="Search()"><input type="image" src="../static/img/sb.png" class="sb"></a>       <!--搜尋那顆按鈕-->
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>

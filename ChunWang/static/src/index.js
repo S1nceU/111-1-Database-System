@@ -60,6 +60,19 @@ const selectBar = createApp({
     }
 })
 
+const search = createApp({
+    data() {
+        return {
+            searchText: ""
+        }
+    },
+    methods: {
+        Search() {
+            window.location.replace(`http://127.0.0.1:5000/search/${this.searchText}`)
+        }
+    }
+}).mount('.search')
+
 const rank = createApp({
     data() {
         return {
