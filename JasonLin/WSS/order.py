@@ -6,18 +6,14 @@ order = Blueprint('order', __name__, template_folder='templates')
 def ordercreate():
     db = mysql_unit.connect()
     if request.method == 'POST':
-        # try:
-        #     #user_id = TL.decode_token(TL.getcookie())["user_id"]
-        #     #result = mysql_unit.create_cart(db,cart.json,user_id)
-        #     result = mysql_unit.create_order(db,request.json,1)
-        #     #測試用 正式應抓取cookie
-        #     db.commit()
-        #     db.close()
-        #     return result
-        # except:
-        #     print("Create Error")
-        #     return "Create Error"
-        result = mysql_unit.create_order(db,request.json,1)
-        db.commit()
-        db.close()
-        return result
+        try:
+            #user_id = TL.decode_token(TL.getcookie())["user_id"]
+            #result = mysql_unit.create_cart(db,cart.json,user_id)
+            result = mysql_unit.create_order(db,request.json,1)
+            #測試用 正式應抓取cookie
+            db.commit()
+            db.close()
+            return result
+        except:
+            print("Create Error")
+            return "Create Error"
