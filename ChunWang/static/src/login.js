@@ -60,6 +60,7 @@ const app = createApp({
 
             if(res.data == "admin") {
                 this.goAdmin()
+                return
             }
         },
         goRegister() {
