@@ -487,7 +487,6 @@ def product_search_content(db, content):
 
 # add ticket for seller
 def ticket_add(db,data,user_id):
-    print("test")
     condition = (
         data['effective_date'],
         data['amount'],
@@ -495,12 +494,78 @@ def ticket_add(db,data,user_id):
         user_id
     ) 
     sql_cmd = """
-    INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
-    VALUES (\"%s\", \"%s\", \"%s\",%s)
+        INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+        VALUES (\"%s\", \"%s\", \"%s\",%s)
     """%condition
-    print(sql_cmd)
     addticket = db.cursor()
     addticket.execute(sql_cmd)
+    db.commit()
     return "Ticket add success."
 
-# def ticket_view():
+# view all can use tickets for seller
+def ticket_view(db,user_id):
+    condition = (
+        user_id
+    )
+    sql_cmd = """
+        SELECT *
+        FROM   ticket
+        WHERE  ticket.user_id_s = %s
+    """%condition
+    viewticket = db.cursor()
+    viewticket.execute(sql_cmd)
+    all = viewticket.fetchall()
+    result = []
+    for i in all:
+        dic = {
+            'ticket_id' : i[0],
+            'effective' : i[1],
+            'amount'    : i[2],
+            'discount'  : i[3]
+        }
+        result.append(dic)
+    return result
+
+def ticket_use(db,ticket_id):
+    condition_exist = (
+        ticket_id
+    )
+    sql_cmd = """
+        SELECT ticket.amount
+        FROM   ticket
+        WHERE  ticket.ticket_id = %s
+    """%condition_exist
+    currentticket = db.cursor()
+    currentticket.execute(sql_cmd)
+    amount = int(currentticket.fetchone()[0])
+    if amount <= 0: 
+        return "Ticket was run out."
+    condition = (
+        amount - 1,
+        ticket_id
+    )
+    sql_cmd = """
+        UPDATE ticket
+        SET    ticket.amount = %s
+        WHERE  ticket.ticket_id = %s
+    """%condition
+    updateticket = db.cursor()
+    updateticket.execute(sql_cmd)
+    db.commit()
+    return "Use ticket success."
+
+# seller set ticket amount
+def ticket_del(db, user_id, ticket_id):
+    condition = (
+        user_id,
+        ticket_id
+    )
+    sql_cmd = """
+        DELETE FROM ticket
+        WHERE  ticket.user_id_s = %s AND ticket.ticket_id = %s
+        """%condition
+
+    delticket = db.cursor()
+    delticket.execute(sql_cmd)
+    db.commit()
+    return "Delete ticlet success."
