@@ -119,7 +119,8 @@ def mart(id):
     if request.method == 'GET':
         user_id = id
         product = mysql_unit.get_sellerProduct(db,user_id)
-        length = len(product)
+        length = len(product['productName'])
+        print(product)
         if request.method == 'GET':
             # db.close()
             return render_template('example.html', data = locals())
@@ -127,3 +128,40 @@ def mart(id):
     #     db.close()
     #     print("Service error!!")
     #     return redirect('/home')
+
+# 標籤搜尋, 通過標籤搜尋商品 url : /search/label's name
+@template.route('/search/<string:tag>', methods = ['GET'])
+def search(tag):
+    db = mysql_unit.connect()
+    message = None
+    if request.method == 'GET':
+        data = mysql_unit.product_get_tag(db, tag)
+        length = len(data['productName'])
+        if(length == 0):
+            message = '查無資料'
+        else:
+            message = "共%s筆資料" % length
+        return render_template('search_list.html', data = locals())
+    db.close()
+
+# 處理搜尋內容, 通過搜尋欄搜尋 url : /search
+@template.route('/search', methods = ['POST'])
+def searchContent():
+    if request.method == 'POST':
+        search_content = request.form.getlist('searchContent')[0]
+        return redirect('/searchContent/%s'%search_content)
+
+# 搜尋內容, 通過搜尋欄搜尋 url : /searchContent/content
+@template.route('/searchContent/<string:content>', methods = ['GET'])
+def searchResult(content):
+    db = mysql_unit.connect()
+    message = None
+    if request.method == 'GET':
+        data = mysql_unit.product_search_content(db, content)
+        length = len(data['productName'])
+        if(length == 0):
+            message = '查無資料'
+        else:
+            message = "共%s筆資料" % length
+        return render_template('search_list.html', data = locals())
+    db.close()

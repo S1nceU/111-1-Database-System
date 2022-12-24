@@ -39,8 +39,11 @@
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
-            <input type="text" placeholder="輸入你想找的商品" class="searchbar">
-            <input type="image" src="../static/img/sb.png" class="sb">
+            <form name = 'searchContent' action = '/search' method = 'POST'>
+                <input id = ''searchContent type="text" placeholder="輸入你想找的商品" class="searchbar" name = 'searchContent'>
+                <!-- <input type="image" src="../static/img/sb.png" class="sb"> -->
+                <button class="button-40" role="button">搜尋</button>
+            </form>
             
             
         </div>

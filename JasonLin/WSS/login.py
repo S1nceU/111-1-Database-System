@@ -20,7 +20,7 @@ def login_seller():
             db.close()
             return '0'
         elif data['status'] != 1:
-            db.close
+            db.close()
             return 'Account has been disabled!!'
 
         elif req_password != data['password']:
@@ -63,6 +63,9 @@ def login_customer():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
+        elif data['status'] != 1:
+            db.close()
+            return 'Account has been disabled!!'
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
             db.close()
