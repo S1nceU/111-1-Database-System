@@ -60,7 +60,7 @@ const selectBar = createApp({
     }
 }).mount('.tt')
 
-const search = createApp({
+const content = createApp({
     data() {
         return {
             searchText: ""
@@ -69,9 +69,25 @@ const search = createApp({
     methods: {
         Search() {
             window.location.replace(`http://127.0.0.1:5000/search/${this.searchText}`)
+        },
+        serchTag(text) {
+            console.log("get in func")
+            // this.searchText = text
+            // this.Search()
         }
     }
 }).mount('.search')
+
+const suggestion = createApp({
+    data() {return {}},
+    methods: {
+        searchTag(text) {
+            console.log("get in func")
+            console.log(text)
+            window.location.replace(`http://127.0.0.1:5000/search/${text}`)
+        }
+    }
+}).mount('.suggest_row')
 
 const rank = createApp({
     data() {
@@ -91,7 +107,6 @@ const rank = createApp({
             ]
         },     
         getImgPath(path) {
-            console.log(this.rankItems)
             return new URL(`${path}`, import.meta.url).href
         },
         isFirstRank(rank) {
