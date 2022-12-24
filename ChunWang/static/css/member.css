@@ -180,7 +180,7 @@ table {
     border-right:0px rgb(72, 172, 198) solid;
     border-radius: 10px 0px 0px 10px;
     width: 200px;
-    height: 400px;
+    height: 800px;
     font-size: 20px;
     text-align: center;
     background-color: gainsboro;
@@ -212,6 +212,7 @@ table {
     font-size: 20px;
     padding-top: 0px;
     align-items: center;
+    height: 800px;
 }
 .flex{
     display: flex;
@@ -337,3 +338,4 @@ table {
     padding: .75rem 1.5rem;
   }
 }
+

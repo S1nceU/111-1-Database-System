@@ -18,13 +18,6 @@ const selectBar = createApp({
             this.username = res.data
             this.logged = true       
         },
-        async addToCart(){
-            let pathName = window.location.pathname
-            let res = await axios.post("url", {product: pathName})
-            if(await res.data == 'Success') {
-                alert("加入完成")
-            }
-        },
         Logout() {
             Cookies.remove("WSS", {path: ''})
             this.logged = false
@@ -60,5 +53,25 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
-selectBar.mount('.tt')
+}).mount('.tt')
+
+const product = createApp({
+    data() {
+        return {
+        }
+    },
+    methods: {
+        async addToCart(){
+            let pathName = window.location.pathname
+            let productID = path.split("/")[2]
+            let res = await axios.post("http://127.0.0.1:5000/cart_add/", 
+                {
+                    "product_id": productName,
+                    "amount": 1 // 之後要修
+            })
+            if(await res.data == 'Success') {
+                alert("加入完成")
+            }
+        }
+    }
+}).mount('.content')

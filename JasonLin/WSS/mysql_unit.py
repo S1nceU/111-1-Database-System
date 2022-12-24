@@ -3,7 +3,7 @@ from datetime import datetime
 
 # 連線
 def connect():
-    db = pymysql.connect(host='localhost', port=3306, user='root', passwd='xu.6j03cj86u;6au/65k6', db='world')
+    db = pymysql.connect(host='localhost', port=3306, user='root', passwd='Jason9123', db='world')
     return db
 
 # 斷線 沒用到  因為可以直接 db.close()
@@ -186,6 +186,7 @@ def product_get(db, productID):
     }
     return data
 
+# get all of products
 def product_get_all(db):
     sql_cmd = """
         SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
@@ -227,6 +228,7 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
+# get member information
 def memberInfo(db, who, userID):
     # print('userID = ', userID)
     if who == 'seller':
@@ -262,14 +264,15 @@ def memberInfo(db, who, userID):
     }
     return data
 
-def get_sellerProduct(db, sallerID):
+# get product by seller's user_id_s
+def get_sellerProduct(db, sellerID):
     productlist = list()
     sql_cmd = """
               (select *
                from product
                where product.user_id_s = %d
               )
-            """%(sallerID)
+            """%(sellerID)
     PD = db.cursor()
     PD.execute(sql_cmd)
     data = PD.fetchall()
@@ -290,14 +293,15 @@ def get_sellerProduct(db, sallerID):
     # print(temp)
     return temp
 
+# view all of users for admin
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
-        SELECT seller.account, seller.username
+        SELECT seller.account, seller.user_id_s, seller.user_status
         FROM   seller
     """
     sql_cmd_customer = """
-        SELECT customer.account, customer.username
+        SELECT customer.account, customer.user_id_c, customer.user_status
         FROM   customer
     """
     data = db.cursor()
@@ -306,15 +310,16 @@ def admin_user_view(db):
     data.execute(sql_cmd_customer)
     customer = data.fetchall()
     for i in seller:
-        result.append({"user_account" : i[0], "user_username" : i[1]})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "seller", "user_status" : i[2]})
     for i in customer:
-        result.append({"user_account" : i[0], "user_username" : i[1]})
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
     return result
 
+# view all of users for admin with user_id
 def admin_product_view(db):
     result = []
     sql_cmd = """
-        SELECT product.product_name, product.product_id, product.user_id_s, seller.username
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img, product.status
         FROM   product
         JOIN   seller ON product.user_id_s = seller.user_id_s
         ORDER BY product.user_id_s
@@ -322,11 +327,11 @@ def admin_product_view(db):
     data = db.cursor()
     data.execute(sql_cmd)
     data = data.fetchall()
-    print(data)
     for i in data:
-        result.append({"product_name" : i[0], "product_id" : i[1]})
+        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4], "product_status" : i[5]})
     return result
 
+# set account status 
 def account_status(db,level,user_id,wanna_status):
     sql_cmd = """"""
     if level == "seller":
@@ -347,6 +352,7 @@ def account_status(db,level,user_id,wanna_status):
     operation.execute(sql_cmd)
     return "Change status success."
 
+# set product status
 def product_status(db,product_id,wanna_status):
     condition = (wanna_status,product_id)
     sql_cmd = """
@@ -354,10 +360,12 @@ def product_status(db,product_id,wanna_status):
         SET    product.status = %s
         WHERE  product.product_id = %s
     """%condition
+    print(sql_cmd)
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
-    
+
+# add product to cart with user_id
 def cart_add(db,data,user_id):
     condition = (
         data["product_id"],
@@ -366,12 +374,13 @@ def cart_add(db,data,user_id):
         )
     sql_cmd = """
         INSERT INTO cart_product (product_id,user_id_c,amount)
-        VALUES (\"%s\",\"%s\",\"%s") 
+        VALUES (%s,%s,%s) 
     """%condition
     wannacart = db.cursor()
     wannacart.execute(sql_cmd)
     return "add success."
-    
+
+# del product to cart with user_id
 def cart_delete(db,data,user_id):
     condition = (
         data["product_id"],
@@ -382,10 +391,12 @@ def cart_delete(db,data,user_id):
         FROM cart_product
         WHERE product_id = %s AND user_id_c = %s
     """%condition
+    print(sql_cmd   )
     nocart = db.cursor()
     nocart.execute(sql_cmd)
     return "delete success."
     
+# view cart by user_id
 def cart_check(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -393,6 +404,7 @@ def cart_check(db,user_id):
         FROM cart_product
         WHERE user_id_c  = %s
         """%condition
+    print(condition)
     ppd = db.cursor()
     ppd.execute(sql_cmd)
     data = ppd.fetchall()
@@ -410,9 +422,10 @@ def cart_check(db,user_id):
     ppd2 = db.cursor()
     ppd2.execute(sql_cmd_repeat)
     data2 = ppd2.fetchall()
-    result = []; run = -1
+    result = []; run = -1; total = 0
     for i in data2:
         run += 1
+        total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
@@ -420,3 +433,95 @@ def cart_check(db,user_id):
             'amount' : data[run][1]
         })
     return result
+
+# 標籤搜尋
+def product_get_tag(db, tag):
+    sql_cmd = """
+    SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
+    FROM `product`
+    JOIN `category` ON `product`.`product_id` = `category`.`product_id`
+    JOIN `label` ON `category`.`label_id` = `label`.`label_id`
+    WHERE `label`.`label` = '%s';
+    """%tag
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['product_id'] = list()
+    temp['description'] = list()
+    for i in range(len(data)):
+        temp['product_id'].append(data[i][0])
+        temp['productName'].append(data[i][1])
+        temp['product_img'].append(data[i][3])
+        temp['price'].append(data[i][2])
+        temp['description'].append(data[i][4])
+    # print(temp)
+    return temp
+
+# 內容搜尋框
+def product_search_content(db, content):
+    sql_cmd = """
+    SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
+    FROM `product`
+    WHERE `product`.`product_name` LIKE '%%%s%%';
+    """%content
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['product_id'] = list()
+    temp['description'] = list()
+    for i in range(len(data)):
+        temp['product_id'].append(data[i][0])
+        temp['productName'].append(data[i][1])
+        temp['product_img'].append(data[i][3])
+        temp['price'].append(data[i][2])
+        temp['description'].append(data[i][4])
+    # print(temp)
+    return temp
+
+# add ticket for seller
+def ticket_add(db,data,user_id):
+    print("test")
+    condition = (
+        data['effective_date'],
+        data['amount'],
+        data['discount'],
+        user_id
+    ) 
+    sql_cmd = """
+    INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    VALUES (\"%s\", \"%s\", \"%s\",%s)
+    """%condition
+    print(sql_cmd)
+    addticket = db.cursor()
+    addticket.execute(sql_cmd)
+    return "Ticket add success."
+
+# def ticket_view():
+
+def create_order(db,data,user_id):
+    currentDateAndTime = datetime.now()
+    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    condition = (
+        #data["total_price"],
+        currentTime,
+        data["address"],
+        user_id,
+        )
+    print(data)
+    print(condition)
+    print(type(currentTime))
+    sql_cmd = """
+        INSERT INTO ORDER (total_price,order_time,address,status,user_id_c)
+        VALUES (2000.00,"%s","%s",1,%d)
+    """%condition
+    wannacart = db.cursor()
+    wannacart.execute(sql_cmd)
+    return "create success."
