@@ -4,7 +4,8 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {
@@ -16,14 +17,6 @@ const selectBar = createApp({
             }
             this.username = res.data
             this.logged = true       
-        },
-        async addToCart(){
-            let pathName = window.location.pathname
-            console.log(pathName)
-            let res = await axios.post("url", {product: pathName})
-            if(await res.data == 'Success') {
-                alert("加入完成")
-            }
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})
@@ -46,7 +39,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/login")
+            window.location.replace("http://127.0.0.1:5000/member")
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
@@ -57,8 +50,29 @@ const selectBar = createApp({
             return "歡迎!" + this.username
         }
     },
-    mounted() {
+    created() {
         this.getData()
     }
-})
-selectBar.mount('.tt')
+}).mount('.tt')
+
+const product = createApp({
+    data() {
+        return {
+        }
+    },
+    methods: {
+        async addToCart(){
+            console.log("test")
+            let pathName = window.location.pathname
+            let productID = pathName.split("/")[2]
+            let res = await axios.post("http://127.0.0.1:5000/cart_add/", 
+                {
+                    "product_id": productID,
+                    "amount": 1 // 之後要修
+            })
+            if(await res.data == 'Success') {
+                alert("加入完成")
+            }
+        }
+    }
+}).mount('.content')
