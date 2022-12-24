@@ -16,10 +16,16 @@ const selectBar = createApp({
             }
             this.username = res.data
             this.logged = true       
-            console.log(this.output)
+        },
+        async addToCart(){
+            let pathName = window.location.pathname
+            console.log(pathName)
+            let res = await axios.post("url", {product: pathName})
+            if(await res.data == 'Success') {
+                alert("加入完成")
+            }
         },
         Logout() {
-            console.log("get in Logout")
             Cookies.remove("WSS", {path: ''})
             this.logged = false
             window.location.reload()
@@ -51,7 +57,7 @@ const selectBar = createApp({
             return "歡迎!" + this.username
         }
     },
-    created() {
+    mounted() {
         this.getData()
     }
 })

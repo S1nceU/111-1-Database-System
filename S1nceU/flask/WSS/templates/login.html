@@ -30,10 +30,10 @@
         <h2 style="padding-left: 10px;"><a href="" class="register" @click.prevent="goRegister()">立即註冊</a></h2>
         </div>
         <p>帳號</p> 
-        <input type="text" id="account" class="textbar" v-model="loginForm.account">
+        <input type="text" placeholder="account" id="account" class="textbar" v-model="loginForm.account">
         <br>
         <p>密碼</p>
-        <input type="text" type="password" id="password" class="textbar" v-model="loginForm.password">
+        <input type="text" placeholder="password" type="password" id="password" class="textbar" v-model="loginForm.password">
         <br>
         <div class="wrapper">
             <input type="radio" name="select" id="option-1" v-model="identity" value="buyer" checked>

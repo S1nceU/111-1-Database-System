@@ -19,18 +19,22 @@
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
-            <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-            <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
-            <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
-            <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
-            <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+        <ul class="ti">
+            <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+            <li><a href="" @click.prevent="goHome()"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li v-if="this.accountLevel == '0'">
+                <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
+            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
+            </li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
             </a></li>
-    </ul>
+        </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
@@ -47,7 +51,7 @@
                     <p class="product_price">產品價格 ${{data['product']['product_price']}}</p>
                     <p>{{data['product']['product_description']}}</p>
                     <div class="button_row">
-                        <button class="button-68" role="button">加入購物車</button>
+                        <button class="button-68" role="button" @click="addToCart()">加入購物車</button>
                         <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
     
                     </div>

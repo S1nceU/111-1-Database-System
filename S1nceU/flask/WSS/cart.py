@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import request, Blueprint,  render_template, redirect
 import mysql_unit
 import token_logined as TL
 cart = Blueprint('cart', __name__, template_folder='templates')
@@ -30,17 +30,25 @@ def deletecart():
         db.commit()
         db.close()
         return result
-@cart.route('/cart_check/', methods=['GET', 'POST'])
+@cart.route('/cart_check', methods=['GET', 'POST'])
 def checkcart():
     db = mysql_unit.connect()
     try:
         if request.method == 'GET':
-            #user_id = TL.decode_token(TL.getcookie())["user_id"]
-            #result = mysql_unit.cart_check(db,user_id)
-            result = mysql_unit.cart_check(db,1)
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
+            print('1')
+            result, total = mysql_unit.cart_check(db,user_id)
+            print('2')
+            # result = mysql_unit.cart_check(db,1)
+            # print('result', result)
             #測試用 正式應抓取cookie
+            length = len(result)
+            # print(length)
+            # print(locals())
+            # print('length', length)
             db.close()
-            return result
+            return render_template('cart.html', data = locals())
     except:
-        print("error!!")
-        return 0
+        length = 0
+        total = 0
+        return render_template('cart.html', data = locals())

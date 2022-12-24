@@ -31,7 +31,7 @@ const app = createApp({
             }
 
             let res = await axios.post(url, this.loginForm)
-
+            console.log(res.data)
             if(res.data == '0') {
                 alert("查無帳號")
                 return
@@ -41,19 +41,38 @@ const app = createApp({
                 alert("帳號或密碼錯誤")
                 return
             }
+
             if(res.data == 'Account has been disabled!!') {
                 alert("帳號已被停用")
                 return
             }
+            
             // 執行登入後相關事宜
-            console.log('Login success')
-            window.location.replace("http://127.0.0.1:5000/home")
+            if(res.data == "seller") {
+                this.goSeller()
+                return
+            }
+
+            if(res.data == "customer") {
+                this.goHome()
+                return
+            }
+
+            if(res.data == "admin") {
+                this.goAdmin()
+            }
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
         },
         goHome() {
             window.location.replace("http://127.0.0.1:5000/home")
+        },
+        goSeller() {
+            window.location.replace("http://127.0.0.1:5000/seller")
+        },
+        goAdmin() {
+            window.location.replace("http://127.0.0.1:5000/admin")
         }
     },
     computed: {
