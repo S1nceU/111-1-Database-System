@@ -411,16 +411,17 @@ def cart_check(db,user_id):
     ppd2 = db.cursor()
     ppd2.execute(sql_cmd_repeat)
     data2 = ppd2.fetchall()
-    result = []; run = -1
+    result = []; run = -1; total = 0
     for i in data2:
         run += 1
+        total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
             'amount' : data[run][1]
         })
-    return result
+    return result, total
 
 
 # 標籤搜尋

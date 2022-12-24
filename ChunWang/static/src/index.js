@@ -58,7 +58,7 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
+}).mount('.tt')
 
 const search = createApp({
     data() {
@@ -106,7 +106,4 @@ const rank = createApp({
     created() {
         this.getDefaultData()
     }
-})
-
-rank.mount('.field')
-selectBar.mount('.tt')
+}).mount('.field')

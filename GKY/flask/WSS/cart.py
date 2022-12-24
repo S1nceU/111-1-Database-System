@@ -35,16 +35,20 @@ def checkcart():
     db = mysql_unit.connect()
     try:
         if request.method == 'GET':
-            #user_id = TL.decode_token(TL.getcookie())["user_id"]
-            #result = mysql_unit.cart_check(db,user_id)
-            result = mysql_unit.cart_check(db,1)
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
+            print('1')
+            result, total = mysql_unit.cart_check(db,user_id)
+            print('2')
+            # result = mysql_unit.cart_check(db,1)
             # print('result', result)
             #測試用 正式應抓取cookie
             length = len(result)
-            print(locals())
+            # print(length)
+            # print(locals())
             # print('length', length)
             db.close()
             return render_template('cart.html', data = locals())
     except:
-        print("error!!")
-        return 0
+        length = 0
+        total = 0
+        return render_template('cart.html', data = locals())
