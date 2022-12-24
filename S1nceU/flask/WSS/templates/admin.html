@@ -39,7 +39,7 @@
                         <h1>{{data['user'][p]['user_account']}}</h1>
                         <p>{{data['user'][p]['user_level']}}</p>
                         <p>{{data['user'][p]['user_id']}}</p>
-                        <a href="#" class="delete">停用</a>
+                        <div class="delete"><input type="button" value="停用"></div>
                     </li>
                     {% endfor %}
                 </ul>
@@ -65,7 +65,8 @@
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
                         <p>{{data['product'][p]['user_id']}}</p>
-                        <a href="#">刪除</a>
+                        <div class="delete2"><input type="button" value="刪除"></div>
+                        
                     </li>
                     {% endfor %}
 
