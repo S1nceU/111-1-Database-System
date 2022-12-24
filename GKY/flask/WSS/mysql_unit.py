@@ -1,9 +1,12 @@
 import pymysql
 from datetime import datetime
+
+# 連線
 def connect():
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='38173991', db='world')
     return db
 
+# 斷線 沒用到  因為可以直接 db.close()
 def disconnect(db):
     db.close()
 
@@ -33,14 +36,16 @@ def login_comfirm(db,FROM,WHERE):
             return data,user_level
         else:
             user_level = 1
+            data = data_admin
         
-    # if len(data) == 0:
+
     if user_level == 0:
         data = {
             'user_id'  : data[0],
             'username' : data[1],
             'account'  : data[2],
             'password' : data[3],
+            'status'   : data[8]
         }
     else:
         data = {
@@ -48,10 +53,10 @@ def login_comfirm(db,FROM,WHERE):
             'username' : data[1],
             'account'  : data[2],
             'password' : data[3],
+            'status'   : data[5]
         }
-    print(data)
+    print('當前status為',data['status'])
     return data,user_level
-
 
 # create account
 def register_insert(db,data,users):
@@ -89,30 +94,18 @@ def register_insert(db,data,users):
     else:
         return "Something repeat!!"
 
-# get product_id by product_name 
-def get_product_id(db,seller_id,product_name):
-    sql_cmd = """
-        SELECT product_id
-        FROM product
-        WHERE user_id_s = %s AND product_name = "%s"
-    """%(seller_id,product_name)
-    product_id = db.cursor()
-    product_id.execute(sql_cmd)
-    result = product_id.fetchone()
-    return result[0]
-
 # create product
 def create_product(db,data,seller_id,filename):
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     condition = (
-        seller_id,
-        data["product_name"],
-        data["price"],
-        data["description"],
-        currentTime,
-        data["total_amount"],
-        filename
+            seller_id,
+            data["product_name"],
+            int(data["price"]),
+            data["description"],
+            currentTime,
+            data["total_amount"],
+            filename
         )
     for i in condition:
         if i == '':
@@ -138,7 +131,8 @@ def create_product(db,data,seller_id,filename):
         p_id = get_product_id(db,seller_id,data["product_name"]) # 拿到本商品的ID
         label_dict = get_label(db)                               # 得到所有標籤的字典  ex. {"3c" : 2}
         print(label_dict[data["label"]])
-        set_category(db,p_id,label_dict[data["label"]])          # 設定商品標籤
+        if data["label"] in label_dict.keys():
+            set_category(db,p_id,label_dict[data["label"]])          # 設定商品標籤
         return "Create success."
     else:
         return "There is a same product name in your product list."
@@ -154,7 +148,61 @@ def get_label(db):
     result = {}
     for i in label.fetchall():
         result[i[1]] = i[0]
-    # print('拿到的label list', result)
+    return result
+
+
+
+# get product_id by product_name 
+def get_product_id(db,seller_id,product_name):
+    sql_cmd = """
+        SELECT product_id
+        FROM product
+        WHERE user_id_s = %s AND product_name = "%s"
+    """%(seller_id,product_name)
+    product_id = db.cursor()
+    product_id.execute(sql_cmd)
+    result = product_id.fetchone()
+    return result[0]
+
+# get product by product_ID
+def product_get(db, productID):
+    condition = (productID)
+
+    sql_cmd = """
+        (select product.product_id, product.product_name, product.product_img, product.price, product.description
+        from product
+        where product_id  = %s
+        )
+        """%condition
+    ppd = db.cursor()
+    ppd.execute(sql_cmd)
+    data = ppd.fetchone()
+    data = {
+        'product_id' : data[0],
+        'product_name' : data[1],
+        'product_img' : data[2],
+        'product_price' : data[3],
+        'product_description' : data[4],
+    }
+    return data
+
+def product_get_all(db):
+    sql_cmd = """
+        SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
+        FROM   product
+    """
+    ppd = db.cursor()
+    ppd.execute(sql_cmd)
+    data = ppd.fetchall()
+    result = []
+    for i in data:
+        result.append({
+            'product_id' : i[0],
+            'product_name' : i[1],
+            'product_img' : i[2],
+            'product_price' : i[3],
+            'product_description' : i[4]
+        })
     return result
 
 # set product label
@@ -179,35 +227,6 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
-
-
-
-
-
-# productID 流水號
-def product_get(db, productID):
-    condition = (productID)
-
-    sql_cmd = """
-        (select product.product_id, product.product_name, product.product_img, product.price, product.description
-        from product
-        where product_id  = %s
-        )
-        """%condition
-    ppd = db.cursor()
-    ppd.execute(sql_cmd)
-    data = ppd.fetchone()
-    data = {
-        'product_id' : data[0],
-        'product_name' : data[1],
-        'product_img' : data[2],
-        'product_price' : data[3],
-        'product_description' : data[4],
-    }
-    print('product data:', data)
-    return data
-# who: 'seller', 'customer'
-
 def memberInfo(db, who, userID):
     # print('userID = ', userID)
     if who == 'seller':
@@ -217,16 +236,19 @@ def memberInfo(db, who, userID):
             where  user_id_s = %d
             )
             """%(who, userID)
-    elif who == 'customers':
+        whois = "賣家"
+    elif who == 'customer':
         sql_cmd = """
             (select *
-            from '%s'
-            where user_id_c = %s
+            from %s
+            where user_id_c = %d
             )
             """%(who, userID)
+        whois = "買家"
     account = db.cursor()
     account.execute(sql_cmd)
     data = account.fetchone()
+    print(data)
     data = {
         'user_id' : data[0],
         'user_name' : data[1],
@@ -236,10 +258,11 @@ def memberInfo(db, who, userID):
         'user_address' : data[5],
         'user_phone' : data[6],
         'user_id_number' : data[7],
+        'user_level' : whois
     }
     return data
 
-def get_sallerProduct(db, sallerID):
+def get_sellerProduct(db, sallerID):
     productlist = list()
     sql_cmd = """
               (select *
@@ -266,5 +289,189 @@ def get_sallerProduct(db, sallerID):
         temp['product_id'].append(data[i][0])
     # print(temp)
     return temp
-    
 
+def admin_user_view(db):
+    result = []
+    sql_cmd_seller = """
+        SELECT seller.account, seller.user_id_s, seller.user_status
+        FROM   seller
+    """
+    sql_cmd_customer = """
+        SELECT customer.account, customer.user_id_c, customer.user_status
+        FROM   customer
+    """
+    data = db.cursor()
+    data.execute(sql_cmd_seller)
+    seller   = data.fetchall()
+    data.execute(sql_cmd_customer)
+    customer = data.fetchall()
+    for i in seller:
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "seller", "user_status" : i[2]})
+    for i in customer:
+        result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
+    return result
+
+def admin_product_view(db):
+    result = []
+    sql_cmd = """
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img
+        FROM   product
+        JOIN   seller ON product.user_id_s = seller.user_id_s
+        ORDER BY product.user_id_s
+    """
+    data = db.cursor()
+    data.execute(sql_cmd)
+    data = data.fetchall()
+    for i in data:
+        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4]})
+    return result
+
+def account_status(db,level,user_id,wanna_status):
+    sql_cmd = """"""
+    if level == "seller":
+        condition = (wanna_status,user_id)
+        sql_cmd = """
+            UPDATE seller
+            SET    seller.user_status = %s
+            WHERE  seller.user_id_s = %s 
+        """ %condition
+    elif level == "customer":
+        condition = (wanna_status,user_id)
+        sql_cmd = """
+            UPDATE customer
+            SET    customer.user_status = %s
+            WHERE  customer.user_id_c = %s 
+        """ %condition
+    operation = db.cursor()
+    operation.execute(sql_cmd)
+    return "Change status success."
+
+def product_status(db,product_id,wanna_status):
+    condition = (wanna_status,product_id)
+    sql_cmd = """
+        UPDATE product
+        SET    product.status = %s
+        WHERE  product.product_id = %s
+    """%condition
+    operation = db.cursor()
+    operation.execute(sql_cmd)
+    return "Change status success."
+
+def cart_add(db,data,user_id):
+    condition = (
+        data["product_id"],
+        user_id,
+        data["amount"],
+        )
+    sql_cmd = """
+        INSERT INTO cart_product (product_id,user_id_c,amount)
+        VALUES (%s,%s,%s) 
+    """%condition
+    wannacart = db.cursor()
+    wannacart.execute(sql_cmd)
+    return "add success."
+    
+def cart_delete(db,data,user_id):
+    condition = (
+        data["product_id"],
+        user_id,
+        )
+    sql_cmd = """
+        DELETE
+        FROM cart_product
+        WHERE product_id = %s AND user_id_c = %s
+    """%condition
+    print(sql_cmd   )
+    nocart = db.cursor()
+    nocart.execute(sql_cmd)
+    return "delete success."
+    
+def cart_check(db,user_id):
+    condition = (user_id)
+    sql_cmd = """
+        SELECT cart_product.product_id, cart_product.amount
+        FROM cart_product
+        WHERE user_id_c  = %s
+        """%condition
+    print(condition)
+    ppd = db.cursor()
+    ppd.execute(sql_cmd)
+    data = ppd.fetchall()
+    ###奇妙的多值判斷###
+    temp = ("")
+    for i in data:
+        temp = temp + "product_id = " + str(i[0]) + " or "
+    temp = temp[:-3]
+    ###奇妙的多值判斷###
+    sql_cmd_repeat = """
+        select product.product_img, product.product_name, product.price
+        from product
+        where %s
+        """%temp
+    ppd2 = db.cursor()
+    ppd2.execute(sql_cmd_repeat)
+    data2 = ppd2.fetchall()
+    result = []; run = -1; total = 0
+    for i in data2:
+        run += 1
+        total += i[2]*data[run][1]
+        result.append({
+            'product_img' : i[0],
+            'product_name' : i[1],
+            'product_price' : i[2],
+            'amount' : data[run][1]
+        })
+    return result, total
+
+
+# 標籤搜尋
+def product_get_tag(db, tag):
+    sql_cmd = """
+    SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
+    FROM `product`
+    JOIN `category` ON `product`.`product_id` = `category`.`product_id`
+    JOIN `label` ON `category`.`label_id` = `label`.`label_id`
+    WHERE `label`.`label` = '%s';
+    """%tag
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['product_id'] = list()
+    temp['description'] = list()
+    for i in range(len(data)):
+        temp['product_id'].append(data[i][0])
+        temp['productName'].append(data[i][1])
+        temp['product_img'].append(data[i][3])
+        temp['price'].append(data[i][2])
+        temp['description'].append(data[i][4])
+    # print(temp)
+    return temp
+
+
+def product_search_content(db, content):
+    sql_cmd = """
+    SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
+    FROM `product`
+    WHERE `product`.`product_name` LIKE '%%%s%%';
+    """%content
+    PD = db.cursor()
+    PD.execute(sql_cmd)
+    data = PD.fetchall()
+    temp = dict()
+    temp['productName'] = list()
+    temp['product_img'] = list()
+    temp['price'] = list()
+    temp['product_id'] = list()
+    temp['description'] = list()
+    for i in range(len(data)):
+        temp['product_id'].append(data[i][0])
+        temp['productName'].append(data[i][1])
+        temp['product_img'].append(data[i][3])
+        temp['price'].append(data[i][2])
+        temp['description'].append(data[i][4])
+    # print(temp)
+    return temp

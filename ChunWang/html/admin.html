@@ -6,12 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理者</title>
     <link rel="stylesheet" href="../static/css/admin.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/admin.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+        <li><a href="" @click.prevent="goHome()"><div class="tb">首頁</div></a></li>
+        <li><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
         
     </ul>
     </div>

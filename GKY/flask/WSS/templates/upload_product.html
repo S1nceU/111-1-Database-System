@@ -6,15 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品</title>
     <link rel="stylesheet" href="../static/css/upload_product.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/upload_product.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
     <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb">你的訂單</div></a></li>
-        <li><a href="cart.html"><div class="tb">購物車</div></a></li>
-        <li><a href="member.html"><div class="tb">會員中心</div></a></li>
-        <li><a href="login.html"><div class="tb">註冊/登入</div></a></li>
+        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+        <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+        <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
+        <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
+        <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
+        <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+        <li><a>
+            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+            <div v-else class="tb" @click="Logout">登出</div>
+        </a></li>
     </ul>
     </div>
     <div class="content">
@@ -30,26 +45,46 @@
                     
                 </div>
                 <div class="right_data">
+                    <form name = 'myform' action = "/upload_product" enctype="multipart/form-data"  method = 'POST'>
                     <div class="flex">
                         <div class="right_data_title">
                             <p>商品名稱</p>
                             <p>商品價格</p>
                             <p>商品描述</p>
+                            <p>可用折價券</p>
+                            <p>標籤</p>
+                            <p>商品數量</p>
                             <p style="margin-top: 25px;">商品圖片</p>
                         </div>
                         <div class="right_data_content">
-                            <input placeholder="" maxlength="30" style="margin-top:0px;"> <!----各項輸入----->
-                            <input onkeyup="value=value.replace(/[^\d]/g,'') " >
-                            <input placeholder="" maxlength="30">
-                            <button  role="button" class="add_image">新增圖片</button>
+                            <!-- <input placeholder="" maxlength="30" style="margin-top:0px;">  -->
+                            <input id = 'product_name' type = 'text' name = 'product_name' style="margin-top:0px;">
+                            <!-- <input onkeyup="value=value.replace(/[^\d]/g,'') " > -->
+                            <input id ='price' type ='text' name ='price'>
+                            <!-- <input placeholder="" maxlength="30"> -->
+                            <input id ='description' type ='text' name ='description'>
+                            <!-- <button  role="button" class="add_image">新增圖片</button> -->
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                            <!-- <input id ='label' type ='text' name ='label'> -->
+                            <select name = 'label'>
+                                {% for label in data['labels'] %}
+                                    <option value="{{label}}">{{label}}</option>
+                                {% endfor %}
+                            </select>
+                            <input id ='total_amount' type ='text' name ='total_amount'>   
+                            <input  type="file"  name="filename" accept=".png" required style="margin-top:50px;"> 
 
                         </div>
                     </div>
                     <div class="left">
                         <button class="button-40" role="button">上架</button>
                     </div>
-                    
-
+                    </form>
+                           
                 </div>
         </div>
             

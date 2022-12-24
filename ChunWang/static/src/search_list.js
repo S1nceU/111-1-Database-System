@@ -4,7 +4,8 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {

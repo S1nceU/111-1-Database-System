@@ -4,7 +4,8 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {
@@ -16,6 +17,13 @@ const selectBar = createApp({
             }
             this.username = res.data
             this.logged = true       
+        },
+        async addToCart(){
+            let pathName = window.location.pathname
+            let res = await axios.post("url", {product: pathName})
+            if(await res.data == 'Success') {
+                alert("加入完成")
+            }
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})

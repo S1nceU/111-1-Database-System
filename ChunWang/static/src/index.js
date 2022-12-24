@@ -4,34 +4,21 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-
-            if(await res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
                 this.logged = false
                 return
             }
-            let data = await res.data
-            this.username = await data.username
-            let accountLevel = await data.user_level
+            this.username = await loginData.username
+            this.accountLevel = await loginData.user_level
             this.logged = true
-      
-            console.log(accountLevel)
-            if(accountLevel == '0') {
-                this.goSeller()
-            }
-
-            if(accountLevel == '1') {
-                this.goHome()
-            }
-
-            if(accountLevel == '2') {
-                this.goAdmin()
-            } 
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})
@@ -60,7 +47,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/register")
         },
         goAdmin() {
-            
+            window.location.replace("http://127.0.0.1:5000/admin")
         }
     },
     computed:{
@@ -71,7 +58,20 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
+}).mount('.tt')
+
+const search = createApp({
+    data() {
+        return {
+            searchText: ""
+        }
+    },
+    methods: {
+        Search() {
+            window.location.replace(`http://127.0.0.1:5000/search/${this.searchText}`)
+        }
+    }
+}).mount('.search')
 
 const rank = createApp({
     data() {
@@ -106,7 +106,4 @@ const rank = createApp({
     created() {
         this.getDefaultData()
     }
-})
-
-rank.mount('.field')
-selectBar.mount('.tt')
+}).mount('.field')

@@ -1,5 +1,4 @@
-from flask import request, Blueprint, jsonify, make_response
-# from flask_sqlalchemy import SQLAlchemy
+from flask import request, Blueprint, jsonify
 import mysql_unit
 import token_logined as TL
 login = Blueprint('login', __name__, template_folder='templates')
@@ -15,12 +14,15 @@ def login_seller():
         print(req_account)
         print(req_password)
         data,user_level = mysql_unit.login_comfirm(db,"seller",req_account)
-        print(data)
         if data is None:
             # print("test",data,"a",req_account,"p",req_password)
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
+        elif data['status'] != b'\x01':
+            db.close()
+            return 'Account has been disabled!!'
+
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
             db.close()
@@ -36,10 +38,12 @@ def login_seller():
             # return '3'
         else:
             print('Hello ' + data['username'])
+            print(data)
             token_login = TL.make_token(data,0)
             resp = TL.setcookie_logined(token_login)
-            # login_data = TL.getcookie()
-            # TL.decode_token(login_data)
+            login_data = TL.getcookie()
+            print(TL.decode_token(login_data))
+
             db.close()
             return resp
             # return '2'
@@ -59,6 +63,9 @@ def login_customer():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
+        elif data['status'] != b'\x01':
+            db.close()
+            return 'Account has been disabled!!'
         elif req_password != data['password']:
             print("Password is wrong."+"account = "+ req_account + " password = "+ req_password)
             db.close()
@@ -74,7 +81,7 @@ def login_customer():
             # return '3'
         else:
             print('Hello ' + data['username'])
-            token_login = TL.make_token(data,0)
+            token_login = TL.make_token(data,1)
             resp = TL.setcookie_logined(token_login)
             # login_data = TL.getcookie()
             # TL.decode_token(login_data)
@@ -83,16 +90,24 @@ def login_customer():
             # return '2'
     db.close()
 
-@login.route('/logout/')
+
+
+@login.route('/logout/', methods=['POST'])
 def login_out():
-    return TL.delcookie()
+    if request.method == 'POST':
+        print("logout")
+        return TL.delcookie()
 
 @login.route('/isLogined/', methods=['GET', 'POST'])
 def isLogin():
+    
     if request.method == 'POST':
         user_data = TL.getcookie()
-        print(TL.decode_token(user_data))
+        print(jsonify(TL.decode_token(user_data)))
         if user_data != None:
-            return TL.decode_token(user_data)['username']
+            return jsonify(TL.decode_token(user_data))
+            # return TL.decode_token(user_data)['username']
         else:
             return "False"
+
+
