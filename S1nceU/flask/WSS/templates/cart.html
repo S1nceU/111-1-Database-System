@@ -47,9 +47,10 @@
             <div class="order_head">
                 <p>圖片</p>
                 <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width: 12%;">價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 12%;">數量</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="order">
@@ -61,7 +62,14 @@
                         </div>
                         <h1>{{data['result'][i]['product_name']}}</h1>
                         <p>{{data['result'][i]['product_price']}}</p>
-                        <p>{{data['result'][i]['amount']}}</p>
+                        <div class="coupon">
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                        </div>
+                        <p class="number_count">{{data['result'][i]['amount']}}</p>
                         <a href="#" class="delete_item">刪除</a>
                     </li>
                     {% endfor %}
