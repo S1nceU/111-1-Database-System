@@ -48,19 +48,24 @@ const app = createApp({
             }
             
             // 執行登入後相關事宜
-            if(res.data == "seller") {
+            if(res.data == "login success") {
+                this.getData()
+            }
+            
+        },
+        async getData() {
+            let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
+            let loginData = await res.data
+            if(loginData == 'False') {
+                return
+            }
+            let accountLevel = loginData.user_level
+            if(accountLevel == '0') {
                 this.goSeller()
-                return
-            }
-
-            if(res.data == "customer") {
+            }else if(accountLevel == '1') {
                 this.goHome()
-                return
-            }
-
-            if(res.data == "admin") {
+            }else if(accountLevel == '2') {
                 this.goAdmin()
-                return
             }
         },
         goRegister() {
