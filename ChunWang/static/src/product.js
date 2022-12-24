@@ -21,7 +21,7 @@ const selectBar = createApp({
             this.logged = true      
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
             window.location.reload()
         },
@@ -72,8 +72,12 @@ const product = createApp({
                     "product_id": productID,
                     "amount": parseInt(this.addCount) // 之後要修
             })
-            if(await res.data == 'success') {
+            if(await res.data == 'add success.') {
                 alert("加入完成")
+            }
+            else {
+                alert("登入過後再試")
+                window.location.replace("http://127.0.0.1:5000/login")
             }
         },
     }
