@@ -169,8 +169,9 @@ def product_get(db, productID):
     condition = (productID)
 
     sql_cmd = """
-        (select product.product_id, product.product_name, product.product_img, product.price, product.description
+        (select product.product_id, product.product_name, product.product_img, product.price, product.description, seller.username, seller.user_id_s
         from product
+        JOIN seller ON product.user_id_s = seller.user_id_s
         where product_id  = %s
         )
         """%condition
@@ -183,6 +184,8 @@ def product_get(db, productID):
         'product_img' : data[2],
         'product_price' : data[3],
         'product_description' : data[4],
+        'seller_username' : data[5],
+        'seller_id' : data[6]
     }
     return data
 
@@ -270,6 +273,7 @@ def get_sellerProduct(db, sellerID):
     sql_cmd = """
               (select *
                from product
+               JOIN seller ON product.user_id_s = seller.user_id_s
                where product.user_id_s = %d
               )
             """%(sellerID)
@@ -284,12 +288,14 @@ def get_sellerProduct(db, sellerID):
     temp['price'] = list()
     temp['amount'] = list()
     temp['product_id'] = list()
+    temp['seller_name'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
         temp['price'].append(data[i][3])
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
+        temp['seller_name'].append(data[i][10])
     # print(temp)
     return temp
 
@@ -489,14 +495,18 @@ def product_search_content(db, content):
 # add ticket for seller
 def ticket_add(db,data,user_id):
     condition = (
-        data['effective_date'],
+        # data['effective_date'],
         data['amount'],
         data['discount'],
         user_id
     ) 
+    # sql_cmd = """
+    #     INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    #     VALUES (\"%s\", \"%s\", \"%s\",%s)
+    # """%condition
     sql_cmd = """
-        INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
-        VALUES (\"%s\", \"%s\", \"%s\",%s)
+        INSERT INTO ticket (amount, discount, user_id_s) 
+        VALUES (\"%s\", \"%s\",%s)
     """%condition
     addticket = db.cursor()
     addticket.execute(sql_cmd)

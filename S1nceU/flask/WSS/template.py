@@ -123,7 +123,7 @@ def mart(id):
         print(product)
         if request.method == 'GET':
             # db.close()
-            return render_template('example.html', data = locals())
+            return render_template('seller_front.html', data = locals())
     # except:
     #     db.close()
     #     print("Service error!!")

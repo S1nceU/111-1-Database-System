@@ -8,10 +8,8 @@ def addcart():
     db = mysql_unit.connect()
     if request.method == 'POST':
         try:
-            #user_id = TL.decode_token(TL.getcookie())["user_id"]
-            #result = mysql_unit.create_cart(db,cart.json,user_id)
-            
-            result = mysql_unit.cart_add(db,request.json,1)
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
+            result = mysql_unit.cart_add(db,request.json,user_id)
             #測試用 正式應抓取cookie
             db.commit()
             db.close()
