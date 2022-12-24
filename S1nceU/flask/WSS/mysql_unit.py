@@ -537,32 +537,42 @@ def ticket_view(db,user_id):
         result.append(dic)
     return result
 
-def ticket_use(db,ticket_id):
-    condition_exist = (
-        ticket_id
-    )
-    sql_cmd = """
-        SELECT ticket.amount
-        FROM   ticket
-        WHERE  ticket.ticket_id = %s
-    """%condition_exist
-    currentticket = db.cursor()
-    currentticket.execute(sql_cmd)
-    amount = int(currentticket.fetchone()[0])
-    if amount <= 0: 
-        return "Ticket was run out."
-    condition = (
-        amount - 1,
-        ticket_id
-    )
-    sql_cmd = """
-        UPDATE ticket
-        SET    ticket.amount = %s
-        WHERE  ticket.ticket_id = %s
-    """%condition
-    updateticket = db.cursor()
-    updateticket.execute(sql_cmd)
-    db.commit()
+# use ticket
+def ticket_use(db,tickets_id):
+    flag = False
+    WannaUseTicket = []
+    cant_use_ticket = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        amount = int(currentticket.fetchone()[0])
+        WannaUseTicket.append(amount)
+        if amount <= 0:
+            flag = True 
+            cant_use_ticket.append("Ticket " + str(i) + " was run out.")
+    if flag:
+        return cant_use_ticket
+    for i in range(len(tickets_id)):
+        condition = (
+            WannaUseTicket[i] - 1,
+            tickets_id[i]
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
     return "Use ticket success."
 
 # seller set ticket amount
@@ -580,3 +590,48 @@ def ticket_del(db, user_id, ticket_id):
     delticket.execute(sql_cmd)
     db.commit()
     return "Delete ticlet success."
+
+# let product amount minis
+def product_sell(db,products):
+    flag = False
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    if flag:
+        return cant_sell_product
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Selled product success."

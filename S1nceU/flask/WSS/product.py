@@ -62,6 +62,14 @@ def set_label():
         product_name = request.json["product"]
         label = label_list[request.json["label"]]
         product_id = mysql_unit.get_product_id(db,seller_id,product_name)
-
         db.close()
         return 
+
+@product.route('/sell_product/', methods=['POST'])
+def sell_product():
+    db = mysql_unit.connect()
+    if request.method == 'POST':
+        li = [[2,0],[3,1],[8,2],[28,5]]
+        result = mysql_unit.product_sell(db,li) #### need value
+        db.close()
+        return result
