@@ -257,6 +257,8 @@ table {
   touch-action: manipulation;
   vertical-align: top;
   white-space: nowrap;
+  margin-bottom: 20px;
+  height: 80px;
 }
 
 .button-68:hover {
@@ -273,4 +275,10 @@ table {
 
 .button-68:hover {
   box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
+}
+.number_count{
+    height: 100px;
+    width: 100px;
+    padding-top: 20px;
+    padding-left: 50px;
 }
