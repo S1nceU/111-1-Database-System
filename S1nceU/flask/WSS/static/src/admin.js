@@ -13,17 +13,22 @@ const selectBar = createApp({
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
             let loginData = await res.data
             if(loginData == 'False') {
+                alert("請先登入")
                 this.logged = false
+                this.goLogin()
                 return
             }
             this.username = await loginData.username
             this.accountLevel = await loginData.user_level
-            this.logged = true
+            this.logged = true    
+            if(accountLevel != '2') {
+                alert("您沒有權限")
+                this.goHome()
+            }
         },
         Logout() {
             Cookies.remove("WSS", {path: ''})
             this.logged = false
-            alert("Log out ~")
             window.location.reload()
         },
         goLogin() {
@@ -59,17 +64,5 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-}).mount(".tt")
-
-const search = createApp({
-    data() {
-        return {
-            searchText: ""
-        }
-    },
-    methods: {
-        Search() {
-            window.location.replace(`http://127.0.0.1:5000/search/${this.searchText}`)
-        }
-    }
-}).mount('.search')
+})
+selectBar.mount('.tt')

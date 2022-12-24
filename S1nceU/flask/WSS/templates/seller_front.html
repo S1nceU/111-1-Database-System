@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品</title>
-    <link rel="stylesheet" href="../static/css/product.css">
+    <title>賣場</title>
+    <link rel="stylesheet" href="../static/css/seller_front.css">
     <script type="importmap">
         {
           "imports": {
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/product.js"></script>
+    <script type="module" src="../static/src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -39,29 +39,39 @@
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
-            
-            
         </div>
-        <div class="product_title">
+        <div class="order_title">
             
-            <div class="product">
-                <img src="../static/img/{{data['product']['product_img']}}">
-                <div class="product_des">
-                    <h1>{{data['product']['product_name']}}</h1>
-                    <p class="product_price">產品價格 ${{data['product']['product_price']}}</p>
-                    <a href="http://127.0.0.1:5000/mart/{{data['product']['seller_id']}}">{{data['product']['seller_username']}}</a>
-                    <p>{{data['product']['product_description']}}</p>
-                    <div class="button_row">
-                        <div class="number_count">
-                            <p>數量</p>
-                            <input type="number" name="tentacles" min="1" max="100" value="1" >
+            <p style="font-size:50px;margin-top: 50px;">{{data['product']['seller_name'][0]}} 的商店</p>
+            <div class="order_head">
+                <p>圖片</p>
+                <p style="width: 30%;">商品名稱</p>
+                <p style="width: 20%;">商品價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 20%;border-right: black solid 4px;">庫存</p>
+
+            </div>
+            <div class="order">
+                <ul>
+                    {% for p in range(data['length']) %}
+                    <li>
+                        <div class="product_img">
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                         </div>
-                        <button class="button-68" role="button" @click="addToCart()">加入購物車</button>
-                        <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
-    
-                    </div>
-                </div>
-                
+                        <h1>{{data['product']['productName'][p]}}</h1>
+                        <p>${{data['product']['price'][p]}}</p>
+                        <div class="coupon">
+                            <select>
+                                <option>折價券1</option>
+                                <option>折價券2</option>
+                                <option>折價券3</option>
+                            </select>
+                        </div>
+                        <p>{{data['product']['amount'][p]}}</p>
+                    </li>
+                    {% endfor %}
+
+                </ul>
             </div>
         </div>
         
