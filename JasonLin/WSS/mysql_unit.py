@@ -424,7 +424,7 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price
+        select product.product_img, product.product_name, product.price,product.user_id_s
         from product
         where %s
         """%temp
@@ -433,13 +433,25 @@ def cart_check(db,user_id):
     data2 = ppd2.fetchall()
     result = []; run = -1; total = 0
     for i in data2:
+        sql_cmd_ticket = """
+        select ticket.ticket_id,ticket.discount
+        from ticket
+        where user_id_s = %s
+        """%i[3]
+        if(sql_cmd_ticket != None):
+            temp2 = db.cursor()
+            temp2.execute(sql_cmd_ticket)
+            ticket = temp2.fetchall()
+        else:
+            ticket = ""
         run += 1
         total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
-            'amount' : data[run][1]
+            'amount' : data[run][1],
+            'ticket': ticket
         })
     return result
 
@@ -516,21 +528,6 @@ def ticket_add(db,data,user_id):
 # def ticket_view():
 
 def create_order(db,data,user_id):
-    currentDateAndTime = datetime.now()
-    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
-    condition = (
-        data["total_price"],
-        currentTime,
-        data["address"],
-        user_id,
-        )
-    #新增order
-    sql_cmd = """
-        INSERT INTO world.ORDER (total_price,order_time,address,status,user_id_c)
-        VALUES (\"%s\",\"%s\",\"%s\",0,%s)
-    """%condition
-    account = db.cursor()
-    account.execute(sql_cmd)
     #抓取該user的cart資料
     sql_cmd_cart = """
         select cart_product.product_id, cart_product.amount
@@ -540,6 +537,22 @@ def create_order(db,data,user_id):
     temp = db.cursor()
     temp.execute(sql_cmd_cart)
     data_cart = temp.fetchall()
+    print(data_cart)
+    #新增order
+    currentDateAndTime = datetime.now()
+    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    condition = (
+        data["total_price"],
+        currentTime,
+        data["address"],
+        user_id,
+        )
+    sql_cmd = """
+        INSERT INTO world.ORDER (total_price,order_time,address,status,user_id_c)
+        VALUES (\"%s\",\"%s\",\"%s\",0,%s)
+    """%condition
+    account = db.cursor()
+    account.execute(sql_cmd)
     #抓剛剛建立的order_id
     sql_cmd_orderID = """
         select order.order_id
