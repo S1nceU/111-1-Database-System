@@ -5,7 +5,7 @@ const selectBar = createApp({
         return {
             username: 'username',
             logged: false,
-            accountLevel: ''
+            accountLevel: '',
         }
     },
     methods: {
@@ -21,7 +21,7 @@ const selectBar = createApp({
             this.logged = true      
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
             window.location.reload()
         },
@@ -60,6 +60,7 @@ const selectBar = createApp({
 const product = createApp({
     data() {
         return {
+            addCount: '1'
         }
     },
     methods: {
@@ -69,11 +70,15 @@ const product = createApp({
             let res = await axios.post("http://127.0.0.1:5000/cart_add/", 
                 {
                     "product_id": productID,
-                    "amount": 1 // 之後要修
+                    "amount": parseInt(this.addCount) // 之後要修
             })
-            if(await res.data == 'Success') {
+            if(await res.data == 'add success.') {
                 alert("加入完成")
             }
-        }
+            else {
+                alert("登入過後再試")
+                window.location.replace("http://127.0.0.1:5000/login")
+            }
+        },
     }
 }).mount('.content')

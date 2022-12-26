@@ -169,8 +169,9 @@ def product_get(db, productID):
     condition = (productID)
 
     sql_cmd = """
-        (select product.product_id, product.product_name, product.product_img, product.price, product.description
+        (select product.product_id, product.product_name, product.product_img, product.price, product.description, seller.username, seller.user_id_s
         from product
+        JOIN seller ON product.user_id_s = seller.user_id_s
         where product_id  = %s
         )
         """%condition
@@ -183,6 +184,8 @@ def product_get(db, productID):
         'product_img' : data[2],
         'product_price' : data[3],
         'product_description' : data[4],
+        'seller_username' : data[5],
+        'seller_id' : data[6]
     }
     return data
 
@@ -270,6 +273,7 @@ def get_sellerProduct(db, sellerID):
     sql_cmd = """
               (select *
                from product
+               JOIN seller ON product.user_id_s = seller.user_id_s
                where product.user_id_s = %d
               )
             """%(sellerID)
@@ -284,12 +288,14 @@ def get_sellerProduct(db, sellerID):
     temp['price'] = list()
     temp['amount'] = list()
     temp['product_id'] = list()
+    temp['seller_name'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
         temp['price'].append(data[i][3])
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
+        temp['seller_name'].append(data[i][10])
     # print(temp)
     return temp
 
@@ -415,23 +421,25 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price
+        select product.product_img, product.product_name, product.price, product.user_id_s
         from product
         where %s
         """%temp
     ppd2 = db.cursor()
     ppd2.execute(sql_cmd_repeat)
     data2 = ppd2.fetchall()
-    result = []; run = -1
+    result = []; run = -1; total = 0
     for i in data2:
         run += 1
+        total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
-            'amount' : data[run][1]
+            'amount' : data[run][1],
+            'user_id_s' : i[3]
         })
-    return result
+    return result, total
 
 # 標籤搜尋
 def product_get_tag(db, tag):
@@ -488,14 +496,18 @@ def product_search_content(db, content):
 # add ticket for seller
 def ticket_add(db,data,user_id):
     condition = (
-        data['effective_date'],
+        # data['effective_date'],
         data['amount'],
         data['discount'],
         user_id
     ) 
+    # sql_cmd = """
+    #     INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    #     VALUES (\"%s\", \"%s\", \"%s\",%s)
+    # """%condition
     sql_cmd = """
-        INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
-        VALUES (\"%s\", \"%s\", \"%s\",%s)
+        INSERT INTO ticket (amount, discount, user_id_s) 
+        VALUES (\"%s\", \"%s\",%s)
     """%condition
     addticket = db.cursor()
     addticket.execute(sql_cmd)
@@ -526,32 +538,53 @@ def ticket_view(db,user_id):
         result.append(dic)
     return result
 
-def ticket_use(db,ticket_id):
-    condition_exist = (
-        ticket_id
-    )
-    sql_cmd = """
-        SELECT ticket.amount
-        FROM   ticket
-        WHERE  ticket.ticket_id = %s
-    """%condition_exist
-    currentticket = db.cursor()
-    currentticket.execute(sql_cmd)
-    amount = int(currentticket.fetchone()[0])
-    if amount <= 0: 
-        return "Ticket was run out."
-    condition = (
-        amount - 1,
-        ticket_id
-    )
-    sql_cmd = """
-        UPDATE ticket
-        SET    ticket.amount = %s
-        WHERE  ticket.ticket_id = %s
-    """%condition
-    updateticket = db.cursor()
-    updateticket.execute(sql_cmd)
-    db.commit()
+# use ticket
+def ticket_use(db,tickets_id):
+    flag = False
+    WannaUseTicket = {}
+    ExistTicket = {}
+    cant_use_ticket = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.ticket_id,ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        ticket = currentticket.fetchone()
+        ticket_id = ticket[0]
+        amount = int(ticket[1])
+        if ticket_id not in WannaUseTicket.keys():
+            WannaUseTicket[ticket_id] = 1
+            ExistTicket[ticket_id] = amount
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+        else :
+            WannaUseTicket[ticket_id] += 1
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+    if flag:
+        return cant_use_ticket
+    print(WannaUseTicket)
+    for i in WannaUseTicket.keys():
+        condition = (
+            ExistTicket[i] - WannaUseTicket[i],
+            i
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
     return "Use ticket success."
 
 # seller set ticket amount
@@ -569,3 +602,48 @@ def ticket_del(db, user_id, ticket_id):
     delticket.execute(sql_cmd)
     db.commit()
     return "Delete ticlet success."
+
+# let product amount minis
+def product_sell(db,products):
+    flag = False
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    if flag:
+        return cant_sell_product
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Selled product success."

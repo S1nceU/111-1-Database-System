@@ -391,10 +391,19 @@ def cart_delete(db,data,user_id):
         FROM cart_product
         WHERE product_id = %s AND user_id_c = %s
     """%condition
-    print(sql_cmd   )
+
     nocart = db.cursor()
     nocart.execute(sql_cmd)
     return "delete success."
+def cart_delete_all(db,user_id):
+    sql_cmd = """
+        DELETE
+        FROM cart_product
+        WHERE user_id_c = %s
+    """%user_id
+    nocart = db.cursor()
+    nocart.execute(sql_cmd)
+    print("delete success.") 
     
 # view cart by user_id
 def cart_check(db,user_id):
@@ -415,7 +424,7 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price
+        select product.product_img, product.product_name, product.price,product.user_id_s
         from product
         where %s
         """%temp
@@ -424,13 +433,25 @@ def cart_check(db,user_id):
     data2 = ppd2.fetchall()
     result = []; run = -1; total = 0
     for i in data2:
+        sql_cmd_ticket = """
+        select ticket.ticket_id,ticket.discount
+        from ticket
+        where user_id_s = %s
+        """%i[3]
+        if(sql_cmd_ticket != None):
+            temp2 = db.cursor()
+            temp2.execute(sql_cmd_ticket)
+            ticket = temp2.fetchall()
+        else:
+            ticket = ""
         run += 1
         total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
-            'amount' : data[run][1]
+            'amount' : data[run][1],
+            'ticket': ticket
         })
     return result
 
@@ -507,21 +528,50 @@ def ticket_add(db,data,user_id):
 # def ticket_view():
 
 def create_order(db,data,user_id):
+    #抓取該user的cart資料
+    sql_cmd_cart = """
+        select cart_product.product_id, cart_product.amount
+        from cart_product
+        where user_id_c = %s
+    """%user_id
+    temp = db.cursor()
+    temp.execute(sql_cmd_cart)
+    data_cart = temp.fetchall()
+    print(data_cart)
+    #新增order
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     condition = (
-        #data["total_price"],
+        data["total_price"],
         currentTime,
         data["address"],
         user_id,
         )
-    print(data)
-    print(condition)
-    print(type(currentTime))
     sql_cmd = """
-        INSERT INTO ORDER (total_price,order_time,address,status,user_id_c)
-        VALUES (2000.00,"%s","%s",1,%d)
+        INSERT INTO world.ORDER (total_price,order_time,address,status,user_id_c)
+        VALUES (\"%s\",\"%s\",\"%s\",0,%s)
     """%condition
-    wannacart = db.cursor()
-    wannacart.execute(sql_cmd)
+    account = db.cursor()
+    account.execute(sql_cmd)
+    #抓剛剛建立的order_id
+    sql_cmd_orderID = """
+        select order.order_id
+        from world.order
+        where total_price = \"%s\" and order_time = \"%s\" and address = \"%s\" and user_id_c = %s
+    """%condition
+    temp2 = db.cursor()
+    temp2.execute(sql_cmd_orderID)
+    order_id = int(temp2.fetchall()[0][0])
+    #新增order_product
+    for i in data_cart:
+        i = list(i)
+        i.append(order_id)
+        i = tuple(i)
+        sql_cmd_order = """
+        INSERT INTO order_product (product_id,amount,order_id)
+        VALUES (%s,%s,%s)
+        """%i
+        account = db.cursor()
+        account.execute(sql_cmd_order)
+    cart_delete_all(db,user_id)
     return "create success."

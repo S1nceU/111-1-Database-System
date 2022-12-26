@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, redirect
 import mysql_unit
 import token_logined as TL
 ticket = Blueprint('ticket', __name__, template_folder='templates')
@@ -10,7 +10,7 @@ def add_ticket():
         # user_id = TL.decode_token(TL.getcookie())["user_id"]
         result = mysql_unit.ticket_add(db, request.form, 1)
         db.close()
-        return result
+        return redirect('/seller')
 
 @ticket.route('/view_ticket/', methods=['GET', 'POST'])
 def view_ticket():
@@ -25,7 +25,8 @@ def view_ticket():
 def use_ticket():
     db = mysql_unit.connect()
     if request.method == 'POST':
-        result = mysql_unit.ticket_use(db,1)
+        li = [2,2,2,5]
+        result = mysql_unit.ticket_use(db,li)
         db.close()
         return result
 

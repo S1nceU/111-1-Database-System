@@ -245,12 +245,18 @@ table {
 
 }
 .delete_item{
+    display: flex;
+    flex-direction: column;
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     height: 200px;
-    line-height: 200px;
     width: 15%;
 
+}
+.delete_item a{
+    display: block;
+    padding-top: 25px;
+    height: 100px;
 }
 .order li{
     display: flex;
