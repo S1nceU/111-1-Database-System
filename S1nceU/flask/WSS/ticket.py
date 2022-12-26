@@ -25,7 +25,7 @@ def view_ticket():
 def use_ticket():
     db = mysql_unit.connect()
     if request.method == 'POST':
-        li = [2,3,4]
+        li = [2,2,2,5]
         result = mysql_unit.ticket_use(db,li)
         db.close()
         return result

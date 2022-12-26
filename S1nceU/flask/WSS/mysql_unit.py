@@ -421,7 +421,7 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price
+        select product.product_img, product.product_name, product.price, product.user_id_s
         from product
         where %s
         """%temp
@@ -436,7 +436,8 @@ def cart_check(db,user_id):
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
-            'amount' : data[run][1]
+            'amount' : data[run][1],
+            'user_id_s' : i[3]
         })
     return result, total
 
@@ -540,30 +541,41 @@ def ticket_view(db,user_id):
 # use ticket
 def ticket_use(db,tickets_id):
     flag = False
-    WannaUseTicket = []
+    WannaUseTicket = {}
+    ExistTicket = {}
     cant_use_ticket = []
     for i in tickets_id:
         condition_exist = (
             i
         )
         sql_cmd = """
-            SELECT ticket.amount
+            SELECT ticket.ticket_id,ticket.amount
             FROM   ticket
             WHERE  ticket.ticket_id = %s
         """%condition_exist
         currentticket = db.cursor()
         currentticket.execute(sql_cmd)
-        amount = int(currentticket.fetchone()[0])
-        WannaUseTicket.append(amount)
-        if amount <= 0:
-            flag = True 
-            cant_use_ticket.append("Ticket " + str(i) + " was run out.")
+        ticket = currentticket.fetchone()
+        ticket_id = ticket[0]
+        amount = int(ticket[1])
+        if ticket_id not in WannaUseTicket.keys():
+            WannaUseTicket[ticket_id] = 1
+            ExistTicket[ticket_id] = amount
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+        else :
+            WannaUseTicket[ticket_id] += 1
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
     if flag:
         return cant_use_ticket
-    for i in range(len(tickets_id)):
+    print(WannaUseTicket)
+    for i in WannaUseTicket.keys():
         condition = (
-            WannaUseTicket[i] - 1,
-            tickets_id[i]
+            ExistTicket[i] - WannaUseTicket[i],
+            i
         )
         sql_cmd = """
             UPDATE ticket
