@@ -165,3 +165,19 @@ def searchResult(content):
             message = "共%s筆資料" % length
         return render_template('search_list.html', data = locals())
     db.close()
+
+@template.route('/test', methods = ['GET'])
+def test_view():
+    try:
+        if request.method == 'GET':
+            result = [
+                {"product_img":"3.PNG", "product_name":"HAHA","amount":99},
+                {"product_img":"4.PNG", "product_name":"OHOH","amount":80}
+            ]
+            length = len(result)
+            # length = 0
+            print(length)
+            return render_template('order.html', data = locals())
+    except:
+        print("You don't have permission!!")
+        return redirect('/home')

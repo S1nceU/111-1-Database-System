@@ -47,32 +47,27 @@
             <div class="order_head">
                 <p>圖片</p>
                 <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
+                <!-- <p style="width: 20%;">商品價格</p> -->
                 <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
             <div class="order">
                 <ul>
-                    <li>
-                        <div class="product_img">
-                            <img src="../static/img/dog.PNG">
-                        </div>
-                        <h1>柯基</h1>
-                        <p>$1999</p>
-                        <p>1</p>
-                        <a href="#">刪除</a>
-                    </li>
-                    <li>
-                        <div class="product_img">
-                            <img src="../static/img/cat.jpg">
-                        </div>
-                        <h1>貓</h1>
-                        <p>$2999</p>
-                        <p>9</p>
-                        <a href="#">刪除</a>
-                    </li>
-
+                    {% if data['length'] == 0 %}
+                    <h2>尚無商品在您訂單當中</h2>
+                    
+                    {% else %}
+                        {% for p in range(data['length']) %}
+                        <li>
+                            <div class="product_img">
+                                <img src="../static/img/{{data['result'][p]['product_img']}}">
+                            </div>
+                            <h1>{{data['result'][p]['product_name']}}</h1>
+                            <p>{{data['result'][p]['amount']}}</p>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
         </div>
