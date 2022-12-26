@@ -174,6 +174,7 @@ def test_view():
                 {"product_img":"3.PNG", "product_name":"HAHA","amount":99},
                 {"product_img":"4.PNG", "product_name":"OHOH","amount":80}
             ]
+            total = 1790
             length = len(result)
             # length = 0
             print(length)

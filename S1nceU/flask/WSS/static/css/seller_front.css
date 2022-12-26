@@ -296,7 +296,7 @@ table {
 
 /* CSS */
 .button-68 {
-
+    margin: 0;
     background-color: #4baed8;
     border-radius: 8px;
     border-style: none;
@@ -304,21 +304,14 @@ table {
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
-    display: inline-block;
     font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
     font-size: 25px;
     font-weight: 600;
     letter-spacing: normal;
     line-height: 1.5;
-    outline: none;
     padding: 13px 20px;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: top;
-    white-space: nowrap;
+    text-align: center; 
+    
   }
   
   .button-68:hover {
@@ -336,3 +329,14 @@ table {
   .button-68:hover {
     box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
   }
+.add_cart{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    width: 20%;
+    line-height: 200px;
+    vertical-align: middle;
+    flex-direction: column;
+
+}
+
