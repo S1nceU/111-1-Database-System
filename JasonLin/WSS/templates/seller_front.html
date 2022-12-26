@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品</title>
-    <link rel="stylesheet" href="../static/css/upload_product.css">
+    <title>賣場</title>
+    <link rel="stylesheet" href="../static/css/seller_front.css">
     <script type="importmap">
         {
           "imports": {
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./static/src/upload_product.js"></script>
+    <script type="module" src="../static/src/index.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -39,88 +39,44 @@
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
-            
-            
         </div>
-        <div class="cover">
-                <div class="left_list"> <!--選項欄位-->
-                    <h1>商品資訊</h1>
-                    
-                    
-                </div>
-                <div class="right_data">
-                    <form name = 'myform' action = "/upload_product" enctype="multipart/form-data"  method = 'POST'>
-                    <div class="flex">
-                        <div class="right_data_title">
-                            <p>商品名稱</p>
-                            <p>商品價格</p>
-                            <p>商品描述</p>
-                            <p>可用折價券</p>
-                            <p>標籤</p>
-                            <p>商品數量</p>
-                            <p style="margin-top: 25px;">商品圖片</p>
+        <div class="order_title">
+            
+            <p style="font-size:50px;margin-top: 50px;">{{data['product']['seller_name'][0]}} 的商店</p>
+            <div class="order_head">
+                <p>圖片</p>
+                <p style="width: 30%;">商品名稱</p>
+                <p style="width: 20%;">商品價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 20%;border-right: black solid 4px;">庫存</p>
+
+            </div>
+            <div class="order">
+                <ul>
+                    {% for p in range(data['length']) %}
+                    <li>
+                        <div class="product_img">
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                         </div>
-                        <div class="right_data_content">
-                            <!-- <input placeholder="" maxlength="30" style="margin-top:0px;">  -->
-                            <input id = 'product_name' type = 'text' name = 'product_name' style="margin-top:0px;">
-                            <!-- <input onkeyup="value=value.replace(/[^\d]/g,'') " > -->
-                            <input id ='price' type ='text' name ='price'>
-                            <!-- <input placeholder="" maxlength="30"> -->
-                            <input id ='description' type ='text' name ='description'>
-                            <!-- <button  role="button" class="add_image">新增圖片</button> -->
+                        <h1>{{data['product']['productName'][p]}}</h1>
+                        <p>${{data['product']['price'][p]}}</p>
+                        <div class="coupon">
                             <select>
                                 <option>折價券1</option>
                                 <option>折價券2</option>
                                 <option>折價券3</option>
                             </select>
-                            <!-- <input id ='label' type ='text' name ='label'> -->
-                            <select name = 'label'>
-                                {% for label in data['labels'] %}
-                                    <option value="{{label}}">{{label}}</option>
-                                {% endfor %}
-                            </select>
-                            <input id ='total_amount' type ='text' name ='total_amount'>   
-                            <input  type="file"  name="filename" accept=".png" required style="margin-top:50px;"> 
-
                         </div>
-                    </div>
-                    <div class="left">
-                        <button class="button-40" role="button">上架</button>
-                    </div>
-                    </form>
-                           
-                </div>
-        </div>
-           
-        <div class="cover">
-            <div class="left_list2"> <!--選項欄位-->
-                <h1>賣場折價券</h1>
-                
-                
-            </div>
-            <div class="right_data2">
-                <form name = 'ticketform' action = "/add_ticket" enctype="multipart/form-data"  method = 'POST'>
-                <div class="flex">
-                    <div class="right_data_title">
-                        <p>折扣</p>
-                        <p>數量</p>
-                    </div>
-                    <div class="right_data_content">
-                        <input id='discount' placeholder="ex. 0.9" maxlength="30" style="margin-top:0px;" name = 'discount'> <!----各項輸入----->
-                        <input id='amount'  placeholder="amount" maxlength="30" style="margin-top:20px;" name = 'amount'>
-                    </div>
-                </div>
-                <div class="left">
-                    <button class="button-40" role="button" style="margin-top: 0;">新增</button>
-                </div>
-                </form>
+                        <p>{{data['product']['amount'][p]}}</p>
+                    </li>
+                    {% endfor %}
 
+                </ul>
             </div>
-        </div>     
         </div>
         
     
-
+    </div>
 <div class="something_important">
     <div class="important_text"> <!---政令宣導-->
         <h2>政令宣導</h2>

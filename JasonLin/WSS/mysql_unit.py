@@ -169,8 +169,9 @@ def product_get(db, productID):
     condition = (productID)
 
     sql_cmd = """
-        (select product.product_id, product.product_name, product.product_img, product.price, product.description
+        (select product.product_id, product.product_name, product.product_img, product.price, product.description, seller.username, seller.user_id_s
         from product
+        JOIN seller ON product.user_id_s = seller.user_id_s
         where product_id  = %s
         )
         """%condition
@@ -183,6 +184,8 @@ def product_get(db, productID):
         'product_img' : data[2],
         'product_price' : data[3],
         'product_description' : data[4],
+        'seller_username' : data[5],
+        'seller_id' : data[6]
     }
     return data
 
@@ -270,6 +273,7 @@ def get_sellerProduct(db, sellerID):
     sql_cmd = """
               (select *
                from product
+               JOIN seller ON product.user_id_s = seller.user_id_s
                where product.user_id_s = %d
               )
             """%(sellerID)
@@ -284,12 +288,14 @@ def get_sellerProduct(db, sellerID):
     temp['price'] = list()
     temp['amount'] = list()
     temp['product_id'] = list()
+    temp['seller_name'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
         temp['price'].append(data[i][3])
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
+        temp['seller_name'].append(data[i][10])
     # print(temp)
     return temp
 
@@ -391,10 +397,11 @@ def cart_delete(db,data,user_id):
         FROM cart_product
         WHERE product_id = %s AND user_id_c = %s
     """%condition
-
+    print(sql_cmd   )
     nocart = db.cursor()
     nocart.execute(sql_cmd)
     return "delete success."
+
 def cart_delete_all(db,user_id):
     sql_cmd = """
         DELETE
@@ -413,7 +420,6 @@ def cart_check(db,user_id):
         FROM cart_product
         WHERE user_id_c  = %s
         """%condition
-    print(condition)
     ppd = db.cursor()
     ppd.execute(sql_cmd)
     data = ppd.fetchall()
@@ -438,12 +444,9 @@ def cart_check(db,user_id):
         from ticket
         where user_id_s = %s
         """%i[3]
-        if(sql_cmd_ticket != None):
-            temp2 = db.cursor()
-            temp2.execute(sql_cmd_ticket)
-            ticket = temp2.fetchall()
-        else:
-            ticket = ""
+        temp2 = db.cursor()
+        temp2.execute(sql_cmd_ticket)
+        ticket = temp2.fetchall()
         run += 1
         total += i[2]*data[run][1]
         result.append({
@@ -453,7 +456,8 @@ def cart_check(db,user_id):
             'amount' : data[run][1],
             'ticket': ticket
         })
-    return result
+    print(total)
+    return result,total
 
 # 標籤搜尋
 def product_get_tag(db, tag):
@@ -509,24 +513,147 @@ def product_search_content(db, content):
 
 # add ticket for seller
 def ticket_add(db,data,user_id):
-    print("test")
     condition = (
-        data['effective_date'],
+        # data['effective_date'],
         data['amount'],
         data['discount'],
         user_id
     ) 
+    # sql_cmd = """
+    #     INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    #     VALUES (\"%s\", \"%s\", \"%s\",%s)
+    # """%condition
     sql_cmd = """
-    INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
-    VALUES (\"%s\", \"%s\", \"%s\",%s)
+        INSERT INTO ticket (amount, discount, user_id_s) 
+        VALUES (\"%s\", \"%s\",%s)
     """%condition
-    print(sql_cmd)
     addticket = db.cursor()
     addticket.execute(sql_cmd)
+    db.commit()
     return "Ticket add success."
 
-# def ticket_view():
+# view all can use tickets for seller
+def ticket_view(db,user_id):
+    condition = (
+        user_id
+    )
+    sql_cmd = """
+        SELECT *
+        FROM   ticket
+        WHERE  ticket.user_id_s = %s
+    """%condition
+    viewticket = db.cursor()
+    viewticket.execute(sql_cmd)
+    all = viewticket.fetchall()
+    result = []
+    for i in all:
+        dic = {
+            'ticket_id' : i[0],
+            'effective' : i[1],
+            'amount'    : i[2],
+            'discount'  : i[3]
+        }
+        result.append(dic)
+    return result
 
+# use ticket
+def ticket_use(db,tickets_id):
+    flag = False
+    WannaUseTicket = []
+    cant_use_ticket = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        amount = int(currentticket.fetchone()[0])
+        WannaUseTicket.append(amount)
+        if amount <= 0:
+            flag = True 
+            cant_use_ticket.append("Ticket " + str(i) + " was run out.")
+    if flag:
+        return cant_use_ticket
+    for i in range(len(tickets_id)):
+        condition = (
+            WannaUseTicket[i] - 1,
+            tickets_id[i]
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
+    return "Use ticket success."
+
+# seller set ticket amount
+def ticket_del(db, user_id, ticket_id):
+    condition = (
+        user_id,
+        ticket_id
+    )
+    sql_cmd = """
+        DELETE FROM ticket
+        WHERE  ticket.user_id_s = %s AND ticket.ticket_id = %s
+        """%condition
+
+    delticket = db.cursor()
+    delticket.execute(sql_cmd)
+    db.commit()
+    return "Delete ticlet success."
+
+# let product amount minis
+def product_sell(db,products):
+    flag = False
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    if flag:
+        return cant_sell_product
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Selled product success."
 def create_order(db,data,user_id):
     #抓取該user的cart資料
     sql_cmd_cart = """
@@ -538,40 +665,103 @@ def create_order(db,data,user_id):
     temp.execute(sql_cmd_cart)
     data_cart = temp.fetchall()
     print(data_cart)
-    #新增order
-    currentDateAndTime = datetime.now()
-    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
-    condition = (
-        data["total_price"],
-        currentTime,
-        data["address"],
-        user_id,
-        )
+    tickets_id = (data["ticket_id"])
+    confirm_t = ticket_use(db,tickets_id)
+    confirm_p = product_sell(db,list(data_cart))
+    print(confirm_t)
+    print(confirm_p)
+    return "success"
+    # #新增order
+    # currentDateAndTime = datetime.now()
+    # currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    # condition = (
+    #     data["total_price"],
+    #     currentTime,
+    #     data["address"],
+    #     user_id,
+    #     )
+    # sql_cmd = """
+    #     INSERT INTO world.ORDER (total_price,order_time,address,status,user_id_c)
+    #     VALUES (\"%s\",\"%s\",\"%s\",0,%s)
+    # """%condition
+    # account = db.cursor()
+    # account.execute(sql_cmd)
+    # #抓剛剛建立的order_id
+    # sql_cmd_orderID = """
+    #     select order.order_id
+    #     from world.order
+    #     where total_price = \"%s\" and order_time = \"%s\" and address = \"%s\" and user_id_c = %s
+    # """%condition
+    # temp2 = db.cursor()
+    # temp2.execute(sql_cmd_orderID)
+    # order_id = int(temp2.fetchall()[0][0])
+    # #新增order_product
+    # for i in data_cart:
+    #     i = list(i)
+    #     i.append(order_id)
+    #     i = tuple(i)
+    #     sql_cmd_order = """
+    #     INSERT INTO order_product (product_id,amount,order_id)
+    #     VALUES (%s,%s,%s)
+    #     """%i
+    #     account = db.cursor()
+    #     account.execute(sql_cmd_order)
+    # cart_delete_all(db,user_id)
+    # return "create success."
+def check_order(db,user_id):
+    condition = (user_id)
     sql_cmd = """
-        INSERT INTO world.ORDER (total_price,order_time,address,status,user_id_c)
-        VALUES (\"%s\",\"%s\",\"%s\",0,%s)
-    """%condition
-    account = db.cursor()
-    account.execute(sql_cmd)
-    #抓剛剛建立的order_id
-    sql_cmd_orderID = """
-        select order.order_id
+        select order.order_id, order.total_price, order.order_time, order.address
         from world.order
-        where total_price = \"%s\" and order_time = \"%s\" and address = \"%s\" and user_id_c = %s
+        where user_id_c = %s
     """%condition
-    temp2 = db.cursor()
-    temp2.execute(sql_cmd_orderID)
-    order_id = int(temp2.fetchall()[0][0])
-    #新增order_product
-    for i in data_cart:
-        i = list(i)
-        i.append(order_id)
-        i = tuple(i)
-        sql_cmd_order = """
-        INSERT INTO order_product (product_id,amount,order_id)
-        VALUES (%s,%s,%s)
-        """%i
-        account = db.cursor()
-        account.execute(sql_cmd_order)
-    cart_delete_all(db,user_id)
-    return "create success."
+    temp = db.cursor()
+    temp.execute(sql_cmd)
+    data = temp.fetchall()
+    if(data == ()): return "No found order"
+    result = [[0]*5  for i in range(len(data))]; run = -1
+    for i in data:
+        run += 1
+        sql_cmd_repeat = """
+            select order_product.product_id, order_product.amount
+            from order_product
+            where order_id = %s
+        """%i[0]
+        temp2 = db.cursor()
+        temp2.execute(sql_cmd_repeat)
+        data_product = list(temp2.fetchall())
+        print(data_product)
+        result[run][0] = i[0]
+        result[run][1] = i[1]
+        result[run][2] = i[2]
+        result[run][3] = i[3]
+        result[run][4] = data_product
+    return result
+def order_in(db,order_id):
+    condition = (order_id)
+    sql_cmd = """
+        select order_product.product_id, order_product.amount
+        from order_product
+        where order_id = %s
+    """%condition
+    temp = db.cursor()
+    temp.execute(sql_cmd)
+    data_order = temp.fetchall()
+    if(data_order == ()): return "No found order"
+    result = []
+    for i in data_order:
+        sql_cmd_repeat = """
+            select product.product_img, product.product_name
+            from product
+            where product_id = %s
+        """%i[0]
+        temp2 = db.cursor()
+        temp2.execute(sql_cmd_repeat)
+        data_product = temp2.fetchall()
+        result.append({
+            'product_img' : data_product[0][0],
+            'product_name' : data_product[0][1],
+            'amount' : i[1]
+        })
+    return result
+
