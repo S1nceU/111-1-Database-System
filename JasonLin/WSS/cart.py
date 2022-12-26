@@ -14,8 +14,8 @@ def addcart():
             db.close()
             return result
         except:
-            print("There are the same product in your cart.")
-            return "There are the same product in your cart."
+            print("Not logged in")
+            return "Not logged in"
 @cart.route('/cart_delete/', methods=['GET', 'POST'])
 def deletecart():
     db = mysql_unit.connect()

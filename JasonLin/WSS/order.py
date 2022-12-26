@@ -38,12 +38,11 @@ def orderin(id):
     db = mysql_unit.connect()
     if request.method == 'GET':
         try:
-            result = mysql_unit.order_in(db,id)
+            result,total = mysql_unit.order_in(db,id)
             db.commit()
             db.close()
             length = len(result)
-            print(result)
+            print(total)
             return result
         except:
-            print("Check Error")
             return "Check Error"
