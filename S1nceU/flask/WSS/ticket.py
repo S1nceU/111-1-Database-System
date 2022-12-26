@@ -40,3 +40,16 @@ def set_ticket():
         result = mysql_unit.ticket_del(db,1,1)
         db.close()
         return result
+
+@ticket.route('/test/',methods=['GET', 'POST'])
+def test():
+    db = mysql_unit.connect()
+    if request.method == 'POST':
+        # user = TL.decode_token(TL.getcookie())
+        # if user['user_level'] != 0:
+        #     return "You are not user!!"
+        li1 = [[2,0],[3,0],[8,2],[28,5]]
+        li2 = [2,2,2]
+        result = mysql_unit.product_sell_ticket(db,li1,li2)
+        db.close()
+        return result

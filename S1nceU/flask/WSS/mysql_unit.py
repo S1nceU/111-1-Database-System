@@ -536,6 +536,7 @@ def ticket_view(db,user_id):
             'discount'  : i[3]
         }
         result.append(dic)
+    print(result)
     return result
 
 # use ticket
@@ -647,3 +648,90 @@ def product_sell(db,products):
         updateproduct.execute(sql_cmd)
         db.commit()
     return "Selled product success."
+
+
+def product_sell_ticket(db,products,tickets_id):
+    flag = False
+    WannaUseTicket = {}
+    ExistTicket = {}
+    cant_use_ticket = []
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.ticket_id,ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        ticket = currentticket.fetchone()
+        ticket_id = ticket[0]
+        amount = int(ticket[1])
+        if ticket_id not in WannaUseTicket.keys():
+            WannaUseTicket[ticket_id] = 1
+            ExistTicket[ticket_id] = amount
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+        else :
+            WannaUseTicket[ticket_id] += 1
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    result = cant_sell_product + cant_use_ticket
+    if flag:
+        return result
+    for i in WannaUseTicket.keys():
+        condition = (
+            ExistTicket[i] - WannaUseTicket[i],
+            i
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Use ticket success."
