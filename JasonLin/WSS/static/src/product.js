@@ -4,24 +4,26 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: '',
         }
     },
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
                 this.logged = false
                 return
             }
-            this.username = res.data
-            this.logged = true       
-            console.log(this.output)
+            this.username = await loginData.username
+            this.accountLevel = await loginData.user_level
+            this.logged = true      
         },
         Logout() {
-            console.log("get in Logout")
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
+            alert("Log out ~")
             window.location.reload()
         },
         goLogin() {
@@ -40,7 +42,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/login")
+            window.location.replace("http://127.0.0.1:5000/member")
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
@@ -54,5 +56,31 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
-selectBar.mount('.tt')
+}).mount('.tt')
+
+const product = createApp({
+    data() {
+        return {
+            addCount: '1'
+        }
+    },
+    methods: {
+        async addToCart(){
+            let pathName = window.location.pathname
+            let productID = pathName.split("/")[2]
+            let res = await axios.post("http://127.0.0.1:5000/cart_add/", 
+                {
+                    "product_id": productID,
+                    "amount": parseInt(this.addCount) // 之後要修
+            })
+            if(res.data == 'add success.') {
+                alert("加入完成")
+            }
+            else {
+                alert("登入過後再試")
+                window.location.replace("http://127.0.0.1:5000/login")
+
+            }
+        },
+    }
+}).mount('.content')

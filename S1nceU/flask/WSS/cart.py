@@ -44,6 +44,7 @@ def checkcart():
             # print(length)
             # print(locals())
             # print('length', length)
+
             db.close()
             return render_template('cart.html', data = locals())
     except:

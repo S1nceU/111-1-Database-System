@@ -354,7 +354,7 @@ table {
 .delete{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
-    height: 75px;
+    height: 50px;
     line-height: 50px;
     width: 20%;
 
@@ -427,8 +427,6 @@ display: flex;
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     height: 200px;
-    line-height: 50px;
-    
     width: 10%;
 
 }

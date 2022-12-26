@@ -63,10 +63,10 @@
                         <h1>{{data['result'][i]['product_name']}}</h1>
                         <p>{{data['result'][i]['product_price']}}</p>
                         <div class="coupon">
-                            <select>
-                                <option>折價券1</option>
-                                <option>折價券2</option>
-                                <option>折價券3</option>
+                            <select name = 'label'>
+                                {% for label in data['labels'] %}
+                                    <option value="{{label}}">{{label}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <p class="number_count">{{data['result'][i]['amount']}}</p>

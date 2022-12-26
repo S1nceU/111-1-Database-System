@@ -9,12 +9,11 @@
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
-        
-    </ul>
-    </div>
+        <ul class="ti">
+            <li><a href="" @click.prevent="goHome()"><div class="tb">首頁</div></a></li>
+            <li><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+        </ul>
+        </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
