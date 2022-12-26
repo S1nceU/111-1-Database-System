@@ -10,13 +10,15 @@ SRC_PATH =  pathlib.Path(__file__).parent.absolute()
 # 結合目前的檔案路徑和static及img路徑 
 UPLOAD_FOLDER = os.path.join(SRC_PATH,  'static', 'img')
 
-@product.route('/create_product/', methods=['GET','POST'])
+@product.route('/upload_product', methods=['GET','POST'])
 def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    print('create_product method', request.method)
     if request.method == 'POST':
         # try:
+        print(request.form)
         user_id = TL.decode_token(TL.getcookie())["user_id"]
         file = request.files['filename']
         if file.filename != '':
@@ -34,10 +36,10 @@ def createproduct():
     elif request.method == 'GET':
         get_label = mysql_unit.get_label(db)
         length_label = len(get_label)
-        label = list()
+        labels = list()
         for i in get_label.keys():
-            label.append(i)
-        return render_template('storeImg.html', data = locals())
+            labels.append(i)
+        return render_template('upload_product.html', data = locals())
     return "Create error!!"
 
 @product.route('/get_label/', methods=['GET'])
@@ -60,6 +62,14 @@ def set_label():
         product_name = request.json["product"]
         label = label_list[request.json["label"]]
         product_id = mysql_unit.get_product_id(db,seller_id,product_name)
-
         db.close()
         return 
+
+@product.route('/sell_product/', methods=['POST'])
+def sell_product():
+    db = mysql_unit.connect()
+    if request.method == 'POST':
+        li = [[2,0],[3,1],[8,2],[28,5]]
+        result = mysql_unit.product_sell(db,li) #### need value
+        db.close()
+        return result

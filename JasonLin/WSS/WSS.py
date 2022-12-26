@@ -48,7 +48,7 @@ def loginpage():
 @app.route('/cart')
 def cartpage():
     tokencorrect()
-    return render_template('cart.html')
+    return redirect('/cart_check/')
 
 @app.route('/member')
 def memberpage():
