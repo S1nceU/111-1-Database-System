@@ -21,17 +21,17 @@ def admin_account():
 
 @admin.route('/admin_status_product/', methods=['GET', 'POST'])
 def admin_product():
-    try:
-        print(request)
-        if request.method == 'POST':
-            db = mysql_unit.connect()
-            product_id = request.form['product_id']
-            wanna_status = request.form['wanna_status']
-            result = mysql_unit.product_status(db,product_id,wanna_status)
-            db.commit()
-            db.close()
-            return redirect('/admin_view')
+    # try:
+    print(request)
+    if request.method == 'POST':
+        db = mysql_unit.connect()
+        product_id = request.json['product_id']
+        wanna_status = request.json['wanna_status']
+        result = mysql_unit.product_status(db,product_id,wanna_status)
+        db.commit()
+        db.close()
+        return redirect('/admin_view')
             
-    except:
-        print("error!!")
-        return "Change status error!!"
+    # except:
+    #     print("error!!")
+    #     return "Change status error!!"

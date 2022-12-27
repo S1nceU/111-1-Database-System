@@ -132,14 +132,7 @@ table {
     margin-top: -27px;
     margin-left: 280px;
 }
-.suggest_row a{
-    color: white;
-    text-decoration: none;
-}
-.suggest_row a:hover{
-    color: black;
-    text-decoration: none;
-}
+
 .cover{
     display: flex;
     margin-top: 25px;
@@ -219,7 +212,7 @@ table {
     height: 200px;
     margin: 0;
     line-height: 200px;
-    width: 22%;
+    width: 30%;
     
 
 }
@@ -228,7 +221,7 @@ table {
     border-right: 4px solid black;
     height: 200px;
     line-height: 200px;
-    width: 12%;
+    width: 20%;
 
 }
 .coupon{
@@ -242,14 +235,6 @@ table {
 .coupon select{
     width: 150px;
     height: 30px;
-
-}
-.number_count{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px; 
-    width: 12%;
 
 }
 .delete_item{
@@ -308,3 +293,50 @@ table {
     font-size:40px;
     padding-left: 20px;
 }
+
+/* CSS */
+.button-68 {
+    margin: 0;
+    background-color: #4baed8;
+    border-radius: 8px;
+    border-style: none;
+    box-shadow: rgba(39, 174, 96, .15) 0 4px 9px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1.5;
+    padding: 13px 20px;
+    text-align: center; 
+    
+  }
+  
+  .button-68:hover {
+    background-color: #0850a8;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+  }
+  
+  .button-68:active {
+    transform: translateY(2px);
+    transition-duration: .35s;
+  }
+  
+  .button-68:hover {
+    box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
+  }
+.add_cart{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    width: 20%;
+    line-height: 200px;
+    vertical-align: middle;
+    flex-direction: column;
+
+}
+

@@ -10,28 +10,34 @@ const selectBar = createApp({
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
+                alert("請先登入")
                 this.logged = false
+                this.goLogin()
                 return
             }
-            this.username = res.data
-            this.logged = true       
-            console.log(this.output)
+            this.username = await loginData.username
+            this.accountLevel = await loginData.user_level
+            this.logged = true    
+            if(this.accountLevel != '0') {
+                alert("您沒有權限")
+                this.goHome()
+            }
         },
         Logout() {
-            console.log("get in Logout")
             Cookies.remove("WSS", {path: ''})
             this.logged = false
             window.location.reload()
         },
         goLogin() {
-            // window.location.replace("http://127.0.0.1:5000/login")
+            window.location.replace("http://127.0.0.1:5000/login")
         },
         goHome() {
-            // window.location.replace("http://127.0.0.1:5000/home")
+            window.location.replace("http://127.0.0.1:5000/home")
         },
         goSeller() {
-            // window.location.replace("http://127.0.0.1:5000/seller")
+            window.location.replace("http://127.0.0.1:5000/seller")
         },
         goOrder() {
             window.location.replace("http://127.0.0.1:5000/order")

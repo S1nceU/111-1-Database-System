@@ -55,7 +55,7 @@ def login_comfirm(db,FROM,WHERE):
             'password' : data[3],
             'status'   : data[5]
         }
-    print('當前status為',data['status'])
+    print(data)
     return data,user_level
 
 # create account
@@ -99,13 +99,13 @@ def create_product(db,data,seller_id,filename):
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
     condition = (
-            seller_id,
-            data["product_name"],
-            int(data["price"]),
-            data["description"],
-            currentTime,
-            data["total_amount"],
-            filename
+        seller_id,
+        data["product_name"],
+        int(data["price"]),
+        data["description"],
+        currentTime,
+        data["total_amount"],
+        filename
         )
     for i in condition:
         if i == '':
@@ -169,8 +169,9 @@ def product_get(db, productID):
     condition = (productID)
 
     sql_cmd = """
-        (select product.product_id, product.product_name, product.product_img, product.price, product.description
+        (select product.product_id, product.product_name, product.product_img, product.price, product.description, seller.username, seller.user_id_s
         from product
+        JOIN seller ON product.user_id_s = seller.user_id_s
         where product_id  = %s
         )
         """%condition
@@ -183,9 +184,12 @@ def product_get(db, productID):
         'product_img' : data[2],
         'product_price' : data[3],
         'product_description' : data[4],
+        'seller_username' : data[5],
+        'seller_id' : data[6]
     }
     return data
 
+# get all of products
 def product_get_all(db):
     sql_cmd = """
         SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
@@ -227,6 +231,7 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
+# get member information
 def memberInfo(db, who, userID):
     # print('userID = ', userID)
     if who == 'seller':
@@ -262,14 +267,16 @@ def memberInfo(db, who, userID):
     }
     return data
 
-def get_sellerProduct(db, sallerID):
+# get product by seller's user_id_s
+def get_sellerProduct(db, sellerID):
     productlist = list()
     sql_cmd = """
               (select *
                from product
+               JOIN seller ON product.user_id_s = seller.user_id_s
                where product.user_id_s = %d
               )
-            """%(sallerID)
+            """%(sellerID)
     PD = db.cursor()
     PD.execute(sql_cmd)
     data = PD.fetchall()
@@ -281,15 +288,18 @@ def get_sellerProduct(db, sallerID):
     temp['price'] = list()
     temp['amount'] = list()
     temp['product_id'] = list()
+    temp['seller_name'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
         temp['price'].append(data[i][3])
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
+        temp['seller_name'].append(data[i][10])
     # print(temp)
     return temp
 
+# view all of users for admin
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
@@ -311,10 +321,11 @@ def admin_user_view(db):
         result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
     return result
 
+# view all of users for admin with user_id
 def admin_product_view(db):
     result = []
     sql_cmd = """
-        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img
+        SELECT product.product_name, product.product_id, product.user_id_s, seller.username, product.product_img, product.status
         FROM   product
         JOIN   seller ON product.user_id_s = seller.user_id_s
         ORDER BY product.user_id_s
@@ -323,9 +334,10 @@ def admin_product_view(db):
     data.execute(sql_cmd)
     data = data.fetchall()
     for i in data:
-        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4]})
+        result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4], "product_status" : i[5]})
     return result
 
+# set account status 
 def account_status(db,level,user_id,wanna_status):
     sql_cmd = """"""
     if level == "seller":
@@ -346,6 +358,7 @@ def account_status(db,level,user_id,wanna_status):
     operation.execute(sql_cmd)
     return "Change status success."
 
+# set product status
 def product_status(db,product_id,wanna_status):
     condition = (wanna_status,product_id)
     sql_cmd = """
@@ -353,10 +366,12 @@ def product_status(db,product_id,wanna_status):
         SET    product.status = %s
         WHERE  product.product_id = %s
     """%condition
+    print(sql_cmd)
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
 
+# add product to cart with user_id
 def cart_add(db,data,user_id):
     condition = (
         data["product_id"],
@@ -370,7 +385,8 @@ def cart_add(db,data,user_id):
     wannacart = db.cursor()
     wannacart.execute(sql_cmd)
     return "add success."
-    
+
+# del product to cart with user_id
 def cart_delete(db,data,user_id):
     condition = (
         data["product_id"],
@@ -386,6 +402,8 @@ def cart_delete(db,data,user_id):
     nocart.execute(sql_cmd)
     return "delete success."
     
+# view cart by user_id
+# view cart by user_id
 def cart_check(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -393,7 +411,6 @@ def cart_check(db,user_id):
         FROM cart_product
         WHERE user_id_c  = %s
         """%condition
-    print(condition)
     ppd = db.cursor()
     ppd.execute(sql_cmd)
     data = ppd.fetchall()
@@ -404,7 +421,7 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price
+        select product.product_img, product.product_name, product.price,product.user_id_s, product_id
         from product
         where %s
         """%temp
@@ -413,17 +430,26 @@ def cart_check(db,user_id):
     data2 = ppd2.fetchall()
     result = []; run = -1; total = 0
     for i in data2:
+        sql_cmd_ticket = """
+        select ticket.ticket_id,ticket.discount
+        from ticket
+        where user_id_s = %s
+        """%i[3]
+        temp2 = db.cursor()
+        temp2.execute(sql_cmd_ticket)
+        ticket = temp2.fetchall()
         run += 1
         total += i[2]*data[run][1]
         result.append({
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
-            'amount' : data[run][1]
+            'product_id' : i[4],
+            'amount' : data[run][1],
+            'ticket': ticket
         })
-    return result, total
-
-
+    print(total)
+    return result,total
 # 標籤搜尋
 def product_get_tag(db, tag):
     sql_cmd = """
@@ -451,7 +477,7 @@ def product_get_tag(db, tag):
     # print(temp)
     return temp
 
-
+# 內容搜尋框
 def product_search_content(db, content):
     sql_cmd = """
     SELECT `product`.`product_id`, `product`.`product_name`, `product`.`price`, `product`.`product_img`, `product`.`description`
@@ -475,3 +501,246 @@ def product_search_content(db, content):
         temp['description'].append(data[i][4])
     # print(temp)
     return temp
+
+# add ticket for seller
+def ticket_add(db,data,user_id):
+    condition = (
+        # data['effective_date'],
+        data['amount'],
+        data['discount'],
+        user_id
+    ) 
+    # sql_cmd = """
+    #     INSERT INTO ticket (effective_date, amount, discount, user_id_s) 
+    #     VALUES (\"%s\", \"%s\", \"%s\",%s)
+    # """%condition
+    sql_cmd = """
+        INSERT INTO ticket (amount, discount, user_id_s) 
+        VALUES (\"%s\", \"%s\",%s)
+    """%condition
+    addticket = db.cursor()
+    addticket.execute(sql_cmd)
+    db.commit()
+    return "Ticket add success."
+
+# view all can use tickets for seller
+def ticket_view(db,user_id):
+    condition = (
+        user_id
+    )
+    sql_cmd = """
+        SELECT *
+        FROM   ticket
+        WHERE  ticket.user_id_s = %s
+    """%condition
+    viewticket = db.cursor()
+    viewticket.execute(sql_cmd)
+    all = viewticket.fetchall()
+    result = []
+    for i in all:
+        dic = {
+            'ticket_id' : i[0],
+            'effective' : i[1],
+            'amount'    : i[2],
+            'discount'  : i[3]
+        }
+        result.append(dic)
+    print(result)
+    return result
+
+# use ticket
+def ticket_use(db,tickets_id):
+    flag = False
+    WannaUseTicket = {}
+    ExistTicket = {}
+    cant_use_ticket = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.ticket_id,ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        ticket = currentticket.fetchone()
+        ticket_id = ticket[0]
+        amount = int(ticket[1])
+        if ticket_id not in WannaUseTicket.keys():
+            WannaUseTicket[ticket_id] = 1
+            ExistTicket[ticket_id] = amount
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+        else :
+            WannaUseTicket[ticket_id] += 1
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+    if flag:
+        return cant_use_ticket
+    print(WannaUseTicket)
+    for i in WannaUseTicket.keys():
+        condition = (
+            ExistTicket[i] - WannaUseTicket[i],
+            i
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
+    return "Use ticket success."
+
+# seller set ticket amount
+def ticket_del(db, user_id, ticket_id):
+    condition = (
+        user_id,
+        ticket_id
+    )
+    sql_cmd = """
+        DELETE FROM ticket
+        WHERE  ticket.user_id_s = %s AND ticket.ticket_id = %s
+        """%condition
+
+    delticket = db.cursor()
+    delticket.execute(sql_cmd)
+    db.commit()
+    return "Delete ticlet success."
+
+# let product amount minis
+def product_sell(db,products):
+    flag = False
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    if flag:
+        return cant_sell_product
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Selled product success."
+
+
+def product_sell_ticket(db,products,tickets_id):
+    flag = False
+    WannaUseTicket = {}
+    ExistTicket = {}
+    cant_use_ticket = []
+    WannaSellProductAmount = []
+    cant_sell_product = []
+    for i in tickets_id:
+        condition_exist = (
+            i
+        )
+        sql_cmd = """
+            SELECT ticket.ticket_id,ticket.amount
+            FROM   ticket
+            WHERE  ticket.ticket_id = %s
+        """%condition_exist
+        currentticket = db.cursor()
+        currentticket.execute(sql_cmd)
+        ticket = currentticket.fetchone()
+        ticket_id = ticket[0]
+        amount = int(ticket[1])
+        if ticket_id not in WannaUseTicket.keys():
+            WannaUseTicket[ticket_id] = 1
+            ExistTicket[ticket_id] = amount
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+        else :
+            WannaUseTicket[ticket_id] += 1
+            if amount < WannaUseTicket[ticket_id]:
+                flag = True 
+                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+    for i in products:
+        product_id = i[0]
+        amount     = i[1]
+        condition_exist = (
+            product_id
+        )
+        sql_cmd = """
+            SELECT product.total_amount,product.product_name
+            FROM   product
+            WHERE  product.product_id = %s
+        """%condition_exist
+        currentproduct = db.cursor()
+        currentproduct.execute(sql_cmd)
+        product = currentproduct.fetchone()
+        product_amount = int(product[0])
+        WannaSellProductAmount.append(product_amount)
+        # print(currentproduct.)
+        if product_amount - amount < 0: 
+            flag = True
+            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+    result = cant_sell_product + cant_use_ticket
+    if flag:
+        return result
+    for i in WannaUseTicket.keys():
+        condition = (
+            ExistTicket[i] - WannaUseTicket[i],
+            i
+        )
+        sql_cmd = """
+            UPDATE ticket
+            SET    ticket.amount = %s
+            WHERE  ticket.ticket_id = %s
+        """%condition
+        updateticket = db.cursor()
+        updateticket.execute(sql_cmd)
+        db.commit()
+    for i in range(len(products)):
+        product_id     = products[i][0]
+        amount         = products[i][1]
+        product_amount = WannaSellProductAmount[i]
+        condition = (
+            product_amount - amount,
+            product_id
+        )
+        sql_cmd = """
+            UPDATE product
+            SET    product.total_amount = %s
+            WHERE  product.product_id = %s
+        """%condition
+        updateproduct = db.cursor()
+        updateproduct.execute(sql_cmd)
+        db.commit()
+    return "Use ticket success."

@@ -15,22 +15,26 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/order.js"></script>
+    <script type="module" src="../static/src/product.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
-            <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-            <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
-            <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
-            <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
-            <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
+        <ul class="ti">
+            <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+            <li><a href="" @click.prevent="goHome()"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li v-if="this.accountLevel == '0'">
+                <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
+            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
+            </li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
             </a></li>
-    </ul>
+        </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
@@ -45,9 +49,14 @@
                 <div class="product_des">
                     <h1>{{data['product']['product_name']}}</h1>
                     <p class="product_price">產品價格 ${{data['product']['product_price']}}</p>
-                    <p>{{data['product']['product_description']}}</p>
+                    <a class="button-74" href="http://127.0.0.1:5000/mart/{{data['product']['seller_id']}}">{{data['product']['seller_username']}}</a>
+                    <p style="margin-top: 30px;">{{data['product']['product_description']}}</p>
                     <div class="button_row">
-                        <button class="button-68" role="button">加入購物車</button>
+                        <div class="number_count">
+                            <p>數量</p>
+                            <input type="number" name="tentacles" min="1" max="100" v-model="addCount" >
+                        </div>
+                        <button class="button-68" role="button" @click="addToCart()">加入購物車</button>
                         <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
     
                     </div>

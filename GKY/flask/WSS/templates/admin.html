@@ -9,12 +9,11 @@
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><a href="index.html"><div class="tb">首頁</div></a></li>
-        <li><a href="order.html"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
-        
-    </ul>
-    </div>
+        <ul class="ti">
+            <li><a href="" @click.prevent="goHome()"><div class="tb">首頁</div></a></li>
+            <li><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+        </ul>
+        </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
@@ -42,7 +41,7 @@
                         {% if data['user'][p]['user_status'] %}
                             <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
                         {% else %}
-                            <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
+                            <button onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
                         {% endif %}
                     </li>
                     {% endfor %}
@@ -69,7 +68,11 @@
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
                         <p>{{data['product'][p]['user_id']}}</p>
-                        <a href="#" class="delete2">刪除</a>
+                        {% if data['product'][p]['product_status'] %}
+                            <button onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
+                        {% else %}
+                            <button onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
+                        {% endif %}
                     </li>
                     {% endfor %}
 
@@ -130,6 +133,14 @@
     }
     async function enable(level, id){
         await fetch('admin_status_account/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'user_level': level,'user_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+    async function product_disable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function product_enable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
         window.location.reload();
     }
 </script>

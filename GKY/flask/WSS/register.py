@@ -21,3 +21,4 @@ def register_customer():
         db.commit()
         db.close()
         return result
+    

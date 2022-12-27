@@ -19,7 +19,7 @@ def login_seller():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
-        elif data['status'] != b'\x01':
+        elif data['status'] != 1:
             db.close()
             return 'Account has been disabled!!'
 
@@ -63,7 +63,7 @@ def login_customer():
             print("No account."+"account = "+ req_account + " password = "+ req_password)
             db.close()
             return '0'
-        elif data['status'] != b'\x01':
+        elif data['status'] != 1:
             db.close()
             return 'Account has been disabled!!'
         elif req_password != data['password']:
@@ -90,8 +90,6 @@ def login_customer():
             # return '2'
     db.close()
 
-
-
 @login.route('/logout/', methods=['POST'])
 def login_out():
     if request.method == 'POST':
@@ -109,5 +107,4 @@ def isLogin():
             # return TL.decode_token(user_data)['username']
         else:
             return "False"
-
 

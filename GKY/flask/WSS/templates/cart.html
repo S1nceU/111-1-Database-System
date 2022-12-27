@@ -19,18 +19,22 @@
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
-    <ul class="ti">
-        <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
-        <li><a><div @click="goHome()" class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
-        <li><a><div @click="goSeller()" class="tb">賣場</div></a></li>
-        <li><a><div @click="goOrder()" class="tb">你的訂單</div></a></li>
-        <li><a><div @click="goCart()" class="tb">購物車</div></a></li>
-        <li><a><div @click="goMember()" class="tb">會員中心</div></a></li>
-        <li><a>
-            <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
-            <div v-else class="tb" @click="Logout">登出</div>
-        </a></li>
-    </ul>
+        <ul class="ti">
+            <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+            <li><a href="" @click.prevent="goHome()"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li v-if="this.accountLevel == '0'">
+                <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
+            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
+            </li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li><a>
+                <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+                <div v-else class="tb" @click="Logout">登出</div>
+            </a></li>
+        </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
@@ -43,9 +47,10 @@
             <div class="order_head">
                 <p>圖片</p>
                 <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width: 12%;">價格</p>
+                <p style="width: 21%;">可用折價券</p>
+                <p style="width: 12%;">數量</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="order">
@@ -53,12 +58,19 @@
                     {% for i in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <img src="../static/img/{{data['result'][i]['product_img']}}">
+                            <a href = "http://127.0.0.1:5000/product/{{data['result'][i]['product_id']}}"><img src="../static/img/{{data['result'][i]['product_img']}}"></a>
                         </div>
                         <h1>{{data['result'][i]['product_name']}}</h1>
                         <p>{{data['result'][i]['product_price']}}</p>
-                        <p>{{data['result'][i]['amount']}}</p>
-                        <a href="#">刪除</a>
+                        <div class="coupon">
+                            <select name = 'label'>
+                                {% for ticket in data['result'][i]['ticket'] %}
+                                    <option value="{{ticket[1]}}">ticket{{ticket[0]}}： {{ticket[1][2]}}折</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p class="number_count">{{data['result'][i]['amount']}}</p>
+                        <a href="#" class="delete_item">刪除</a>
                     </li>
                     {% endfor %}
                     <!-- <li>
@@ -77,7 +89,7 @@
         </div>
         <div class="total">
             <h1 style="padding-left: 75%;">總計:</h1>
-            <h1>(${{data['total']}})</h1>
+            <h1>$ {{data['total']}}</h1>
         </div>
         
     

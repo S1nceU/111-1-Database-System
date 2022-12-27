@@ -123,12 +123,11 @@ def mart(id):
         print(product)
         if request.method == 'GET':
             # db.close()
-            return render_template('example.html', data = locals())
+            return render_template('seller_front.html', data = locals())
     # except:
     #     db.close()
     #     print("Service error!!")
     #     return redirect('/home')
-
 
 # 標籤搜尋, 通過標籤搜尋商品 url : /search/label's name
 @template.route('/search/<string:tag>', methods = ['GET'])
@@ -164,5 +163,23 @@ def searchResult(content):
             message = '查無資料'
         else:
             message = "共%s筆資料" % length
+        print(locals())
         return render_template('search_list.html', data = locals())
     db.close()
+
+@template.route('/order', methods = ['GET'])
+def test_view():
+    try:
+        if request.method == 'GET':
+            result = [
+                {"product_img":"3.PNG", "product_name":"HAHA","amount":99},
+                {"product_img":"4.PNG", "product_name":"OHOH","amount":80}
+            ]
+            total = 1790
+            length = len(result)
+            # length = 0
+            print(length)
+            return render_template('order.html', data = locals())
+    except:
+        print("You don't have permission!!")
+        return redirect('/home')
