@@ -7,7 +7,7 @@ from template import template
 from admin    import admin
 from cart     import cart
 from ticket   import ticket
-from order   import order
+from order    import order
 
 import token_logined as TL
 
@@ -48,7 +48,7 @@ def loginpage():
 @app.route('/cart')
 def cartpage():
     tokencorrect()
-    return redirect('/cart_check/')
+    return redirect('/cart_check')
 
 @app.route('/member')
 def memberpage():

@@ -17,6 +17,7 @@ def ordercreate():
         except:
             print("Create Error")
             return "Create Error"
+            
 @order.route('/check_order/', methods=['GET', 'POST'])
 def ordercheck():
     db = mysql_unit.connect()
@@ -33,6 +34,7 @@ def ordercheck():
         except:
             print("Check Error")
             return "Check Error"
+
 @order.route('/order_in/<int:id>', methods=['GET', 'POST'])
 def orderin(id):
     db = mysql_unit.connect()
@@ -42,7 +44,8 @@ def orderin(id):
             db.commit()
             db.close()
             length = len(result)
+            total = float(total[0])
             print(total)
-            return result
+            return render_template('order.html',data=locals())
         except:
             return "Check Error"
