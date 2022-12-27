@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/order.js"></script>
+    <script type="module" src="./static/src/order.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -29,7 +29,7 @@
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -45,36 +45,32 @@
         <div class="order_title">
             <p style="font-size:50px;">你的訂單</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 22%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 20%;">數量</p>
-                <p style="width: 20%; border-right: black solid 4px;">操作</p>
+                <p style="width: 40%;">圖片</p>
+                <p style="width: 40%;">商品名稱</p>
+                <!-- <p style="width: 20%;">商品價格</p> -->
+                <p style="width: 20%;border-right: 4px black solid;">數量</p>
+                <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
             <div class="order">
                 <ul>
-                    <li>
-                        <div class="product_img">
-                            <img src="../static/img/dog.PNG">
-                        </div>
-                        <h1>柯基</h1>
-                        <p>$1999</p>
-                        <p>1</p>
-                        <a href="#">刪除</a>
-                    </li>
-                    <li>
-                        <div class="product_img">
-                            <img src="../static/img/cat.jpg">
-                        </div>
-                        <h1>貓</h1>
-                        <p>$2999</p>
-                        <p>9</p>
-                        <a href="#">刪除</a>
-                    </li>
-
+                    {% if data['length'] == 0 %}
+                    <h2>尚無商品在您訂單當中</h2>
+                    
+                    {% else %}
+                        {% for p in range(data['length']) %}
+                        <li>
+                            <div class="product_img" style="width:40%">
+                                <img src="../static/img/{{data['result'][p]['product_img']}}">
+                            </div>
+                            <h1 style="width: 40%;">{{data['result'][p]['product_name']}}</h1>
+                            <p>{{data['result'][p]['amount']}}</p>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
+            <h3>總金額：{{data['total']}}</h3>
         </div>
         
     
