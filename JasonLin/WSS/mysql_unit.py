@@ -757,17 +757,28 @@ def create_order(db,data,user_id):
     temp = db.cursor()
     temp.execute(sql_cmd_cart)
     data_cart = temp.fetchall()
-    print(data_cart)
+    #判斷購物車是否為空
+    if (len(data_cart) == 0): return "cart is empty"
+    #判斷商品剩餘數量和優惠券是否足夠
     tickets_id = (data["ticket_id"])
     confirm = product_sell_ticket(db,list(data_cart),tickets_id)
     if (confirm != "Use ticket success."): return confirm
+    #抓取user的address
+    sql_cmd_address = """
+        select customer.address
+        from customer
+        where user_id_c = %s
+    """%user_id
+    temp3 = db.cursor()
+    temp3.execute(sql_cmd_address)
+    address = list(temp3.fetchone())[0]
     #新增order
     currentDateAndTime = datetime.now()
-    currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
+    currentTime = currentDateAndTime.strftime("%Y_%m_%d %H:%M:%S")
     condition = (
         data["total_price"],
         currentTime,
-        data["address"],
+        address,
         user_id,
         )
     sql_cmd = """
