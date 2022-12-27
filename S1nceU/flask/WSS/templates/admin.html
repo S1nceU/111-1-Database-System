@@ -96,6 +96,37 @@
 
                 </ul>
             </div>
+            <p style="font-size:50px;margin-top: 30px;">錯誤回報</p>
+            <div class="order_head">
+                <p style="width: 15%;">回報ID</p>
+                <!-- <p style="width: 15%">錯誤狀態</p> -->
+                <p style="width: 70%">錯誤內容</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
+
+            </div>
+            <div class="product_list" >
+                <ul>{% if data['event_length'] == 0 %}
+                    <h2>尚無回報資料</h2>
+                    {% else %}
+                    {% for p in range(data['event_length']) %}
+                    <li>
+                        <h1 style="width: 15%;">{{data['event'][p]['event_id']}}</h1>
+                        <!-- <p style="width: 15%;">{{data['event'][p]['event_state']}}</p> -->
+                        <p style="width: 70%;">{{data['event'][p]['event_content']}}</p>
+                        <div class="delete2" style="width: 15%;">
+                            {% if data['event'][p]['event_state'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
+                                <h2>✅</h2>
+                            {% else %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
+                                <h2>❌</h2>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
         </div>
         
     
@@ -159,6 +190,14 @@
     }
     async function product_enable(id){
         await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+    async function event_disable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function event_enable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'1'})});
         window.location.reload();
     }
 </script>

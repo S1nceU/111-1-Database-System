@@ -146,13 +146,13 @@
     }
     //         await fetch('admin_status_account/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'user_level': level,'user_id': id,'wanna_status':'0'})});
     async function createOrder(ticket_id, total_price){
-        let a = await fetch("/create_order/", {method:'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'ticket_id': ticket_id,'total_price': total_price})});
-        console.log(a)
+        const a = await fetch("/create_order/", {method:'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'ticket_id': ticket_id,'total_price': total_price})}).then((response) => {return response.json();})
+        console.log(a);
         if (a == "cart is empty") {
-            alert("cart is empty")
+            alert("cart is empty");
         }
         else if (a != "create success."){
-            alert(a.data)
+            alert(a);
         }
         else{
             window.location.replace("http://127.0.0.1:5000/order");

@@ -70,7 +70,11 @@
                         <p style="width: 20%;">${{data['product']['price'][p]}}</p>
                         <p>{{data['product']['amount'][p]}}</p>
                         <div class="delete_item">
-                            <button class="button-54" role="button" style="background-color: rgb(246, 97, 97);">停售</button>
+                            {% if data['product']['product_status'][p] %}
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">停售</button>
+                            {% else %}
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_enable('{{data['product']['product_id'][p]}}')" class="delete">開始販賣</button>
+                            {% endif %}
                         </div>
                     </li>
                     {% endfor %}
@@ -124,5 +128,15 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function product_disable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function product_enable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+</script>
 </body>
 </html>

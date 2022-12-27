@@ -21,8 +21,6 @@ def admin_account():
 
 @admin.route('/admin_status_product/', methods=['GET', 'POST'])
 def admin_product():
-    # try:
-    print(request)
     if request.method == 'POST':
         db = mysql_unit.connect()
         product_id = request.json['product_id']
@@ -32,6 +30,13 @@ def admin_product():
         db.close()
         return redirect('/admin_view')
             
-    # except:
-    #     print("error!!")
-    #     return "Change status error!!"
+@admin.route('/admin_status_event/', methods=['GET', 'POST'])
+def admin_event():
+    if request.method == 'POST':
+        db = mysql_unit.connect()
+        event_id = request.json['event_id']
+        wanna_status = request.json['wanna_status']
+        result = mysql_unit.event_status(db,event_id,wanna_status)
+        db.commit()
+        db.close()
+        return redirect('/admin_view')

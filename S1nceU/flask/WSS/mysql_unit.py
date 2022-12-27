@@ -289,6 +289,7 @@ def get_sellerProduct(db, sellerID):
     temp['amount'] = list()
     temp['product_id'] = list()
     temp['seller_name'] = list()
+    temp['product_status'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
@@ -296,6 +297,7 @@ def get_sellerProduct(db, sellerID):
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
         temp['seller_name'].append(data[i][10])
+        temp['product_status'].append(data[i][6])
     # print(temp)
     return temp
 
@@ -366,7 +368,6 @@ def product_status(db,product_id,wanna_status):
         SET    product.status = %s
         WHERE  product.product_id = %s
     """%condition
-    print(sql_cmd)
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
@@ -694,12 +695,12 @@ def product_sell_ticket(db,products,tickets_id):
             ExistTicket[ticket_id] = amount
             if amount < WannaUseTicket[ticket_id]:
                 flag = True 
-                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+                cant_use_ticket.append("\n" + "Ticket " + str(i) + " is not enough to use.")
         else :
             WannaUseTicket[ticket_id] += 1
             if amount < WannaUseTicket[ticket_id]:
                 flag = True 
-                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+                cant_use_ticket.append("\n" + "Ticket " + str(i) + " is not enough to use.")
     for i in products:
         product_id = i[0]
         amount     = i[1]
@@ -707,7 +708,7 @@ def product_sell_ticket(db,products,tickets_id):
             product_id
         )
         sql_cmd = """
-            SELECT product.total_amount,product.product_name
+            SELECT product.total_amount,product.product_name,product.status
             FROM   product
             WHERE  product.product_id = %s
         """%condition_exist
@@ -715,11 +716,15 @@ def product_sell_ticket(db,products,tickets_id):
         currentproduct.execute(sql_cmd)
         product = currentproduct.fetchone()
         product_amount = int(product[0])
+        product_status = int(product[2])
         WannaSellProductAmount.append(product_amount)
         # print(currentproduct.)
         if product_amount - amount < 0: 
             flag = True
-            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+            cant_sell_product.append("\n" + product[1] + " inventory isn't enough!!")
+        if product_status == 0:
+            flag = True
+            cant_sell_product.append("\n" + product[1] + " wasn't disable!!")
     result = cant_sell_product + cant_use_ticket
     if flag:
         return result
@@ -906,3 +911,32 @@ def order_in(db,order_id):
     total = list(temp3.fetchone())
     return result,total
 
+def admin_event_view(db):
+    sql_cmd = """
+        SELECT *
+        FROM   to_do_thing 
+    """
+    event = db.cursor()
+    event.execute(sql_cmd)
+    data = event.fetchall()
+    result = []
+    if data == ():
+        return result
+    else:
+        for i in data:
+            result.append({"event_id":i[0], "event_content":i[1], "event_state":i[2]})
+    return result
+
+def event_status(db,event_id,wannastatus):
+    condition = (
+        wannastatus,
+        event_id
+    )
+    sql_cmd = """
+        UPDATE to_do_thing
+        SET    to_do_thing.event_state = %s
+        WHERE  to_do_thing.event_id = %s
+    """%condition
+    wannaevent = db.cursor()
+    wannaevent.execute(sql_cmd)
+    return "Change status success."
