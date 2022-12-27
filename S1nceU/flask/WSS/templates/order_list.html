@@ -60,7 +60,7 @@
                     {% else %}
                         {% for p in range(data['length']) %}
                         <li>
-                            <a href="http://127.0.0.1:5000/order/{{data['result'][p]['order_id']}}">{{data['result'][p]['order_id']}}</a>
+                            <a href="http://127.0.0.1:5000/order_in/{{data['result'][p]['order_id']}}">{{data['result'][p]['order_id']}}</a>
                             <p>{{data['result'][p]['total_price']}}</p>
                             <p>{{data['result'][p]['order_time']}}</p>
                             <p>{{data['result'][p]['address']}}</p>

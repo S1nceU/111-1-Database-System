@@ -77,9 +77,9 @@ const product = createApp({
             }
             else if(res.data == 'There are the same product in your cart.') {
                 alert("您的購物車已有相同的商品")
-                window.location.replace("http://127.0.0.1:5000/login")
+                window.location.reload()
             }
-            else if(res.data == 'not logged in') {
+            else if(res.data == 'Not logged in') {
                 alert("請先登入")
                 window.location.replace("http://127.0.0.1:5000/login")
             }

@@ -171,7 +171,7 @@ def test_view():
     try:
         if request.method == 'GET':
             result = [
-                {"address": "Taipei", "order_id": 55, "order_time": "12/24/22_20_23_38", "total_price": 10505.0},
+                {"address": "Taipei", "order_id": 1, "order_time": "12/24/22_20_23_38", "total_price": 10505.0},
                 {"address": "CNC"   , "order_id": 56, "order_time": "12/26/22_20_10_38", "total_price": 5050.0},
                 {"address": "Taipei", "order_id": 57, "order_time": "12/27/22_02_11_32", "total_price": 10505.0},
                 {"address": "Taipei", "order_id": 58, "order_time": "12/27/22_11_59_00", "total_price": 10505.0}
