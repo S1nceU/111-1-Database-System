@@ -2,7 +2,7 @@ import pymysql
 from datetime import datetime
 
 # 連線
-def connect():
+def connect():                                                             
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='Jason9123', db='world')
     return db
 
@@ -386,7 +386,7 @@ def cart_add(db,data,user_id):
     account = db.cursor()
     account.execute(sql_cmd_repeat)
     data = account.fetchall()
-    if len(data) == 0: return "There are the same product in your cart."
+    if len(data) != 0: return "There are the same product in your cart."
     sql_cmd = """
         INSERT INTO cart_product (product_id,user_id_c,amount)
         VALUES (%s,%s,%s) 
@@ -396,9 +396,9 @@ def cart_add(db,data,user_id):
     return "add success."
 
 # del product to cart with user_id
-def cart_delete(db,data,user_id):
+def cart_delete(db,product_id,user_id):
     condition = (
-        data["product_id"],
+        product_id,
         user_id,
         )
     sql_cmd = """
@@ -406,7 +406,6 @@ def cart_delete(db,data,user_id):
         FROM cart_product
         WHERE product_id = %s AND user_id_c = %s
     """%condition
-    print(sql_cmd   )
     nocart = db.cursor()
     nocart.execute(sql_cmd)
     return "delete success."
@@ -799,6 +798,7 @@ def create_order(db,data,user_id):
         account.execute(sql_cmd_order)
     cart_delete_all(db,user_id)
     return "create success."
+
 def check_order(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -810,24 +810,16 @@ def check_order(db,user_id):
     temp.execute(sql_cmd)
     data = temp.fetchall()
     if(data == ()): return "No found order"
-    result = [[0]*5  for i in range(len(data))]; run = -1
+    result = []
     for i in data:
-        run += 1
-        sql_cmd_repeat = """
-            select order_product.product_id, order_product.amount
-            from order_product
-            where order_id = %s
-        """%i[0]
-        temp2 = db.cursor()
-        temp2.execute(sql_cmd_repeat)
-        data_product = list(temp2.fetchall())
-        print(data_product)
-        result[run][0] = i[0]
-        result[run][1] = i[1]
-        result[run][2] = i[2]
-        result[run][3] = i[3]
-        result[run][4] = data_product
+        result.append({
+            'order_id' : i[0],
+            'total_price' : i[1],
+            'order_time' : i[2],
+            'address' : i[3]
+        })
     return result
+
 def order_in(db,order_id):
     condition = (order_id)
     sql_cmd = """

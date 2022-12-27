@@ -193,13 +193,11 @@ table {
 .order_title{
     margin-top: 30px;
     margin-bottom: 30px;
-    width: 90%;
-}
-.order_title{
-    margin-top: 30px;
     font-weight: bold;
     font-size: 30px;
+    width: 90%;
 }
+
 .order{
    border-top: 5px solid black;
    text-align:center;
@@ -304,21 +302,14 @@ table {
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
-    display: inline-block;
     font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
-    font-size: 25px;
-    font-weight: 600;
+    margin-left: 5px;
+    font-weight: 10;
     letter-spacing: normal;
     line-height: 1.5;
-    outline: none;
     padding: 13px 20px;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: top;
-    white-space: nowrap;
+    text-align: center; 
+    
   }
   
   .button-68:hover {
@@ -336,3 +327,16 @@ table {
   .button-68:hover {
     box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
   }
+.add_cart{
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    height: 200px;
+    width: 20%;
+    
+    
+}
+.number_count{
+    height: 100px;
+    width: 100px;
+}
+
