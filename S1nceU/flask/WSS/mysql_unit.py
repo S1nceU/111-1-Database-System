@@ -439,7 +439,7 @@ def cart_check(db,user_id):
     temp = temp[:-3]
     ###奇妙的多值判斷###
     sql_cmd_repeat = """
-        select product.product_img, product.product_name, product.price,product.user_id_s
+        select product.product_img, product.product_name, product.price,product.user_id_s, product_id
         from product
         where %s
         """%temp
@@ -462,6 +462,7 @@ def cart_check(db,user_id):
             'product_img' : i[0],
             'product_name' : i[1],
             'product_price' : i[2],
+            'product_id' : i[4],
             'amount' : data[run][1],
             'ticket': ticket
         })

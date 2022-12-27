@@ -65,7 +65,7 @@
                         <div class="coupon">
                             <select name = 'label'>
                                 {% for ticket in data['result'][i]['ticket'] %}
-                                    <option value="{{ticket[1]}}">ticket{{ticket[0]}}： {{ticket[1][2]}}折</option>
+                                    <option value="{{ticket[1]}}">Ticket_{{ticket[0]}}： {{ticket[1][2]}}折</option>
                                 {% endfor %}
                             </select>
                         </div>

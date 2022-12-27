@@ -18,23 +18,25 @@ const selectBar = createApp({
                 this.goLogin()
                 return
             }
-            this.username = await loginData.username
-            this.accountLevel = await loginData.user_level
+            this.username = loginData.username
+            this.accountLevel = loginData.user_level
             this.logged = true    
-            if(accountLevel != '2') {
+            if(this.accountLevel != '2') {
                 alert("您沒有權限")
                 this.goHome()
             }
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
         },
         goHome() {
+            console.log("get in goHome")
+            console.log(this.logged)
             window.location.replace("http://127.0.0.1:5000/home")
         },
         goSeller() {
@@ -53,7 +55,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/register")
         },
         goAdmin() {
-            window.location.replace("http://127.0.0.1:5000/admin")
+            window.location.replace("http://127.0.0.1:5000/admin_view")
         }
     },
     computed:{
