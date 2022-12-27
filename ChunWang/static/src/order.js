@@ -23,7 +23,7 @@ const selectBar = createApp({
             this.logged = true     
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
             this.goHome()
         },
