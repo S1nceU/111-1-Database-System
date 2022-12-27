@@ -267,7 +267,7 @@ table {
     justify-content: center;    
     /* 垂直置中 */
     align-items: center;    
-    width: 200px;
+    width: 30%;
     height: 200px;
     border-left: 4px black solid;
     border-right: 4px black solid;
@@ -276,8 +276,8 @@ table {
 
 }
 .order li img{
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
 }
 .order_head{
     display: flex;
