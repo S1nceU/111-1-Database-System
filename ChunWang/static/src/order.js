@@ -25,7 +25,7 @@ const selectBar = createApp({
         Logout() {
             Cookies.remove("WSS", {path: ''})
             this.logged = false
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
