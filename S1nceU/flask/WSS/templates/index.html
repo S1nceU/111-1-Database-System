@@ -26,7 +26,9 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
+            </li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
@@ -49,29 +51,29 @@
         </div>
         <div class="suggest_row"> <!--搜尋欄下面的推薦-->
             <span>|</span>
-            <a href="">3C</a>
+            <a href="" @click.prevent="searchTag(`3C`)">3C</a>
             <span>|</span>
-            <a href="">周邊</a>
+            <a href="" @click.prevent="searchTag(`周邊`)">周邊</a>
             <span>|</span>
-            <a href="">NB</a>
+            <a href="" @click.prevent="searchTag(`NB`)">NB</a>
             <span>|</span>
-            <a href="">數位</a>
+            <a href="" @click.prevent="searchTag(`數位`)">數位</a>
             <span>|</span>
-            <a href="">家電</a>
+            <a href="" @click.prevent="searchTag(`家電`)">家電</a>
             <span>|</span>
-            <a href="">日用</a>
+            <a href="" @click.prevent="searchTag(`日用`)">日用</a>
             <span>|</span>
-            <a href="">食用</a>
+            <a href="" @click.prevent="searchTag(`食用`)">食用</a>
             <span>|</span>
-            <a href="">生活</a>
+            <a href="" @click.prevent="searchTag(`生活`)">生活</a>
             <span>|</span>
-            <a href="">運動戶外</a>
+            <a href="" @click.prevent="searchTag(`運動戶外`)">運動戶外</a>
             <span>|</span>
-            <a href="">美妝</a>
+            <a href="" @click.prevent="searchTag(`美妝`)">美妝</a>
             <span>|</span>
-            <a href="">品牌評鑑</a>
+            <a href="" @click.prevent="searchTag(`品牌評鑑`)">品牌評鑑</a>
             <span>|</span>
-            <a href="">書店</a>
+            <a href="" @click.prevent="searchTag(`書店`)">書店</a>
         </div>
     
     <div class="cover">
