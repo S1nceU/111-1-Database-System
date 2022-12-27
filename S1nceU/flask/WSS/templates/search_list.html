@@ -52,7 +52,7 @@
                     {% for i in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <img src="../static/img/{{data['data']['product_img'][i]}}">
+                            <a href = "http://127.0.0.1:5000/product/{{data['data']['product_id'][i]}}"><img src="../static/img/{{data['data']['product_img'][i]}}"></a>
                         </div>
                         <div class="product_des">
                             <h1>{{data['data']['productName'][i]}}</h1>
