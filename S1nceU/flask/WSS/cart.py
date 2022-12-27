@@ -15,8 +15,8 @@ def addcart():
             db.close()
             return result
         except:
-            print("There are the same product in your cart.")
-            return "There are the same product in your cart."
+            print("Not logged in")
+            return "Not logged in"
 @cart.route('/cart_delete/', methods=['GET', 'POST'])
 def deletecart():
     db = mysql_unit.connect()
@@ -34,20 +34,11 @@ def checkcart():
     try:
         if request.method == 'GET':
             user_id = TL.decode_token(TL.getcookie())["user_id"]
-            print('1')
             result, total = mysql_unit.cart_check(db,user_id)
-            print('2')
-            # result = mysql_unit.cart_check(db,1)
-            # print('result', result)
-            #測試用 正式應抓取cookie
             length = len(result)
-            # print(length)
-            # print(locals())
-            # print('length', length)
-
+            print(locals())
             db.close()
             return render_template('cart.html', data = locals())
     except:
-        length = 0
-        total = 0
+        length, total = 0, 0
         return render_template('cart.html', data = locals())

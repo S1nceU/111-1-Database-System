@@ -58,14 +58,14 @@
                     {% for i in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <img src="../static/img/{{data['result'][i]['product_img']}}">
+                            <a href = "http://127.0.0.1:5000/product/{{data['result'][i]['product_id']}}"><img src="../static/img/{{data['result'][i]['product_img']}}"></a>
                         </div>
                         <h1>{{data['result'][i]['product_name']}}</h1>
                         <p>{{data['result'][i]['product_price']}}</p>
                         <div class="coupon">
                             <select name = 'label'>
-                                {% for label in data['labels'] %}
-                                    <option value="{{label}}">{{label}}</option>
+                                {% for ticket in data['result'][i]['ticket'] %}
+                                    <option value="{{ticket[1]}}">ticket{{ticket[0]}}： {{ticket[1][2]}}折</option>
                                 {% endfor %}
                             </select>
                         </div>

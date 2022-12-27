@@ -91,7 +91,7 @@ def salerProduct():
     # get token 
     # get data from database
     # render template
-
+# merge
 # admin頁面
 @template.route('/admin_view', methods = ['GET'])
 def admin_view():
@@ -180,5 +180,4 @@ def test_view():
             print(length)
             return render_template('order.html', data = locals())
     except:
-        print("You don't have permission!!")
         return redirect('/home')
