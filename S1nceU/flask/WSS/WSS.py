@@ -84,6 +84,11 @@ def admin():
     tokencorrect()
     return redirect('/admin_view')
 
+@app.route('/report')
+def report():
+    return render_template('report.html')
+
+
 def tokencorrect():
     user_data: dict = TL.getcookie()
     user_data = TL.decode_token(user_data)
