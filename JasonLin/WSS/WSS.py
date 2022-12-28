@@ -58,7 +58,7 @@ def memberpage():
 @app.route('/order')
 def orderpage():
     tokencorrect()
-    return render_template('order.html')
+    return redirect('/orderlist')
 
 @app.route('/register')
 def registerpage():

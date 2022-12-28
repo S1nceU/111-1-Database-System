@@ -1,4 +1,4 @@
-from flask import request, Blueprint,  render_template, redirect
+from flask import request, Blueprint,  render_template, redirect, jsonify
 import mysql_unit
 import token_logined as TL
 order = Blueprint('order', __name__, template_folder='templates')
@@ -6,31 +6,43 @@ order = Blueprint('order', __name__, template_folder='templates')
 def ordercreate():
     db = mysql_unit.connect()
     if request.method == 'POST':
+        # print('create get request', request.method)
         try:
-            #user_id = TL.decode_token(TL.getcookie())["user_id"]
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
+            ticket_id = request.json['ticket_id']
+            total_price = request.json['total_price']
+            print('ticket_id',ticket_id)
+            print('total_price',total_price)
+            data = {}
+            data['ticket_id'] = ticket_id
+            data['total_price'] = total_price
+            print(data)
             #result = mysql_unit.create_cart(db,cart.json,user_id)
-            result = mysql_unit.create_order(db,request.json,1)
+            result = mysql_unit.create_order(db,data,user_id)
             #測試用 正式應抓取cookie
             db.commit()
             db.close()
-            return result
+            print('購買成功success')
+            print(jsonify(result))
+            return jsonify(result)
         except:
             print("Create Error")
             return "Create Error"
             
-@order.route('/check_order/', methods=['GET', 'POST'])
+@order.route('/orderlist', methods=['GET', 'POST'])
 def ordercheck():
     db = mysql_unit.connect()
     if request.method == 'GET':
         try:
-            #user_id = TL.decode_token(TL.getcookie())["user_id"]
+            user_id = TL.decode_token(TL.getcookie())["user_id"]
             #result = mysql_unit.create_cart(db,cart.json,user_id)
-            result = mysql_unit.check_order(db,1)
+            result = mysql_unit.check_order(db,user_id)
+            length = len(result)
             #測試用 正式應抓取cookie
-            db.commit()
+            # db.commit()
             db.close()
             print(result)
-            return result
+            return render_template('order_list.html', data = locals())
         except:
             print("Check Error")
             return "Check Error"

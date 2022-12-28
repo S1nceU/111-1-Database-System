@@ -23,8 +23,7 @@ const selectBar = createApp({
         Logout() {
             Cookies.remove("WSS")
             this.logged = false
-            alert("Log out ~")
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
@@ -76,10 +75,13 @@ const product = createApp({
             if(res.data == 'add success.') {
                 alert("加入完成")
             }
-            else {
-                alert("登入過後再試")
+            else if(res.data == 'There are the same product in your cart.') {
+                alert("您的購物車已有相同的商品")
+                window.location.reload()
+            }
+            else if(res.data == 'Not logged in') {
+                alert("請先登入")
                 window.location.replace("http://127.0.0.1:5000/login")
-
             }
         },
     }

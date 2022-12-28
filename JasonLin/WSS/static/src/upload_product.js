@@ -4,7 +4,8 @@ const selectBar = createApp({
     data() {
         return {
             username: 'username',
-            logged: false
+            logged: false,
+            accountLevel: ''
         }
     },
     methods: {
@@ -18,9 +19,9 @@ const selectBar = createApp({
             this.logged = true       
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
@@ -38,7 +39,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/login")
+            window.location.replace("http://127.0.0.1:5000/member")
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
