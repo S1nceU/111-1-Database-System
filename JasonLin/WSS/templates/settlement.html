@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>搜尋結果</title>
-    <link rel="stylesheet" href="../static/css/search_list.css">
-    <link rel="stylesheet" href="../static/css/search_list.css"><script type="importmap">
+    <title>訂單檢視</title>
+    <link rel="stylesheet" href="../static/css/cart.css">
+    <script type="importmap">
         {
           "imports": {
             "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/search_list.js"></script>
+    <script type="module" src="./static/src/cart.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -25,14 +25,11 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li v-if="this.accountLevel == '1'">
-                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
-            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
-            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -46,38 +43,57 @@
             
         </div>
         <div class="order_title">
-            {% if data['message']%}
-            <p style="font-size:50px;">搜尋結果 : {{data['message']}}</p>
-            {% endif %}
+            <p style="font-size:50px;">訂單檢視</p>
+            <div class="order_head">
+                <p>圖片</p>
+                <p style="width: 22%;">商品名稱</p>
+                <p style="width: 12%;">價格</p>
+                <p style="width: 21%;">所選折價券</p>
+                <p style="width: 12%;">數量</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
+
+            </div>
+        
             <div class="order">
-                
                 <ul>
                     {% for i in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <a href = "http://127.0.0.1:5000/product/{{data['data']['product_id'][i]}}"><img src="../static/img/{{data['data']['product_img'][i]}}"></a>
+                            <a href = "http://127.0.0.1:5000/product/{{data['result'][i]['product_id']}}"><img src="../static/img/{{data['result'][i]['product_img']}}"></a>
                         </div>
-                        <div class="product_des">
-                            <h1>{{data['data']['productName'][i]}}</h1>
-                            <p>{{data['data']['description'][i]}}</p>
-                            </p>
+                        <h1>{{data['result'][i]['product_name']}}</h1>
+                        <p>{{data['result'][i]['product_price']}}</p>
+                        <div class="coupon">
+                            <!-- <select name = 'label'> -->
+                                {% if data['result'][i]['ticket'] == ()%}
+                                    無折價券可用
+                                {% elif data['ticket_info'][i][1] == '1' %}
+                                    不使用折價券
+                                {% else %}
+                                    {{data['ticket_info'][i][1][2]}}折
+                                {% endif %}
+                            <!-- </select> -->
                         </div>
-                        <div class="add_to_cart">
-                            <p>售價</p>
-                            <p style="color: brown;">$ {{data['data']['price'][i]}}</p>
-                            <input type="number" name="tentacles" min="1" max="100" v-model="addCount">
-                            <button class="button-68" role="button">加入購物車</button>
-
+                        <p class="number_count">{{data['result'][i]['amount']}}</p>
+                        <!-- <form action="/cart_delete/{{data['result'][i]['product_id']}}" method = 'post'> -->
+                        <div class="delete_item">
+                            <button type = 'button' onclick="deleteProduct({{data['result'][i]['product_id']}})" class="button-54" role="button" style="background-color: rgb(246, 97, 97);">刪除</button>
                         </div>
+                        <!-- </form> -->
                     </li>
-                    {% endfor %}
-                    
-
+                    {% endfor %}                 
                 </ul>
             </div>
         </div>
-        
-    
+        <div class="total" style="padding-top: 20px;">
+            
+            <!-- <button class="button-54" role="button" style="margin-left: 55%;">使用優惠券</button> -->
+            <button type = "button" onclick="createOrder({{data['checkTicket']}}, {{data['totalPrice']}})" class="button-54" role="button" style="margin-left:60% ;">確認結帳</button>
+            <h1>總計:</h1>
+            <h1>$ {{data['totalPrice']}}</h1>
+        </div>
+
+
     </div>
 <div class="something_important">
     <div class="important_text"> <!---政令宣導-->
@@ -123,5 +139,25 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function deleteProduct(id){
+        await fetch("/cart_delete/" + id, {method:'POST'});
+        window.location.reload();
+    }
+    //         await fetch('admin_status_account/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'user_level': level,'user_id': id,'wanna_status':'0'})});
+    async function createOrder(ticket_id, total_price){
+        const a = await fetch("/create_order/", {method:'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'ticket_id': ticket_id,'total_price': total_price})}).then((response) => {return response.json();})
+        console.log(a);
+        if (a == "cart is empty") {
+            alert("cart is empty");
+        }
+        else if (a != "create success."){
+            alert(a);
+        }
+        else{
+            window.location.replace("http://127.0.0.1:5000/order");
+        }
+    }
+</script>
 </body>
 </html>

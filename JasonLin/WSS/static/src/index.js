@@ -21,10 +21,10 @@ const selectBar = createApp({
             this.logged = true
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
             alert("Log out ~")
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
@@ -73,3 +73,14 @@ const search = createApp({
         }
     }
 }).mount('.search')
+
+const suggestion = createApp({
+    data() {return {}},
+    methods: {
+        searchTag(text) {
+            console.log("get in func")
+            console.log(text)
+            window.location.replace(`http://127.0.0.1:5000/search/${text}`)
+        }
+    }
+}).mount('.suggest_row')

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>會員中心</title>
-    <link rel="stylesheet" href="../static/css/member.css">
+    <title>訂單</title>
+    <link rel="stylesheet" href="../static/css/order.css">
     <script type="importmap">
         {
           "imports": {
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/member.js"></script>
+    <script type="module" src="./static/src/order.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -25,14 +25,11 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li v-if="this.accountLevel == '1'">
-                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
-            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
-            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -45,42 +42,34 @@
             
             
         </div>
-        <div class="cover">
-            <div class="left_list"> <!--選項欄位-->
-                <h1><p>會員編號</p></h1>
-                <h1><p style="font-size: 30px;">{{data['memberInfo']['user_id']}}</p></h1>
-                <a href="#">我的帳戶</a>
-                <!-- <a href="#">修改密碼</a> -->
-                       
-                
-            </div>
-            <div class="right_data">
-                <div class="flex">
-                    <div class="right_data_title">
-                        <p>帳號</p>
-                        <p>姓名</p>
-                        <p>Email</p>
-                        <p>電話</p>
-                        <p>身分證字號</p>
-                        <p>地址</p>
-                        <p>帳號類別</p>
-                    </div>
-                    <div class="right_data_content">
-                        <p>{{data['memberInfo']['user_account']}}</p>
-                        <p>{{data['memberInfo']['user_name']}}</p>
-                        <p>{{data['memberInfo']['user_email']}}</p>
-                        <p>{{data['memberInfo']['user_phone']}}</p>
-                        <p>{{data['memberInfo']['user_id_number']}}</p>
-                        <p>{{data['memberInfo']['user_address']}}</p>
-                        <p>{{data['memberInfo']['user_level']}}</p>
-                    </div>
-                </div>
-                
+        <div class="order_title">
+            <p style="font-size:50px;">你的訂單們</p>
+            <div class="order_head">
+                <p style="width: 25%;">訂單編號</p>
+                <p style="width: 25%;">總金額</p>
+                <p style="width: 25%;">時間</p>
+                <p style="width: 25%;border-right: 4px black solid;">地址</p>
+                <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
+            <div class="order">
+                <ul>
+                    {% if data['length'] == 0 %}
+                    <h2>您尚無訂單</h2>
+                    
+                    {% else %}
+                        {% for p in range(data['length']) %}
+                        <li>
+                            <a href="http://127.0.0.1:5000/order_in/{{data['result'][p]['order_id']}}" style="width: 25%;border-left: 4px black solid;"">{{data['result'][p]['order_id']}}</a>
+                            <p style="width: 25%;">{{data['result'][p]['total_price']}}</p>
+                            <p style="width: 25%;">{{data['result'][p]['order_time']}}</p>
+                            <p style="width: 25%;">{{data['result'][p]['address']}}</p>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-        
-    
     </div>
 <div class="something_important">
     <div class="important_text"> <!---政令宣導-->
