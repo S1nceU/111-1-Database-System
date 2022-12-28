@@ -80,7 +80,7 @@
                         <div v-if="this.accountLevel == '1' || this.accountLevel=='-1'" class="add_cart">
                             <div style="padding-top: 80px;">
                                 <input type="number" name="tentacles" min="1" max="100" v-model="addCount">
-                                <button class="button-68" role="button" @click="addToCart(`pruductID`)">加入購物車</button>
+                                <button class="button-68" role="button" @click="addToCart({{data['product']['product_id'][p]}})">加入購物車</button>
                             </div>
                         </div>
                     </li>

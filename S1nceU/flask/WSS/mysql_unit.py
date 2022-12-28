@@ -978,3 +978,13 @@ def product_update(db,product_id,addamount):
     after_amount.execute(sql_cmd)
     db.commit()
     return "Update success."
+
+def event_add(db,content):
+    sql_cmd = """
+        INSERT INTO to_do_thing (event_content,event_state,user_id)
+        VALUES ("%s",0,0)
+    """%(content)
+    eventadd = db.cursor()
+    eventadd.execute(sql_cmd)
+    db.commit()
+    return "Report success."

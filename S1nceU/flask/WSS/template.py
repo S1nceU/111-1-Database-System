@@ -108,6 +108,7 @@ def admin_view():
             product_length = len(product)
             event = mysql_unit.admin_event_view(db)
             event_length = len(event)
+            print(event)
             return render_template('admin.html', data = locals())
     except:
         print("You don't have permission!!")

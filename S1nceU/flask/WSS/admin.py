@@ -41,3 +41,13 @@ def admin_event():
         db.commit()
         db.close()
         return redirect('/admin_view')
+
+@admin.route('/add_event/', methods=['GET', 'POST'])
+def add_event():
+    if request.method == 'POST':
+        db = mysql_unit.connect()
+        event_content = request.json['content']
+        print(event_content)
+        result = mysql_unit.event_add(db,event_content)
+        db.close()
+        return result
