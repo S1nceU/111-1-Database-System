@@ -36,7 +36,7 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/seller")
         },
         goOrder() {
-            window.location.replace("http://127.0.0.1:5000/order")
+            window.location.replace("http://127.0.0.1:5000/check_order")
         },
         goCart() {
             window.location.replace("http://127.0.0.1:5000/cart")

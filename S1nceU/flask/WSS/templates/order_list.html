@@ -45,10 +45,10 @@
         <div class="order_title">
             <p style="font-size:50px;">你的訂單們</p>
             <div class="order_head">
-                <p>訂單編號</p>
-                <p style="width: 22%;">總金額</p>
-                <p style="width: 20%;">時間</p>
-                <p style="width: 20%;">地址</p>
+                <p style="width: 25%;">訂單編號</p>
+                <p style="width: 25%;">總金額</p>
+                <p style="width: 25%;">時間</p>
+                <p style="width: 25%;border-right: 4px black solid;">地址</p>
                 <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
@@ -60,10 +60,10 @@
                     {% else %}
                         {% for p in range(data['length']) %}
                         <li>
-                            <a href="http://127.0.0.1:5000/order/{{data['result'][p]['order_id']}}">{{data['result'][p]['order_id']}}</a>
-                            <p>{{data['result'][p]['total_price']}}</p>
-                            <p>{{data['result'][p]['order_time']}}</p>
-                            <p>{{data['result'][p]['address']}}</p>
+                            <a href="http://127.0.0.1:5000/order_in/{{data['result'][p]['order_id']}}" style="width: 25%;border-left: 4px black solid;"">{{data['result'][p]['order_id']}}</a>
+                            <p style="width: 25%;">{{data['result'][p]['total_price']}}</p>
+                            <p style="width: 25%;">{{data['result'][p]['order_time']}}</p>
+                            <p style="width: 25%;">{{data['result'][p]['address']}}</p>
                         </li>
                         {% endfor %}
                     {% endif %}

@@ -52,44 +52,79 @@
                         <h1>{{data['user'][p]['user_account']}}</h1>
                         <p>{{data['user'][p]['user_level']}}</p>
                         <p>{{data['user'][p]['user_id']}}</p>
-                        {% if data['user'][p]['user_status'] %}
-                            <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
-                        {% else %}
-                            <button onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
-                        {% endif %}
+                        <div class="delete">
+                            {% if data['user'][p]['user_status'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
+                            {% else %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
+                            {% endif %}
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             <p style="font-size:50px;margin-top: 30px;">商品列表</p>
             <div class="order_head">
-                <p style="width: 30%;">商品圖片</p>
+                <p style="width: 25%;">商品圖片</p>
                 <p style="width:20%">商品名稱</p>
                 <p style="width:20%">商品ID</p>
                 <!---<p style="width: 20%;">商品價格</p>---
                 <p style="width: 20%;">數量</p>--->
                 <p style="width:20%">用戶ID</p>
-                <p style="width: 10%; border-right: black solid 4px;">操作</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="product_list" >
                 <ul>
                     {% for p in range(data['product_length']) %}
                     <li>
-                        <div class="product_img">
+                        <div class="product_img" style="width: 25%;">
                             <img src="../static/img/{{data['product'][p]['product_img']}}">
                         </div>
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
                         <p>{{data['product'][p]['user_id']}}</p>
-                        {% if data['product'][p]['product_status'] %}
-                            <button onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
-                        {% else %}
-                            <button onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
-                        {% endif %}
+                        <div class="delete2" style="width: 15%;">
+                            {% if data['product'][p]['product_status'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
+                            {% else %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
+                            {% endif %}
+                        </div>
                     </li>
                     {% endfor %}
 
+                </ul>
+            </div>
+            <p style="font-size:50px;margin-top: 30px;">錯誤回報</p>
+            <div class="order_head">
+                <p style="width: 15%;">回報ID</p>
+                <!-- <p style="width: 15%">錯誤狀態</p> -->
+                <p style="width: 70%">錯誤內容</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
+
+            </div>
+            <div class="product_list" >
+                <ul>{% if data['event_length'] == 0 %}
+                    <h2>尚無回報資料</h2>
+                    {% else %}
+                    {% for p in range(data['event_length']) %}
+                    <li>
+                        <h1 style="width: 15%;">{{data['event'][p]['event_id']}}</h1>
+                        <!-- <p style="width: 15%;">{{data['event'][p]['event_state']}}</p> -->
+                        <p style="width: 70%;">{{data['event'][p]['event_content']}}</p>
+                        <div class="delete2" style="width: 15%;">
+                            {% if data['event'][p]['event_state'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
+                                <h2>✅</h2>
+                            {% else %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
+                                <h2>❌</h2>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -155,6 +190,14 @@
     }
     async function product_enable(id){
         await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+    async function event_disable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function event_enable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'1'})});
         window.location.reload();
     }
 </script>

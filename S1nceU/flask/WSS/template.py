@@ -106,6 +106,8 @@ def admin_view():
             user_length = len(user)
             product = mysql_unit.admin_product_view(db)
             product_length = len(product)
+            event = mysql_unit.admin_event_view(db)
+            event_length = len(event)
             return render_template('admin.html', data = locals())
     except:
         print("You don't have permission!!")
@@ -166,17 +168,11 @@ def searchResult(content):
         return render_template('search_list.html', data = locals())
     db.close()
 
-@template.route('/test', methods = ['GET'])
+@template.route('/test_admin/', methods = ['GET'])
 def test_view():
-    try:
-        if request.method == 'GET':
-            result = [
-                {"address": "Taipei", "order_id": 55, "order_time": "12/24/22_20_23_38", "total_price": 10505.0},
-                {"address": "CNC"   , "order_id": 56, "order_time": "12/26/22_20_10_38", "total_price": 5050.0},
-                {"address": "Taipei", "order_id": 57, "order_time": "12/27/22_02_11_32", "total_price": 10505.0},
-                {"address": "Taipei", "order_id": 58, "order_time": "12/27/22_11_59_00", "total_price": 10505.0}
-            ]
-            length = len(result)
-            return render_template('order_list.html', data = locals())
-    except:
-        return redirect('/home')
+
+    if request.method == 'GET':
+        db = mysql_unit.connect()
+        result = mysql_unit.admin_event_view(db)
+        db.close()
+        return result

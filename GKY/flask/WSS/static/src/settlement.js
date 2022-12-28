@@ -5,7 +5,7 @@ const selectBar = createApp({
         return {
             username: 'username',
             logged: false,
-            accountLevel: '',
+            accountLevel: ''
         }
     },
     methods: {
@@ -13,17 +13,23 @@ const selectBar = createApp({
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
             let loginData = await res.data
             if(loginData == 'False') {
+                alert("請先登入")
                 this.logged = false
+                this.goLogin()
                 return
             }
             this.username = await loginData.username
             this.accountLevel = await loginData.user_level
-            this.logged = true      
+            this.logged = true    
+            if(this.accountLevel != '1') {
+                alert("您沒有權限")
+                this.goHome()
+            }
         },
         Logout() {
-            Cookies.remove("WSS")
+            Cookies.remove("WSS", {path: ''})
             this.logged = false
-            this.goHome()
+            window.location.reload()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
@@ -55,34 +61,5 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-}).mount('.tt')
-
-const product = createApp({
-    data() {
-        return {
-            addCount: '1'
-        }
-    },
-    methods: {
-        async addToCart(){
-            let pathName = window.location.pathname
-            let productID = pathName.split("/")[2]
-            let res = await axios.post("http://127.0.0.1:5000/cart_add/", 
-                {
-                    "product_id": productID,
-                    "amount": parseInt(this.addCount) // 之後要修
-            })
-            if(res.data == 'add success.') {
-                alert("加入完成")
-            }
-            else if(res.data == 'There are the same product in your cart.') {
-                alert("您的購物車已有相同的商品")
-                window.location.reload()
-            }
-            else if(res.data == 'Not logged in') {
-                alert("請先登入")
-                window.location.replace("http://127.0.0.1:5000/login")
-            }
-        },
-    }
-}).mount('.content')
+})
+selectBar.mount('.tt')

@@ -91,7 +91,7 @@ def salerProduct():
     # get token 
     # get data from database
     # render template
-
+# merge
 # admin頁面
 @template.route('/admin_view', methods = ['GET'])
 def admin_view():
@@ -148,6 +148,7 @@ def search(tag):
 @template.route('/search', methods = ['POST'])
 def searchContent():
     if request.method == 'POST':
+        # print('request.form', request.form)
         search_content = request.form.getlist('searchContent')[0]
         return redirect('/searchContent/%s'%search_content)
 
@@ -163,11 +164,10 @@ def searchResult(content):
             message = '查無資料'
         else:
             message = "共%s筆資料" % length
-        print(locals())
         return render_template('search_list.html', data = locals())
     db.close()
 
-@template.route('/order', methods = ['GET'])
+@template.route('/test', methods = ['GET'])
 def test_view():
     try:
         if request.method == 'GET':
@@ -181,5 +181,4 @@ def test_view():
             print(length)
             return render_template('order.html', data = locals())
     except:
-        print("You don't have permission!!")
         return redirect('/home')
