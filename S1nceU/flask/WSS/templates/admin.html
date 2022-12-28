@@ -56,7 +56,7 @@
                             {% if data['user'][p]['user_status'] %}
                                 <button class="button-50" style="margin-top: 10px;" onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
                             {% else %}
-                                <button class="button-50" style="margin-top: 10px;" onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
+                                <button class="button-51" style="margin-top: 10px;" onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
                             {% endif %}
                         </div>
                     </li>
@@ -88,7 +88,7 @@
                             {% if data['product'][p]['product_status'] %}
                                 <button class="button-50" style="margin-top: 10px;" onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
                             {% else %}
-                                <button class="button-50" style="margin-top: 10px;" onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
+                                <button class="button-51" style="margin-top: 10px;" onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
                             {% endif %}
                         </div>
                     </li>
@@ -118,7 +118,7 @@
                                 <button class="button-50" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
                                 <h2>{{data['event'][p]['username']}} ✅</h2>
                             {% else %}
-                                <button class="button-50" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
+                                <button class="button-51" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
                                 <h2>❌</h2>
                             {% endif %}
                         </div>
