@@ -60,7 +60,7 @@ const searchList = createApp({
         return {
             username: 'username',
             logged: false,
-            accountLevel: ''
+            accountLevel: '-1'
         }
     },
     methods: {

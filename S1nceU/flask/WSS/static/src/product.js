@@ -62,7 +62,7 @@ const product = createApp({
         return {
             username: 'username',
             logged: false,
-            accountLevel: '',
+            accountLevel: '-1',
             addCount: '1'
         }
     },
