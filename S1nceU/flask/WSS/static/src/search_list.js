@@ -53,5 +53,28 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
-selectBar.mount('.tt')
+}).mount('.tt')
+
+const searchList = createApp({
+    data() {
+        return {
+            username: 'username',
+            logged: false,
+            accountLevel: ''
+        }
+    },
+    methods: {
+        async getData() {
+            let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
+            if(res.data == 'False') {
+                this.logged = false
+                return
+            }
+            this.username = res.data
+            this.logged = true       
+        }
+    },
+    created() {
+        this.getData()
+    }
+}).mount('.content')

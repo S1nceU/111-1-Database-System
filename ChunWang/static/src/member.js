@@ -21,6 +21,7 @@ const selectBar = createApp({
             this.username = await loginData.username
             this.accountLevel = await loginData.user_level
             this.logged = true 
+            return res
         },
         Logout() {
             Cookies.remove("WSS")
