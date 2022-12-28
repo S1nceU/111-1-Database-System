@@ -42,7 +42,14 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/member")
+            if(!this.logged) {
+                alert("請先登入")
+                this.goLogin()
+                return
+            }
+            else {
+                window.location.replace("http://127.0.0.1:5000/member")
+            }
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
