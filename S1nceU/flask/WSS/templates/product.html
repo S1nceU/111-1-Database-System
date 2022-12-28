@@ -55,11 +55,11 @@
                     <a class="button-74" href="http://127.0.0.1:5000/mart/{{data['product']['seller_id']}}">{{data['product']['seller_username']}}</a>
                     <p style="margin-top: 30px;">{{data['product']['product_description']}}</p>
                     <div class="button_row">
-                        <div class="number_count">
+                        <div v-if="accountLevel=='1'" class="number_count">
                             <p>數量</p>
                             <input type="number" name="tentacles" min="1" max="100" v-model="addCount" >
                         </div>
-                        <button class="button-68" role="button" @click="addToCart()">加入購物車</button>
+                        <button v-if="accountLevel=='1'" class="button-68" role="button" @click="addToCart()">加入購物車</button>
                         <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
     
                     </div>

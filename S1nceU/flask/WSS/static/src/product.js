@@ -60,10 +60,24 @@ const selectBar = createApp({
 const product = createApp({
     data() {
         return {
+            username: 'username',
+            logged: false,
+            accountLevel: '',
             addCount: '1'
         }
     },
     methods: {
+        async getData() {
+            let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
+            let loginData = await res.data
+            if(loginData == 'False') {
+                this.logged = false
+                return
+            }
+            this.username = await loginData.username
+            this.accountLevel = await loginData.user_level
+            this.logged = true      
+        },
         async addToCart(){
             let pathName = window.location.pathname
             let productID = pathName.split("/")[2]
