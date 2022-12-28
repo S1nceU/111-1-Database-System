@@ -25,14 +25,11 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li v-if="this.accountLevel == '1'">
-                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
-            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
-            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -56,6 +53,8 @@
                 <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
+    <form action = '/settlement' method = post>
+        
             <div class="order">
                 <ul>
                     {% for i in range(data['length']) %}
@@ -67,13 +66,22 @@
                         <p>{{data['result'][i]['product_price']}}</p>
                         <div class="coupon">
                             <select name = 'label'>
+                                {% if data['result'][i]['ticket'] == () %}
+                                <option value="(None, '1')">無折價券可用</option>
+                                {% else %}
+                                <option value="(None, '1')">腦子有洞不用折價券</option>
                                 {% for ticket in data['result'][i]['ticket'] %}
-                                    <option value="{{ticket[1]}}">Ticket_{{ticket[0]}}： {{ticket[1][2]}}折</option>
+                                    <option value="{{ticket}}">ticket_{{ticket[0]}}： {{ticket[1][2]}}折</option>
                                 {% endfor %}
+                                {% endif %}
                             </select>
                         </div>
                         <p class="number_count">{{data['result'][i]['amount']}}</p>
-                        <a href="#" class="delete_item">刪除</a>
+                        <!-- <form action="/cart_delete/{{data['result'][i]['product_id']}}" method = 'post'> -->
+                        <div class="delete_item">
+                            <button type = 'button' onclick="deleteProduct({{data['result'][i]['product_id']}})" class="button-54" role="button" style="background-color: rgb(246, 97, 97);">刪除</button>
+                        </div>
+                        <!-- </form> -->
                     </li>
                     {% endfor %}
                     <!-- <li>
@@ -90,12 +98,16 @@
                 </ul>
             </div>
         </div>
-        <div class="total">
-            <h1 style="padding-left: 75%;">總計:</h1>
+        <div class="total" style="padding-top: 20px;">
+            
+            <!-- <button class="button-54" role="button" style="margin-left: 55%;">使用優惠券</button> -->
+            <button type = "submit" class="button-54" role="button" style="margin-left:60% ;">去買單</button>
+            <h1>總計:</h1>
             <h1>$ {{data['total']}}</h1>
         </div>
-        
-    
+    </form>
+
+
     </div>
 <div class="something_important">
     <div class="important_text"> <!---政令宣導-->
@@ -141,5 +153,11 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function deleteProduct(id){
+        await fetch("/cart_delete/" + id, {method:'POST'});
+        window.location.reload();
+    }
+</script>
 </body>
 </html>

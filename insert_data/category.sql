@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 16/12/2022 00:30:21
+ Date: 28/12/2022 01:31:09
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,10 @@ CREATE TABLE `category`  (
 INSERT INTO `category` VALUES (3, 1);
 INSERT INTO `category` VALUES (30, 2);
 INSERT INTO `category` VALUES (31, 2);
+INSERT INTO `category` VALUES (47, 2);
 INSERT INTO `category` VALUES (28, 3);
 INSERT INTO `category` VALUES (29, 3);
+INSERT INTO `category` VALUES (45, 3);
+INSERT INTO `category` VALUES (48, 9);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -115,29 +115,94 @@ table {
     height: 38px;
     width: 300px;
 }
-.sb{
-    margin-top: 53px;
-    margin-left: -50px;
-    height: 40px;
+
+.field{
+    width: 1220px;
+    margin-top: 30px;
+    border:5px #000000 solid;
+    border-radius: 10px 10px 10px 10px;
+    overflow: auto;
+}
+.field_title{
+    width: 300px;
+    height: 50px;
+    background-color: rgb(81, 135, 236);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-style: italic;
+    align-items: center; 
+    border-radius: 0px 10px 50px 0px;
+
+}
+.field_title h1{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.rank{
     width: 40px;
+    height: 40px;
+    margin-left: -175px;
+    margin-bottom: 150px;
+    border-radius: 10px 10px 10px 10px;
+    
 }
-.sb:hover{
-    filter:brightness(110%);
-}
-.suggest_row{
-    font-size: 20px;
-    width: fit-content;
-    background-color: rgb(72, 172, 198);
-    color: white;
-    margin-top: -27px;
-    margin-left: 280px;
-}
-
-.cover{
+.row{
     display: flex;
-    margin-top: 25px;
+    text-decoration: none;
 }
 
+.rank_product {
+    width: 170px;
+    height: 170px;
+    border-radius: 10px 10px 10px 10px;
+}
+.rank_block{
+    margin-right: 160px;
+    margin-bottom: 20px;
+}
+.coupon_block{
+    margin-bottom: 10px;
+    width: 350px;
+    display: flex;
+    background-color: rgb(76, 74, 74);
+    border-radius: 10px 10px 10px 10px;
+    padding-left: 30px;
+    word-wrap:break-word;
+}
+.coupon_block img{
+    width: 150px;
+    height: 150px;
+}
+.coupon_des{
+    background-color: rgb(76, 74, 74);
+    border-radius: 10px 10px 10px 10px;
+    color: white;
+    padding-left: 10px;
+    white-space:normal;
+}
+.like_block img{
+    width: 150px;
+    height: 150px;
+    
+}
+.like_block{
+    text-align: center;
+    font-weight:bold;
+    margin-bottom: 30px;
+    margin-left: 45px;
+    margin-top: 15px;
+}
+.like_des{
+    margin-top: 10px;
+}
+.like_des h2{
+    font-size: 25px;
+}
+.like_des p{
+    font-size: 20px;
+    color: rgb(213, 6, 6);
+}
 .something_important{
     width: 100% auto;
     height: 180px;
@@ -193,11 +258,13 @@ table {
 .order_title{
     margin-top: 30px;
     margin-bottom: 30px;
-    font-weight: bold;
-    font-size: 30px;
     width: 90%;
 }
-
+.order_title{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 30px;
+}
 .order{
    border-top: 5px solid black;
    text-align:center;
@@ -210,7 +277,7 @@ table {
     height: 200px;
     margin: 0;
     line-height: 200px;
-    width: 30%;
+    width: 22%;
     
 
 }
@@ -222,25 +289,12 @@ table {
     width: 20%;
 
 }
-.coupon{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    line-height: 200px; 
-    width: 21%;
-
-}
-.coupon select{
-    width: 150px;
-    height: 30px;
-
-}
-.delete_item{
+.order a{
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     height: 200px;
     line-height: 200px;
-    width: 15%;
+    width: 20%;
 
 }
 .order li{
@@ -261,8 +315,8 @@ table {
 
 }
 .order li img{
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
 }
 .order_head{
     display: flex;
@@ -279,64 +333,36 @@ table {
     border-bottom: #000000 solid 0px;
 
 }
-
-.total{
-
-    border-top: 4px solid #000;
-    width: 90%;
-    display: flex;
-}
-.total h1{
-    margin-top: 10px;
-    font-size:40px;
-    padding-left: 20px;
-}
-
-/* CSS */
-.button-68 {
-
-    background-color: #4baed8;
-    border-radius: 8px;
-    border-style: none;
-    box-shadow: rgba(39, 174, 96, .15) 0 4px 9px;
-    box-sizing: border-box;
-    color: #fff;
+.button-54 {
+    margin-top:20px;
+    background-color:rgb(85, 188, 213) ;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
     cursor: pointer;
-    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
-    margin-left: 5px;
-    font-weight: 10;
-    letter-spacing: normal;
-    line-height: 1.5;
-    padding: 13px 20px;
-    text-align: center; 
-    
-  }
-  
-  .button-68:hover {
-    background-color: #0850a8;
-    opacity: 1;
-    transform: translateY(0);
-    transition-duration: .35s;
-  }
-  
-  .button-68:active {
-    transform: translateY(2px);
-    transition-duration: .35s;
-  }
-  
-  .button-68:hover {
-    box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
-  }
-.add_cart{
-    border-bottom: 4px solid black;
-    border-right: 4px solid black;
-    height: 200px;
-    width: 20%;
-    
-    
-}
-.number_count{
-    height: 100px;
+    font-weight: 700;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    height: 50px;
     width: 100px;
-}
-
+  }
+  
+  .button-54:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+  }
+  
+  @media (min-width: 768px) {
+    .button-54 {
+      padding: 0.25em 0.75em;
+    }
+  }

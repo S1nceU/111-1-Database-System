@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>訂單</title>
-    <link rel="stylesheet" href="../static/css/order.css">
+    <title>錯誤回報</title>
+    <link rel="stylesheet" href="../static/css/report.css">
     <script type="importmap">
         {
           "imports": {
@@ -25,14 +25,11 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li v-if="this.accountLevel == '1'">
-                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
-            </li>
+            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
-            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -46,34 +43,22 @@
             
         </div>
         <div class="order_title">
-            <p style="font-size:50px;">你的訂單</p>
+            <p style="font-size:50px;">錯誤回報</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 22%;">商品名稱</p>
+                <p style="width: 80%;">訊息</p>
                 <!-- <p style="width: 20%;">商品價格</p> -->
-                <p style="width: 20%;">數量</p>
+                <p style="width: 20%;border-right: 4px black solid;">回報</p>
                 <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
-            <div class="order">
-                <ul>
-                    {% if data['length'] == 0 %}
-                    <h2>尚無商品在您訂單當中</h2>
-                    
-                    {% else %}
-                        {% for p in range(data['length']) %}
-                        <li>
-                            <div class="product_img">
-                                <img src="../static/img/{{data['result'][p]['product_img']}}">
-                            </div>
-                            <h1>{{data['result'][p]['product_name']}}</h1>
-                            <p>{{data['result'][p]['amount']}}</p>
-                        </li>
-                        {% endfor %}
-                    {% endif %}
-                </ul>
+            <div class="order" style="display: flex;">
+                <div style="border: 4px black solid;border-top: 0px;height: 100px;width: 80%;">
+                    <textarea style="resize:none;width:600px;height:50px;margin-top: 20px;"></textarea>
+                </div>
+                <div style="border-bottom:4px black solid;border-right:4px solid black;height: 100px;width: 20%;">
+                    <button class="button-54" role="button" style="background-color: rgb(246, 97, 97);">刪減</button>
+                </div>
             </div>
-            <h3>總金額：$ {{data['total']}}</h3>
         </div>
         
     

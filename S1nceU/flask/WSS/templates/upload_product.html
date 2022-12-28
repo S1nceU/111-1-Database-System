@@ -58,25 +58,14 @@
                             <p>商品名稱</p>
                             <p>商品價格</p>
                             <p>商品描述</p>
-                            <p>可用折價券</p>
                             <p>標籤</p>
                             <p>商品數量</p>
                             <p style="margin-top: 25px;">商品圖片</p>
                         </div>
                         <div class="right_data_content">
-                            <!-- <input placeholder="" maxlength="30" style="margin-top:0px;">  -->
                             <input id = 'product_name' type = 'text' name = 'product_name' style="margin-top:0px;">
-                            <!-- <input onkeyup="value=value.replace(/[^\d]/g,'') " > -->
                             <input id ='price' type ='text' name ='price'>
-                            <!-- <input placeholder="" maxlength="30"> -->
                             <input id ='description' type ='text' name ='description'>
-                            <!-- <button  role="button" class="add_image">新增圖片</button> -->
-                            <select>
-                                <option>折價券1</option>
-                                <option>折價券2</option>
-                                <option>折價券3</option>
-                            </select>
-                            <!-- <input id ='label' type ='text' name ='label'> -->
                             <select name = 'label'>
                                 {% for label in data['labels'] %}
                                     <option value="{{label}}">{{label}}</option>

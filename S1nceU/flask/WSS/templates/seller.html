@@ -50,11 +50,11 @@
             <a href="" @click.prevent="goUpload()"><button class="button-68" role="button">新增商品</button></a>
             <p style="font-size:50px;margin-top: 50px;">商店</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 22%;">商品名稱</p>
-                <p style="width: 12%;">商品價格</p>
-                <p style="width: 21%;">可用折價券</p>
-                <p style="width: 12%;">數量</p>
+                <p style="width: 30%;">圖片</p>
+                <p style="width: 28%;">商品名稱</p>
+                <p style="width: 20%;">商品價格</p>
+                <!---<p style="width: 21%;">可用折價券</p>--->
+                <p style="width: 12%;">庫存</p>
                 <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
@@ -66,17 +66,16 @@
                         <div class="product_img">
                             <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                         </div>
-                        <h1>{{data['product']['productName'][p]}}</h1>
-                        <p>${{data['product']['price'][p]}}</p>
-                        <div class="coupon">
-                            <select>
-                                <option>折價券1</option>
-                                <option>折價券2</option>
-                                <option>折價券3</option>
-                            </select>
-                        </div>
+                        <h1 style="width: 28%;">{{data['product']['productName'][p]}}</h1>
+                        <p style="width: 20%;">${{data['product']['price'][p]}}</p>
                         <p>{{data['product']['amount'][p]}}</p>
-                        <a href="#" class="delete_item">刪除</a>
+                        <div class="delete_item">
+                            {% if data['product']['product_status'][p] %}
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">停售</button>
+                            {% else %}
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_enable('{{data['product']['product_id'][p]}}')" class="delete">開始販賣</button>
+                            {% endif %}
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
@@ -129,5 +128,15 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function product_disable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function product_enable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+</script>
 </body>
 </html>
