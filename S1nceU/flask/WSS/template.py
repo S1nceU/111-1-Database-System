@@ -122,7 +122,7 @@ def mart(id):
         user_id = id
         product = mysql_unit.get_sellerProduct(db,user_id)
         length = len(product['productName'])
-        print(product)
+        ticket = mysql_unit.ticket_view(db,id)
         if request.method == 'GET':
             # db.close()
             return render_template('seller_front.html', data = locals())

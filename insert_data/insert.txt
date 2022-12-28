@@ -49,18 +49,10 @@ CREATE TABLE `test`.`LABEL`  (
   PRIMARY KEY (`label_id`)
 );
 
-CREATE TABLE `test`.`manage_t`  (
-  `user_id` int NOT NULL,
-  `ticket_id` int NOT NULL,
-  PRIMARY KEY (`user_id`, `ticket_id`),
-  CONSTRAINT `fk_manage_t_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `test`.`ADMIN` (`user_id`),
-  CONSTRAINT `fk_manage_t_TICKET_1` FOREIGN KEY (`ticket_id`) REFERENCES `test`.`TICKET` (`ticket_id`)
-);
-
 CREATE TABLE `test`.`ORDER`  (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `total_price` float(10, 2) NOT NULL,
-  `order_time` datetime NOT NULL,
+  `order_time` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `status` int NOT NULL,
   `user_id_c` int NOT NULL,
@@ -121,19 +113,19 @@ CREATE TABLE `test`.`SELLER`  (
 
 CREATE TABLE `test`.`TICKET`  (
   `ticket_id` int NOT NULL AUTO_INCREMENT,
-  `effective_date` datetime NOT NULL,
+  `effective_date` varchar(255) NULL,
   `amount` varchar(255) NOT NULL,
   `discount` varchar(255) NOT NULL,
   `user_id_s` int NOT NULL,
   PRIMARY KEY (`ticket_id`),
-  CONSTRAINT `fk_TICKET_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `test`.`SELLER` (`user_id_s`)
+  CONSTRAINT `fk_TICKET_SELLER_1` FOREIGN KEY (`user_id_s`) REFERENCES `test`.`SELLER` (`user_id_s`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 CREATE TABLE `test`.`TO_DO_THING`  (
   `event_id` int NOT NULL AUTO_INCREMENT,
   `event_content` varchar(255) NULL,
-  `event_state` bit(1) NOT NULL,
-  `user_id` int NOT NULL,
+  `event_state` int NOT NULL,
+  `user_id` int NULL,
   PRIMARY KEY (`event_id`),
   CONSTRAINT `fk_TO_DO_THING_ADMIN_1` FOREIGN KEY (`user_id`) REFERENCES `test`.`ADMIN` (`user_id`)
 );

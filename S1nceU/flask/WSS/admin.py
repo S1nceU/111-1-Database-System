@@ -34,9 +34,10 @@ def admin_product():
 def admin_event():
     if request.method == 'POST':
         db = mysql_unit.connect()
+        user_id = TL.decode_token(TL.getcookie())["user_id"]
         event_id = request.json['event_id']
         wanna_status = request.json['wanna_status']
-        result = mysql_unit.event_status(db,event_id,wanna_status)
+        result = mysql_unit.event_status(db,event_id,wanna_status,user_id)
         db.commit()
         db.close()
         return redirect('/admin_view')

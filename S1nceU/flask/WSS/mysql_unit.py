@@ -298,7 +298,6 @@ def get_sellerProduct(db, sellerID):
         temp['product_id'].append(data[i][0])
         temp['seller_name'].append(data[i][10])
         temp['product_status'].append(data[i][6])
-    # print(temp)
     return temp
 
 # view all of users for admin
@@ -913,8 +912,9 @@ def order_in(db,order_id):
 
 def admin_event_view(db):
     sql_cmd = """
-        SELECT *
-        FROM   to_do_thing 
+        SELECT event_id, event_content, event_state, username 
+        FROM   to_do_thing
+        JOIN   admin ON to_do_thing.user_id = admin.user_id
     """
     event = db.cursor()
     event.execute(sql_cmd)
@@ -924,19 +924,44 @@ def admin_event_view(db):
         return result
     else:
         for i in data:
-            result.append({"event_id":i[0], "event_content":i[1], "event_state":i[2]})
+            result.append({"event_id":i[0], "event_content":i[1], "event_state":i[2], "username":i[3]})
     return result
 
-def event_status(db,event_id,wannastatus):
+def event_status(db,event_id,wannastatus,user_id):
     condition = (
         wannastatus,
+        user_id,
         event_id
     )
     sql_cmd = """
         UPDATE to_do_thing
-        SET    to_do_thing.event_state = %s
+        SET    to_do_thing.event_state = %s, to_do_thing.user_id = %s
         WHERE  to_do_thing.event_id = %s
     """%condition
     wannaevent = db.cursor()
     wannaevent.execute(sql_cmd)
     return "Change status success."
+
+def product_update(db,product_id,addamount):
+    sql_cmd_exist = """
+        SELECT total_amount
+        FROM   product
+        WHERE  product_id = %s
+    """%(product_id)
+    curr_amount = db.cursor()
+    curr_amount.execute(sql_cmd_exist)
+    addamount += curr_amount.fetchone()[0]
+    if addamount < 0: addamount = 0
+    condition = (
+        addamount,
+        product_id
+    )
+    sql_cmd = """
+        UPDATE product
+        SET    total_amount = %s
+        WHERE  product_id = %s
+    """%condition
+    after_amount = db.cursor()
+    after_amount.execute(sql_cmd)
+    db.commit()
+    return "Update success."

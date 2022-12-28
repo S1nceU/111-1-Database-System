@@ -73,3 +73,13 @@ def sell_product():
         result = mysql_unit.product_sell(db,li) #### need value
         db.close()
         return result
+
+@product.route('/update_product/', methods=['POST'])
+def update_product():
+    db = mysql_unit.connect()
+    if request.method == 'POST':
+        addamount = int(request.json['addamount'])
+        product_id = request.json['product_id']
+        result = mysql_unit.product_update(db,product_id,addamount)
+        db.close()
+        return result

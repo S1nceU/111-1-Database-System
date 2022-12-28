@@ -60,7 +60,6 @@
             </div>
             <div class="order">
                 <ul>
-
                     {% for p in range(data['length']) %}
                     <li>
                         <div class="product_img">
@@ -70,11 +69,18 @@
                         <p style="width: 20%;">${{data['product']['price'][p]}}</p>
                         <p>{{data['product']['amount'][p]}}</p>
                         <div class="delete_item">
+                            <div style="height:80px">
                             {% if data['product']['product_status'][p] %}
                                 <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">停售</button>
                             {% else %}
                                 <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_enable('{{data['product']['product_id'][p]}}')" class="delete">開始販賣</button>
                             {% endif %}
+                            </div>
+                            <div class="updata_item" style="border-top: 4px black solid;height: 100px;">
+                                <!-- <input type="number" name="tentacles" min="1" max="100" v-model="addCount" class="input_count"> -->
+                                <input type="number" name="tentacles" min="-100" max="100" v-model="addCount" class="input_count" id="{{p}}">
+                                <button class="button-54" role="button" style="background-color: rgb(131, 234, 246); font-size: 15px;" onclick="update_num('{{p}}','{{data['product']['product_id'][p]}}')" class="delete">更新</button>
+                            </div>
                         </div>
                     </li>
                     {% endfor %}
@@ -133,10 +139,34 @@
         await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
         window.location.reload();
     }
-    async function product_enable(id){
-        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
-        window.location.reload();
+    function product_enable(id){
+        fetch('admin_status_product/', {
+            method: 'POST', 
+            headers: ({'Content-Type': 'application/json'}), 
+            body:JSON.stringify({
+                'product_id': id,
+                'wanna_status':'1'})
+            }).then((res)=>{
+                window.location.reload();
+            })
     }
+
+    const update_num = (num, product_id) =>{
+        let element = document.getElementById(num)
+        fetch('http://127.0.0.1:5000/update_product/',{
+            method:'POST',
+            body:JSON.stringify({
+                'addamount' : element.value,
+                'product_id': product_id
+            }),
+            headers:{
+                'Content-Type': "application/json"
+            }
+        }).then((res)=>{
+                window.location.reload();
+        })
+    }
+
 </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>賣場</title>
-    <link rel="stylesheet" href="../static/css/seller_front.css">
+    <title>我的賣場</title>
+    <link rel="stylesheet" href="../static/css/seller.css">
     <script type="importmap">
         {
           "imports": {
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/index.js"></script>
+    <script type="module" src="./static/src/saler.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -25,11 +25,14 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
+            </li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -39,50 +42,44 @@
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
+            
+            
         </div>
         <div class="order_title">
-            
-            <p style="font-size:50px;margin-top: 50px;">{{data['product']['seller_name'][0]}} 的商店</p>
+            <p style="font-size:50px;margin-bottom: 50px;">新增商品</p>
+            <a href="" @click.prevent="goUpload()"><button class="button-68" role="button">新增商品</button></a>
+            <p style="font-size:50px;margin-top: 50px;">商店</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 30%;">商品名稱</p>
+                <p style="width: 30%;">圖片</p>
+                <p style="width: 28%;">商品名稱</p>
                 <p style="width: 20%;">商品價格</p>
-                <p style="width: 21%;">可用折價券</p>
-                <p style="width: 20%;">庫存</p>
-                <p style="width: 20%;border-right: black solid 4px;">操作</p>
+                <!---<p style="width: 21%;">可用折價券</p>--->
+                <p style="width: 12%;">庫存</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="order">
                 <ul>
+
                     {% for p in range(data['length']) %}
                     <li>
                         <div class="product_img">
-                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product"></a>
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
                         </div>
-                        <h1>{{data['product']['productName'][p]}}</h1>
-                        <p>${{data['product']['price'][p]}}</p>
-                        <div class="coupon">
-                            <select>
-                                {% if data['ticket'] == [] %}
-                                    <option value="(None, '1')">無折價券可用</option>
-                                {% else %}
-                                    <option value="(None, '1')">腦子有洞不用折價券</option>
-                                {% for ticket in data['ticket'] %}
-                                    <option value="{{ticket}}">ticket_{{ticket['ticket_id']}}： {{ticket['discount'][2]}}折</option>
-                                {% endfor %}
-                                {% endif %}
-                            </select>
-                        </div>
+                        <h1 style="width: 28%;">{{data['product']['productName'][p]}}</h1>
+                        <p style="width: 20%;">${{data['product']['price'][p]}}</p>
                         <p>{{data['product']['amount'][p]}}</p>
-                        <div class="add_cart">
-                            <div style="padding-top: 80px;">
-                                <input type="number" name="tentacles" min="1" max="100" v-model="addCount">
-                                <button class="button-68" role="button">加入購物車</button>
-                            </div>
+                        <div class="delete_item" >
+                                <div style="height:80px">
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">停售</button>
+                                </div>
+                                <div class="updata_item" style="border-top: 4px black solid;height: 100px;">
+                                    <input type="number" name="tentacles" min="1" max="100" v-model="addCount" class="input_count">
+                                    <button class="button-54" role="button" style="background-color: rgb(131, 234, 246); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">更新</button>
+                                </div>
                         </div>
                     </li>
                     {% endfor %}
-
                 </ul>
             </div>
         </div>
@@ -133,5 +130,15 @@
     <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
         Database and Database Online are trademarks of Database Online Inc.</p>
 </div>
+<script>
+    async function product_disable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function product_enable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+</script>
 </body>
 </html>

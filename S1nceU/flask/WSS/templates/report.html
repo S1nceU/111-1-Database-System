@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>賣場</title>
-    <link rel="stylesheet" href="../static/css/seller_front.css">
+    <title>錯誤回報</title>
+    <link rel="stylesheet" href="../static/css/report.css">
     <script type="importmap">
         {
           "imports": {
@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="../static/src/index.js"></script>
+    <script type="module" src="./static/src/order.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -39,51 +39,25 @@
     <div class="content">
         <div class="search"> <!--搜尋欄--->
             <img src="../static/img/icon.PNG" alt="" class="icon">
+            
+            
         </div>
         <div class="order_title">
-            
-            <p style="font-size:50px;margin-top: 50px;">{{data['product']['seller_name'][0]}} 的商店</p>
+            <p style="font-size:50px;">錯誤回報</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 30%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 21%;">可用折價券</p>
-                <p style="width: 20%;">庫存</p>
-                <p style="width: 20%;border-right: black solid 4px;">操作</p>
+                <p style="width: 80%;">訊息</p>
+                <!-- <p style="width: 20%;">商品價格</p> -->
+                <p style="width: 20%;border-right: 4px black solid;">回報</p>
+                <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
-            <div class="order">
-                <ul>
-                    {% for p in range(data['length']) %}
-                    <li>
-                        <div class="product_img">
-                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product"></a>
-                        </div>
-                        <h1>{{data['product']['productName'][p]}}</h1>
-                        <p>${{data['product']['price'][p]}}</p>
-                        <div class="coupon">
-                            <select>
-                                {% if data['ticket'] == [] %}
-                                    <option value="(None, '1')">無折價券可用</option>
-                                {% else %}
-                                    <option value="(None, '1')">腦子有洞不用折價券</option>
-                                {% for ticket in data['ticket'] %}
-                                    <option value="{{ticket}}">ticket_{{ticket['ticket_id']}}： {{ticket['discount'][2]}}折</option>
-                                {% endfor %}
-                                {% endif %}
-                            </select>
-                        </div>
-                        <p>{{data['product']['amount'][p]}}</p>
-                        <div class="add_cart">
-                            <div style="padding-top: 80px;">
-                                <input type="number" name="tentacles" min="1" max="100" v-model="addCount">
-                                <button class="button-68" role="button">加入購物車</button>
-                            </div>
-                        </div>
-                    </li>
-                    {% endfor %}
-
-                </ul>
+            <div class="order" style="display: flex;">
+                <div style="border: 4px black solid;border-top: 0px;height: 100px;width: 80%;">
+                    <textarea style="resize:none;width:600px;height:50px;margin-top: 20px;"></textarea>
+                </div>
+                <div style="border-bottom:4px black solid;border-right:4px solid black;height: 100px;width: 20%;">
+                    <button class="button-54" role="button" style="background-color: rgb(246, 97, 97);">刪減</button>
+                </div>
             </div>
         </div>
         
