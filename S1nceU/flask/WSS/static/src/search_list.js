@@ -66,11 +66,13 @@ const searchList = createApp({
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
                 this.logged = false
                 return
             }
-            this.username = res.data
+            this.username = loginData.username
+            this.accountLevel = loginData.user_level
             this.logged = true       
         }
     },
