@@ -79,7 +79,7 @@
                     {% for p in range(data['product_length']) %}
                     <li>
                         <div class="product_img" style="width: 25%;">
-                            <img src="../static/img/{{data['product'][p]['product_img']}}">
+                            <a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" ><img src="../static/img/{{data['product'][p]['product_img']}}"></a>
                         </div>
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
@@ -115,10 +115,10 @@
                         <p style="width: 70%;">{{data['event'][p]['event_content']}}</p>
                         <div class="delete2" style="width: 15%;">
                             {% if data['event'][p]['event_state'] %}
-                                <button class="button-50" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
+                                <button class="button-51" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
                                 <h2>{{data['event'][p]['username']}} ✅</h2>
                             {% else %}
-                                <button class="button-51" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
                                 <h2>❌</h2>
                             {% endif %}
                         </div>
