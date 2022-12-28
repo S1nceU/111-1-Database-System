@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./static/src/order.js"></script>
+    <script type="module" src="../static/src/report.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -25,11 +25,14 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
+            </li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
@@ -53,10 +56,10 @@
             </div>
             <div class="order" style="display: flex;">
                 <div style="border: 4px black solid;border-top: 0px;height: 100px;width: 80%;">
-                    <textarea style="resize:none;width:600px;height:50px;margin-top: 20px;"></textarea>
+                    <textarea v-model="reportText" style="resize:none;width:600px;height:50px;margin-top: 20px;"></textarea>
                 </div>
                 <div style="border-bottom:4px black solid;border-right:4px solid black;height: 100px;width: 20%;">
-                    <button class="button-54" role="button" style="background-color: rgb(246, 97, 97);">刪減</button>
+                    <button class="button-54" role="button" style="background-color: rgb(53, 211, 22);" @click="Report()">回報</button>
                 </div>
             </div>
         </div>
