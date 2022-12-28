@@ -52,8 +52,13 @@ def cartpage():
 
 @app.route('/member')
 def memberpage():
-    tokencorrect()
-    return redirect('/memberCenter')
+    try:
+        user_data = TL.getcookie()
+        if user_data == None:
+            len(1)
+        return redirect('/memberCenter')
+    except:
+        return redirect('/home')
 
 @app.route('/order')
 def orderpage():

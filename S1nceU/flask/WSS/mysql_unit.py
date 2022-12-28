@@ -378,6 +378,7 @@ def cart_add(db,data,user_id):
         user_id,
         data["amount"],
         )
+    #判斷商品是否已存在購物車內
     sql_cmd_repeat = """
         SELECT *
         FROM cart_product
@@ -385,8 +386,20 @@ def cart_add(db,data,user_id):
     """%condition
     account = db.cursor()
     account.execute(sql_cmd_repeat)
-    data = account.fetchall()
-    if len(data) != 0: return "There are the same product in your cart."
+    data2 = account.fetchall()
+    if len(data2) != 0: return "There are the same product in your cart."
+    #判斷商品是否已被停用
+    status = (data["product_id"])
+    sql_cmd_status = """
+        SELECT product.status
+        FROM product
+        WHERE product_id = %s
+    """%status
+    account = db.cursor()
+    account.execute(sql_cmd_status)
+    data_status = account.fetchone()
+    if data_status[0] != 1: return "Product has disabled."
+    #增加進購物車
     sql_cmd = """
         INSERT INTO cart_product (product_id,user_id_c,amount)
         VALUES (%s,%s,%s) 
