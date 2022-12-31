@@ -76,7 +76,7 @@ const report = createApp({
     },
     methods: {
         async Report() {
-            let res = await axios.post("http://127.0.0.1:5000/add_event", {content: this.reportText})
+            let res = await axios.post("http://127.0.0.1:5000/add_event/", {content: this.reportText})
             if(res.data == "Report success.") {
                 alert("回報成功!")
                 window.location.reload()

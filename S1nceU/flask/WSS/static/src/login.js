@@ -21,7 +21,6 @@ const app = createApp({
                 alert("密碼不可為空")
                 return
             }
-            console.log(this.loginForm)
             // 帳號登入處理
             if(this.isBuyer) {
                 url = 'http://127.0.0.1:5000/login_c/'
@@ -31,7 +30,6 @@ const app = createApp({
             }
 
             let res = await axios.post(url, this.loginForm)
-            
             if(res.data == '0') {
                 alert("查無帳號")
                 return
