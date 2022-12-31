@@ -37,11 +37,15 @@ def ordercheck():
             user_id = TL.decode_token(TL.getcookie())["user_id"]
             #result = mysql_unit.create_cart(db,cart.json,user_id)
             result = mysql_unit.check_order(db,user_id)
-            length = len(result)
+            if result == "No found order":
+                length = 0
+            else:
+                length = len(result)
             #測試用 正式應抓取cookie
             # db.commit()
             db.close()
             print(result)
+            print(length)
             return render_template('order_list.html', data = locals())
         except:
             print("Check Error")

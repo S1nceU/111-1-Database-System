@@ -7,8 +7,8 @@ ticket = Blueprint('ticket', __name__, template_folder='templates')
 def add_ticket():
     db = mysql_unit.connect()
     if request.method == 'POST':
-        # user_id = TL.decode_token(TL.getcookie())["user_id"]
-        result = mysql_unit.ticket_add(db, request.form, 1)
+        user_id = TL.decode_token(TL.getcookie())["user_id"]
+        result = mysql_unit.ticket_add(db, request.form, user_id)
         db.close()
         return redirect('/seller')
 

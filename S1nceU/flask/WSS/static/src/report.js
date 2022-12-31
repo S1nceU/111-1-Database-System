@@ -23,6 +23,7 @@ const selectBar = createApp({
         Logout() {
             Cookies.remove("WSS")
             this.logged = false
+            alert("Log out ~")
             this.goHome()
         },
         goLogin() {

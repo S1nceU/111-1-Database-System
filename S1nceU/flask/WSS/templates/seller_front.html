@@ -47,24 +47,24 @@
             
             <p style="font-size:50px;margin-top: 50px;">{{data['product']['seller_name'][0]}} 的商店</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 30%;">商品名稱</p>
-                <p style="width: 20%;">商品價格</p>
-                <p style="width: 21%;">可用折價券</p>
-                <p style="width: 20%;">庫存</p>
-                <p style="width: 20%;border-right: black solid 4px;">操作</p>
+                <p style="width: 15%;">圖片</p>
+                <p style="width: 25%;">商品名稱</p>
+                <p style="width: 15%;">商品價格</p>
+                <p style="width: 20%;">可用折價券</p>
+                <p style="width: 15%;">庫存</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
-            <div class="order">
+            <div class="order" >
                 <ul>
                     {% for p in range(data['length']) %}
                     <li>
-                        <div class="product_img">
-                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product"></a>
+                        <div class="product_img" style="width: 15%;">
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" ></a>
                         </div>
-                        <h1>{{data['product']['productName'][p]}}</h1>
-                        <p>${{data['product']['price'][p]}}</p>
-                        <div class="coupon">
+                        <h1 style="width: 25%;">{{data['product']['productName'][p]}}</h1>
+                        <p  style="width: 15%;">${{data['product']['price'][p]}}</p>
+                        <div class="coupon" style="width: 20%;">
                             <select>
                                 {% if data['ticket'] == [] %}
                                     <option value="(None, '1')">無折價券可用</option>
@@ -76,9 +76,10 @@
                                 {% endif %}
                             </select>
                         </div>
-                        <p>{{data['product']['amount'][p]}}</p>
-                        <div v-if="this.accountLevel == '1' || this.accountLevel=='-1'" class="add_cart">
-                            <div style="padding-top: 80px;">
+                        <p style="width: 15%;">{{data['product']['amount'][p]}}</p>
+                        <div  class="add_cart" style="width: 15%;">
+                            <div style="padding-top: 80px;" v-if="this.accountLevel == '1' || this.accountLevel=='-1'">
+                                
                                 <input type="number" name="tentacles" min="1" max="100" v-model="addCount">
                                 <button class="button-68" role="button" @click="addToCart({{data['product']['product_id'][p]}})">加入購物車</button>
                             </div>

@@ -24,6 +24,7 @@ const selectBar = createApp({
         Logout() {
             Cookies.remove("WSS")
             this.logged = false
+            alert("Log out ~")
             this.goHome()
         },
         goLogin() {
@@ -97,6 +98,10 @@ const searchList = createApp({
             }
             else if(res.data == 'There are the same product in your cart.') {
                 alert("您的購物車已有相同的商品")
+                window.location.reload()
+            }
+            else if(res.data == 'Product has disabled.'){
+                alert("這件商品已被停用")
                 window.location.reload()
             }
             else if(res.data == 'Not logged in') {
