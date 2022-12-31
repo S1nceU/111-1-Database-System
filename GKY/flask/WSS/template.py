@@ -28,6 +28,11 @@ def index_get():
             username = "訪客"
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
+            num = list(range(0, len(data)))
+            randomNumbers = random.sample(num, 12)
+            GuessYouLike = []
+            for i in randomNumbers:
+                GuessYouLike.append(data[i])
             return render_template('index.html', data = locals())
             # return render_template('login.html')
     db.close()
