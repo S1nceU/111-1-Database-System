@@ -25,16 +25,19 @@
             <li v-if="this.accountLevel == '0'">
                 <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
             </li>
-            <li><a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a></li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
+            </li>
             <li v-if="this.accountLevel == '1'">
                 <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
             </li>
-            <li><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
             <li><a>
                 <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
                 <div v-else class="tb" @click="Logout">登出</div>
             </a></li>
-        </ul>
+    </ul>
     </div>
     <div class="content">
         <div class="search"> <!--搜尋欄--->
@@ -52,11 +55,11 @@
                     <a class="button-74" href="http://127.0.0.1:5000/mart/{{data['product']['seller_id']}}">{{data['product']['seller_username']}}</a>
                     <p style="margin-top: 30px;">{{data['product']['product_description']}}</p>
                     <div class="button_row">
-                        <div class="number_count">
+                        <div v-if="this.accountLevel=='1' || this.accountLevel=='-1'" class="number_count">
                             <p>數量</p>
                             <input type="number" name="tentacles" min="1" max="100" v-model="addCount" >
                         </div>
-                        <button class="button-68" role="button" @click="addToCart()">加入購物車</button>
+                        <button v-if="this.accountLevel=='1' || this.accountLevel=='-1'" class="button-68" role="button" @click="addToCart()">加入購物車</button>
                         <!----<button class="button-68" role="button" style="margin-left: 30px;">加入珍藏</button>--->
     
                     </div>
@@ -86,24 +89,17 @@
         <hr>
         <div class="about" style="margin-left:20px ;">
             <h1>關於邀驗鑑貨</h1>
-            <a href="">人才招募</a>
-            <a href="">隱私權聲明</a>
-            <a href="">服務條款</a>
+            <a href="https://www.1111.com.tw/?agent=op_gpx_t_35K_in1214&utm_source=google&utm_medium=pmax&utm_content=o_35K&utm_campaign=main&gclid=CjwKCAiA76-dBhByEiwAA0_s9aGahhhHi2q2dqdcZAmkq9tKQ5KW0tH8OKl2YannGQvPPmpVyo4i5xoCRsQQAvD_BwE">人才招募</a>
+            <a href="https://www.iii.org.tw/FFPage.aspx?ff_sqno=5&fm_sqno=49">隱私權聲明</a>
+            <a href="https://www.gov.tw/cp.aspx?n=17">服務條款</a>
         </div>
         <div class="about" style="margin-left:20px ;">
             <h1>顧客權益</h1>
-            <a href="">聯絡我們</a>
-            <a href="">常見Q&A</a>
-            <a href="">防詐騙宣導</a>
-            <a href="">退換貨說明</a>
-            <a href="">24h到貨說明</a>
+            <a href="https://165.npa.gov.tw/#/">防詐騙宣導</a>
         </div>
         <div class="about" style="margin-left:20px ;">
-            <h1>企業合作</h1>
-            <a href="">招商專區</a>
-            <a href="">媒體聯繫</a>
-            <a href="">企業/大型採購</a>
-
+            <h1>回報問題</h1>
+            <a href="http://127.0.0.1:5000/report">意見反應</a>
         </div>
         <hr>
     </div>

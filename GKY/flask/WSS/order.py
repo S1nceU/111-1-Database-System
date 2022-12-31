@@ -1,4 +1,4 @@
-from flask import request, Blueprint,  render_template, redirect
+from flask import request, Blueprint,  render_template, redirect, jsonify
 import mysql_unit
 import token_logined as TL
 order = Blueprint('order', __name__, template_folder='templates')
@@ -23,12 +23,13 @@ def ordercreate():
             db.commit()
             db.close()
             print('購買成功success')
-            return redirect('/home')
+            print(jsonify(result))
+            return jsonify(result)
         except:
             print("Create Error")
             return "Create Error"
             
-@order.route('/check_order/', methods=['GET', 'POST'])
+@order.route('/orderlist', methods=['GET', 'POST'])
 def ordercheck():
     db = mysql_unit.connect()
     if request.method == 'GET':

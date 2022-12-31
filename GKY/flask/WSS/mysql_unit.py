@@ -289,6 +289,7 @@ def get_sellerProduct(db, sellerID):
     temp['amount'] = list()
     temp['product_id'] = list()
     temp['seller_name'] = list()
+    temp['product_status'] = list()
     for i in range(len(data)):
         temp['productName'].append(data[i][2])
         temp['product_img'].append(data[i][8])
@@ -296,7 +297,7 @@ def get_sellerProduct(db, sellerID):
         temp['amount'].append(data[i][7])
         temp['product_id'].append(data[i][0])
         temp['seller_name'].append(data[i][10])
-    # print(temp)
+        temp['product_status'].append(data[i][6])
     return temp
 
 # view all of users for admin
@@ -366,7 +367,6 @@ def product_status(db,product_id,wanna_status):
         SET    product.status = %s
         WHERE  product.product_id = %s
     """%condition
-    print(sql_cmd)
     operation = db.cursor()
     operation.execute(sql_cmd)
     return "Change status success."
@@ -378,6 +378,7 @@ def cart_add(db,data,user_id):
         user_id,
         data["amount"],
         )
+    #判斷商品是否已存在購物車內
     sql_cmd_repeat = """
         SELECT *
         FROM cart_product
@@ -385,8 +386,20 @@ def cart_add(db,data,user_id):
     """%condition
     account = db.cursor()
     account.execute(sql_cmd_repeat)
-    data = account.fetchall()
-    if len(data) != 0: return "There are the same product in your cart."
+    data2 = account.fetchall()
+    if len(data2) != 0: return "There are the same product in your cart."
+    #判斷商品是否已被停用
+    status = (data["product_id"])
+    sql_cmd_status = """
+        SELECT product.status
+        FROM product
+        WHERE product_id = %s
+    """%status
+    account = db.cursor()
+    account.execute(sql_cmd_status)
+    data_status = account.fetchone()
+    if data_status[0] != 1: return "Product has disabled."
+    #增加進購物車
     sql_cmd = """
         INSERT INTO cart_product (product_id,user_id_c,amount)
         VALUES (%s,%s,%s) 
@@ -694,12 +707,12 @@ def product_sell_ticket(db,products,tickets_id):
             ExistTicket[ticket_id] = amount
             if amount < WannaUseTicket[ticket_id]:
                 flag = True 
-                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+                cant_use_ticket.append("\n" + "Ticket " + str(i) + " is not enough to use.")
         else :
             WannaUseTicket[ticket_id] += 1
             if amount < WannaUseTicket[ticket_id]:
                 flag = True 
-                cant_use_ticket.append("Ticket " + str(i) + " is not enough to use.")
+                cant_use_ticket.append("\n" + "Ticket " + str(i) + " is not enough to use.")
     for i in products:
         product_id = i[0]
         amount     = i[1]
@@ -707,7 +720,7 @@ def product_sell_ticket(db,products,tickets_id):
             product_id
         )
         sql_cmd = """
-            SELECT product.total_amount,product.product_name
+            SELECT product.total_amount,product.product_name,product.status
             FROM   product
             WHERE  product.product_id = %s
         """%condition_exist
@@ -715,11 +728,15 @@ def product_sell_ticket(db,products,tickets_id):
         currentproduct.execute(sql_cmd)
         product = currentproduct.fetchone()
         product_amount = int(product[0])
+        product_status = int(product[2])
         WannaSellProductAmount.append(product_amount)
         # print(currentproduct.)
         if product_amount - amount < 0: 
             flag = True
-            cant_sell_product.append(product[1] + " inventory isn't enough!!")
+            cant_sell_product.append("\n" + product[1] + " inventory isn't enough!!")
+        if product_status == 0:
+            flag = True
+            cant_sell_product.append("\n" + product[1] + " wasn't disable!!")
     result = cant_sell_product + cant_use_ticket
     if flag:
         return result
@@ -906,3 +923,68 @@ def order_in(db,order_id):
     total = list(temp3.fetchone())
     return result,total
 
+def admin_event_view(db):
+    sql_cmd = """
+        SELECT event_id, event_content, event_state, username 
+        FROM   to_do_thing
+        JOIN   admin ON to_do_thing.user_id = admin.user_id
+    """
+    event = db.cursor()
+    event.execute(sql_cmd)
+    data = event.fetchall()
+    result = []
+    if data == ():
+        return result
+    else:
+        for i in data:
+            result.append({"event_id":i[0], "event_content":i[1], "event_state":i[2], "username":i[3]})
+    return result
+
+def event_status(db,event_id,wannastatus,user_id):
+    condition = (
+        wannastatus,
+        user_id,
+        event_id
+    )
+    sql_cmd = """
+        UPDATE to_do_thing
+        SET    to_do_thing.event_state = %s, to_do_thing.user_id = %s
+        WHERE  to_do_thing.event_id = %s
+    """%condition
+    wannaevent = db.cursor()
+    wannaevent.execute(sql_cmd)
+    return "Change status success."
+
+def product_update(db,product_id,addamount):
+    sql_cmd_exist = """
+        SELECT total_amount
+        FROM   product
+        WHERE  product_id = %s
+    """%(product_id)
+    curr_amount = db.cursor()
+    curr_amount.execute(sql_cmd_exist)
+    addamount += curr_amount.fetchone()[0]
+    if addamount < 0: addamount = 0
+    condition = (
+        addamount,
+        product_id
+    )
+    sql_cmd = """
+        UPDATE product
+        SET    total_amount = %s
+        WHERE  product_id = %s
+    """%condition
+    after_amount = db.cursor()
+    after_amount.execute(sql_cmd)
+    db.commit()
+    return "Update success."
+
+def event_add(db,content):
+    sql_cmd = """
+        INSERT INTO to_do_thing (event_content,event_state,user_id)
+        VALUES ("%s",0,0)
+    """%(content)
+    eventadd = db.cursor()
+    eventadd.execute(sql_cmd)
+    db.commit()
+    return "Report success."

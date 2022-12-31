@@ -1,4 +1,6 @@
 from flask import request, Blueprint, render_template,redirect
+import random
+
 import mysql_unit
 import token_logined as TL
 
@@ -17,6 +19,12 @@ def index_get():
             username = TL.decode_token(user_data)['username']
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
+            num = list(range(0, len(data)))
+            randomNumbers = random.sample(num, 12)
+            GuessYouLike = []
+            for i in randomNumbers:
+                GuessYouLike.append(data[i])
+            print(locals())
             return render_template('index.html', data = locals())
         except:
             username = "訪客"
@@ -106,6 +114,9 @@ def admin_view():
             user_length = len(user)
             product = mysql_unit.admin_product_view(db)
             product_length = len(product)
+            event = mysql_unit.admin_event_view(db)
+            event_length = len(event)
+            print(event)
             return render_template('admin.html', data = locals())
     except:
         print("You don't have permission!!")
@@ -120,7 +131,7 @@ def mart(id):
         user_id = id
         product = mysql_unit.get_sellerProduct(db,user_id)
         length = len(product['productName'])
-        print(product)
+        ticket = mysql_unit.ticket_view(db,id)
         if request.method == 'GET':
             # db.close()
             return render_template('seller_front.html', data = locals())
@@ -148,7 +159,6 @@ def search(tag):
 @template.route('/search', methods = ['POST'])
 def searchContent():
     if request.method == 'POST':
-        # print('request.form', request.form)
         search_content = request.form.getlist('searchContent')[0]
         return redirect('/searchContent/%s'%search_content)
 
@@ -167,18 +177,11 @@ def searchResult(content):
         return render_template('search_list.html', data = locals())
     db.close()
 
-@template.route('/test', methods = ['GET'])
+@template.route('/test_admin/', methods = ['GET'])
 def test_view():
-    try:
-        if request.method == 'GET':
-            result = [
-                {"product_img":"3.PNG", "product_name":"HAHA","amount":99},
-                {"product_img":"4.PNG", "product_name":"OHOH","amount":80}
-            ]
-            total = 1790
-            length = len(result)
-            # length = 0
-            print(length)
-            return render_template('order.html', data = locals())
-    except:
-        return redirect('/home')
+
+    if request.method == 'GET':
+        db = mysql_unit.connect()
+        result = mysql_unit.admin_event_view(db)
+        db.close()
+        return result
