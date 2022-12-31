@@ -1,4 +1,6 @@
 from flask import request, Blueprint, render_template,redirect
+import random
+
 import mysql_unit
 import token_logined as TL
 
@@ -13,15 +15,24 @@ def index_get():
         print('get IN')
         try:
             user_data = TL.getcookie()
-            print("test")
             username = TL.decode_token(user_data)['username']
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
+            num = list(range(0, len(data)))
+            randomNumbers = random.sample(num, 12)
+            GuessYouLike = []
+            for i in randomNumbers:
+                GuessYouLike.append(data[i])
             return render_template('index.html', data = locals())
         except:
             username = "訪客"
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
+            num = list(range(0, len(data)))
+            randomNumbers = random.sample(num, 12)
+            GuessYouLike = []
+            for i in randomNumbers:
+                GuessYouLike.append(data[i])
             return render_template('index.html', data = locals())
             # return render_template('login.html')
     db.close()
