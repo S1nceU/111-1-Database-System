@@ -78,9 +78,10 @@ const app = createApp({
             }
 
             let res = await axios.post(url, this.registObj)
-            console.log(res)
+            console.log(res.data)
             // 傳送註冊後續事項 (待新增)
-            // ...
+            alert("註冊成功！！")
+            window.location.replace("http://127.0.0.1:5000/login")
         },
         goLogin() {
             console.log("go Login")
