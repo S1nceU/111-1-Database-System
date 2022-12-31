@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/12/2022 01:31:51
+ Date: 31/12/2022 21:46:11
 */
 
 SET NAMES utf8mb4;
@@ -41,9 +41,10 @@ CREATE TABLE `seller`  (
 -- Records of seller
 -- ----------------------------
 INSERT INTO `seller` VALUES (1, 'Jason', '109590009', 'password', 'ex@ex', 'NTUT', '0987654321', 'L123456789', 1);
-INSERT INTO `seller` VALUES (30, 'Acute Angle Gan', 'userHI', 'password', 'email@email', 'NTUT', '0987654321', 'L76895409', 0);
+INSERT INTO `seller` VALUES (30, 'Acute Angle Gan', 'userHI', 'password', 'email@email', 'NTUT', '0987654321', 'L76895409', 1);
 INSERT INTO `seller` VALUES (31, 'ponywen', '109590027', 'password', 'ponywen@gmail.com', 'GS', '09896745231', 'B785849030', 1);
 INSERT INTO `seller` VALUES (32, 'Sophia', '11038025', 'password', 'Sophia@gmail.com', 'GS', '0935800017', 'B785849456', 1);
 INSERT INTO `seller` VALUES (33, 'Roy', 'royis87', 'password', 'Roy@gmail.com', 'NT', '0945695175', 'F156765345', 1);
+INSERT INTO `seller` VALUES (39, 'Seller', 'seller', 'sellerpassword', 'seller@seller.com', '台北市大安區忠孝東路三段一號', '0227712171', 'A123789456', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

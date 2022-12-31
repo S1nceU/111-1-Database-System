@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/12/2022 01:30:54
+ Date: 31/12/2022 21:45:18
 */
 
 SET NAMES utf8mb4;
@@ -29,11 +29,14 @@ CREATE TABLE `admin`  (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `user_status` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES (1, 'admin', 'admin', 'adminpassword', 'admin@admin', 1);
+INSERT INTO `admin` VALUES (0, '無', 'none', 'nonopassword', NULL, 0);
+INSERT INTO `admin` VALUES (1, 'S1nceU', 'admin', 'adminpassword', 'admin@admin', 1);
+INSERT INTO `admin` VALUES (3, 'GKY', 'adminGKY', 'adminpassword', 'GKY@GKY', 1);
+INSERT INTO `admin` VALUES (4, 'Jason', 'adminJason', 'adminpassword', 'Jason@Jason', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

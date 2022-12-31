@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/12/2022 01:31:00
+ Date: 31/12/2022 21:45:29
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,6 @@ CREATE TABLE `cart_product`  (
 -- ----------------------------
 -- Records of cart_product
 -- ----------------------------
-INSERT INTO `cart_product` VALUES (1, 1, 1);
-INSERT INTO `cart_product` VALUES (1, 3, 1);
+INSERT INTO `cart_product` VALUES (1, 5, 99999);
 
 SET FOREIGN_KEY_CHECKS = 1;

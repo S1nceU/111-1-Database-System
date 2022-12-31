@@ -120,92 +120,26 @@
             <h1>猜你喜歡</h1>
         </div>
         <div class="row">
+            {% for i in range(6) %}
             <div class="like_block" >
-                <a href=""><img src="../static/img/sand_fish.jpg" alt="" ></a> <!---猜你喜歡商品圖片-->
+                <a href="http://127.0.0.1:5000/product/{{data['GuessYouLike'][i]['product_id']}}"><img src="../static/img/{{data['GuessYouLike'][i]['product_img']}}" alt="" ></a> <!---猜你喜歡商品圖片-->
                 <div class="like_des">
-                    <h2>沙魚</h2><!--商品名稱-->
-                    <p>$450</p><!---商品價格-->
+                    <h2>{{data['GuessYouLike'][i]['product_name']}}</h2><!--商品名稱-->
+                    <p>${{data['GuessYouLike'][i]['product_price']}}</p><!---商品價格-->
                 </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/soft_s.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>軟絲</h2>
-                    <p>$850</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/flower_crab.png" alt="" ></a>
-                <div class="like_des">
-                    <h2>花蟹</h2>
-                    <p>$750</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/small_crab.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>小一點的花蟹</h2>
-                    <p>$450</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/smallest_crab.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>再小一點的花蟹</h2>
-                    <p>$350</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/big_sand_mom.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>大沙母</h2>
-                    <p>$850</p>
-                </div> 
-            </div>
+            </div>      
+            {% endfor %}  
         </div>
         <div class="row">
+            {% for i in range(6,12) %}
             <div class="like_block" >
-                <a href=""><img src="../static/img/sea_gua.jpg" alt="" ></a>
+                <a href="http://127.0.0.1:5000/product/{{data['GuessYouLike'][i]['product_id']}}"><img src="../static/img/{{data['GuessYouLike'][i]['product_img']}}" alt="" ></a> <!---猜你喜歡商品圖片-->
                 <div class="like_des">
-                    <h2>海瓜子</h2>
-                    <p>$180</p>
+                    <h2>{{data['GuessYouLike'][i]['product_name']}}</h2><!--商品名稱-->
+                    <p>${{data['GuessYouLike'][i]['product_price']}}</p><!---商品價格-->
                 </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/butter_bae.jpeg" alt="" ></a>
-                <div class="like_des">
-                    <h2>奶油貝</h2>
-                    <p>$250</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/生蠔.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>生蠔</h2>
-                    <p>$180</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/mu_gua.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>木瓜螺</h2>
-                    <p>$350</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/小花龍.PNG" alt="" ></a>
-                <div class="like_des">
-                    <h2>小花龍</h2>
-                    <p>$1250</p>
-                </div> 
-            </div>
-            <div class="like_block" >
-                <a href=""><img src="../static/img/water_gu.jpg" alt="" ></a>
-                <div class="like_des">
-                    <h2>水姑娘</h2>
-                    <p>$1680</p>
-                </div> 
-            </div>
+            </div>      
+            {% endfor %}  
         </div>
     </div>
     

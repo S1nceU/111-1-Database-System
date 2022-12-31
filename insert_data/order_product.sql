@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 28/12/2022 01:31:35
+ Date: 31/12/2022 21:45:55
 */
 
 SET NAMES utf8mb4;
@@ -40,5 +40,11 @@ INSERT INTO `order_product` VALUES (2, 12, 1);
 INSERT INTO `order_product` VALUES (2, 47, 1);
 INSERT INTO `order_product` VALUES (2, 48, 5);
 INSERT INTO `order_product` VALUES (3, 12, 4);
+INSERT INTO `order_product` VALUES (4, 12, 4);
+INSERT INTO `order_product` VALUES (5, 1, 5);
+INSERT INTO `order_product` VALUES (7, 1, 1);
+INSERT INTO `order_product` VALUES (7, 2, 4);
+INSERT INTO `order_product` VALUES (9, 52, 4);
+INSERT INTO `order_product` VALUES (10, 12, 5);
 
 SET FOREIGN_KEY_CHECKS = 1;
