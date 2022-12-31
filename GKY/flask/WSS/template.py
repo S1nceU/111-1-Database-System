@@ -15,7 +15,6 @@ def index_get():
         print('get IN')
         try:
             user_data = TL.getcookie()
-            print("test")
             username = TL.decode_token(user_data)['username']
             data = mysql_unit.product_get_all(db)
             bestSeller = data[0:6:1]
@@ -24,7 +23,6 @@ def index_get():
             GuessYouLike = []
             for i in randomNumbers:
                 GuessYouLike.append(data[i])
-            print(locals())
             return render_template('index.html', data = locals())
         except:
             username = "訪客"
