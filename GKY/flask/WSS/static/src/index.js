@@ -21,10 +21,10 @@ const selectBar = createApp({
             this.logged = true
         },
         Logout() {
-            Cookies.remove("WSS", {path: ''})
+            Cookies.remove("WSS")
             this.logged = false
             alert("Log out ~")
-            window.location.reload()
+            this.goHome()
         },
         goLogin() {
             window.location.replace("http://127.0.0.1:5000/login")
@@ -36,13 +36,20 @@ const selectBar = createApp({
             window.location.replace("http://127.0.0.1:5000/seller")
         },
         goOrder() {
-            window.location.replace("http://127.0.0.1:5000/check_order")
+            window.location.replace("http://127.0.0.1:5000/order")
         },
         goCart() {
             window.location.replace("http://127.0.0.1:5000/cart")
         },
         goMember() {
-            window.location.replace("http://127.0.0.1:5000/member")
+            if(!this.logged) {
+                alert("請先登入")
+                this.goLogin()
+                return
+            }
+            else {
+                window.location.replace("http://127.0.0.1:5000/member")
+            }
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
@@ -73,3 +80,14 @@ const search = createApp({
         }
     }
 }).mount('.search')
+
+const suggestion = createApp({
+    data() {return {}},
+    methods: {
+        searchTag(text) {
+            console.log("get in func")
+            console.log(text)
+            window.location.replace(`http://127.0.0.1:5000/search/${text}`)
+        }
+    }
+}).mount('.suggest_row')

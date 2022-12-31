@@ -6,12 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理者</title>
     <link rel="stylesheet" href="../static/css/admin.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="../static/src/admin.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
         <ul class="ti">
             <li><a href="" @click.prevent="goHome()"><div class="tb">首頁</div></a></li>
-            <li><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a>
+                <div v-if="!logged" class="tb" @click="goLogin()">註冊/登入</div>
+                <div v-else class="tb" @click="Logout()">登出</div>
+            </a></li>
         </ul>
         </div>
     <div class="content">
@@ -38,44 +52,79 @@
                         <h1>{{data['user'][p]['user_account']}}</h1>
                         <p>{{data['user'][p]['user_level']}}</p>
                         <p>{{data['user'][p]['user_id']}}</p>
-                        {% if data['user'][p]['user_status'] %}
-                            <button onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
-                        {% else %}
-                            <button onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
-                        {% endif %}
+                        <div class="delete">
+                            {% if data['user'][p]['user_status'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="disable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">停用</button>
+                            {% else %}
+                                <button class="button-51" style="margin-top: 10px;" onclick="enable('{{data['user'][p]['user_level']}}', '{{data['user'][p]['user_id']}}')" class="delete">啟用</button>
+                            {% endif %}
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             <p style="font-size:50px;margin-top: 30px;">商品列表</p>
             <div class="order_head">
-                <p style="width: 30%;">商品圖片</p>
+                <p style="width: 25%;">商品圖片</p>
                 <p style="width:20%">商品名稱</p>
                 <p style="width:20%">商品ID</p>
                 <!---<p style="width: 20%;">商品價格</p>---
                 <p style="width: 20%;">數量</p>--->
                 <p style="width:20%">用戶ID</p>
-                <p style="width: 10%; border-right: black solid 4px;">操作</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
 
             </div>
             <div class="product_list" >
                 <ul>
                     {% for p in range(data['product_length']) %}
                     <li>
-                        <div class="product_img">
-                            <img src="../static/img/{{data['product'][p]['product_img']}}">
+                        <div class="product_img" style="width: 25%;">
+                            <a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" ><img src="../static/img/{{data['product'][p]['product_img']}}"></a>
                         </div>
                         <h1><a href="http://127.0.0.1:5000/product/{{data['product'][p]['product_id']}}" >{{data['product'][p]['product_name']}}</a></h1>
                         <p>{{data['product'][p]['product_id']}}</p>
                         <p>{{data['product'][p]['user_id']}}</p>
-                        {% if data['product'][p]['product_status'] %}
-                            <button onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
-                        {% else %}
-                            <button onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
-                        {% endif %}
+                        <div class="delete2" style="width: 15%;">
+                            {% if data['product'][p]['product_status'] %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="product_disable('{{data['product'][p]['product_id']}}')" class="delete">停用</button>
+                            {% else %}
+                                <button class="button-51" style="margin-top: 10px;" onclick="product_enable('{{data['product'][p]['product_id']}}')" class="delete">啟用</button>
+                            {% endif %}
+                        </div>
                     </li>
                     {% endfor %}
 
+                </ul>
+            </div>
+            <p style="font-size:50px;margin-top: 30px;">錯誤回報</p>
+            <div class="order_head">
+                <p style="width: 15%;">回報ID</p>
+                <!-- <p style="width: 15%">錯誤狀態</p> -->
+                <p style="width: 70%">錯誤內容</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
+
+            </div>
+            <div class="product_list" >
+                <ul>{% if data['event_length'] == 0 %}
+                    <h2>尚無回報資料</h2>
+                    {% else %}
+                    {% for p in range(data['event_length']) %}
+                    <li>
+                        <h1 style="width: 15%;">{{data['event'][p]['event_id']}}</h1>
+                        <!-- <p style="width: 15%;">{{data['event'][p]['event_state']}}</p> -->
+                        <p style="width: 70%;">{{data['event'][p]['event_content']}}</p>
+                        <div class="delete2" style="width: 15%;">
+                            {% if data['event'][p]['event_state'] %}
+                                <button class="button-51" style="margin-top: 10px;" onclick="event_disable('{{data['event'][p]['event_id']}}')" class="delete">已解決</button>
+                                <h2>{{data['event'][p]['username']}} ✅</h2>
+                            {% else %}
+                                <button class="button-50" style="margin-top: 10px;" onclick="event_enable('{{data['event'][p]['event_id']}}')" class="delete">尚未解決</button>
+                                <h2>❌</h2>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -101,24 +150,17 @@
         <hr>
         <div class="about" style="margin-left:20px ;">
             <h1>關於邀驗鑑貨</h1>
-            <a href="">人才招募</a>
-            <a href="">隱私權聲明</a>
-            <a href="">服務條款</a>
+            <a href="https://www.1111.com.tw/?agent=op_gpx_t_35K_in1214&utm_source=google&utm_medium=pmax&utm_content=o_35K&utm_campaign=main&gclid=CjwKCAiA76-dBhByEiwAA0_s9aGahhhHi2q2dqdcZAmkq9tKQ5KW0tH8OKl2YannGQvPPmpVyo4i5xoCRsQQAvD_BwE">人才招募</a>
+            <a href="https://www.iii.org.tw/FFPage.aspx?ff_sqno=5&fm_sqno=49">隱私權聲明</a>
+            <a href="https://www.gov.tw/cp.aspx?n=17">服務條款</a>
         </div>
         <div class="about" style="margin-left:20px ;">
             <h1>顧客權益</h1>
-            <a href="">聯絡我們</a>
-            <a href="">常見Q&A</a>
-            <a href="">防詐騙宣導</a>
-            <a href="">退換貨說明</a>
-            <a href="">24h到貨說明</a>
+            <a href="https://165.npa.gov.tw/#/">防詐騙宣導</a>
         </div>
         <div class="about" style="margin-left:20px ;">
-            <h1>企業合作</h1>
-            <a href="">招商專區</a>
-            <a href="">媒體聯繫</a>
-            <a href="">企業/大型採購</a>
-
+            <h1>回報問題</h1>
+            <a href="http://127.0.0.1:5000/report">意見反應</a>
         </div>
         <hr>
     </div>
@@ -141,6 +183,14 @@
     }
     async function product_enable(id){
         await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+    async function event_disable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function event_enable(id){
+        await fetch('admin_status_event/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'event_id': id,'wanna_status':'1'})});
         window.location.reload();
     }
 </script>

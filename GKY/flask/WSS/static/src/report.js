@@ -11,12 +11,14 @@ const selectBar = createApp({
     methods: {
         async getData() {
             let res = await axios.post("http://127.0.0.1:5000/isLogined/", {})
-            if(res.data == 'False') {
+            let loginData = await res.data
+            if(loginData == 'False') {
                 this.logged = false
                 return
             }
-            this.username = res.data
-            this.logged = true       
+            this.username = await loginData.username
+            this.accountLevel = await loginData.user_level
+            this.logged = true
         },
         Logout() {
             Cookies.remove("WSS")
@@ -50,6 +52,9 @@ const selectBar = createApp({
         },
         goRegister() {
             window.location.replace("http://127.0.0.1:5000/register")
+        },
+        goAdmin() {
+            window.location.replace("http://127.0.0.1:5000/admin")
         }
     },
     computed:{
@@ -60,5 +65,21 @@ const selectBar = createApp({
     created() {
         this.getData()
     }
-})
-selectBar.mount('.tt')
+}).mount(".tt")
+
+const report = createApp({
+    data() {
+        return {
+            reportText: ""
+        }
+    },
+    methods: {
+        async Report() {
+            let res = await axios.post("http://127.0.0.1:5000/add_event", {content: this.reportText})
+            if(res.data == "Report success.") {
+                alert("回報成功!")
+                window.location.reload()
+            }
+        }
+    }
+}).mount('.content')

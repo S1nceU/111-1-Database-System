@@ -52,13 +52,13 @@ def cartpage():
 
 @app.route('/member')
 def memberpage():
-    tokencorrect()
     return redirect('/memberCenter')
+
 
 @app.route('/order')
 def orderpage():
     tokencorrect()
-    return render_template('order.html')
+    return redirect('/orderlist')
 
 @app.route('/register')
 def registerpage():
@@ -78,6 +78,11 @@ def seller():
 def admin():
     tokencorrect()
     return redirect('/admin_view')
+
+@app.route('/report')
+def report():
+    return render_template('report.html')
+
 
 def tokencorrect():
     user_data: dict = TL.getcookie()

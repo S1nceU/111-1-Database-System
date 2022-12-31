@@ -15,7 +15,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="./static/src/order.js"></script>
+    <script type="module" src="../static/src/order.js"></script>
 </head>
 <body>
     <div class="tt"><!--上方浮動列-->
@@ -48,10 +48,10 @@
         <div class="order_title">
             <p style="font-size:50px;">你的訂單</p>
             <div class="order_head">
-                <p>圖片</p>
-                <p style="width: 22%;">商品名稱</p>
+                <p style="width: 40%;">圖片</p>
+                <p style="width: 40%;">商品名稱</p>
                 <!-- <p style="width: 20%;">商品價格</p> -->
-                <p style="width: 20%;">數量</p>
+                <p style="width: 20%;border-right: 4px black solid;">數量</p>
                 <!-- <p style="width: 20%; border-right: black solid 4px;">操作</p> -->
 
             </div>
@@ -63,17 +63,17 @@
                     {% else %}
                         {% for p in range(data['length']) %}
                         <li>
-                            <div class="product_img">
+                            <div class="product_img" style="width:40%">
                                 <img src="../static/img/{{data['result'][p]['product_img']}}">
                             </div>
-                            <h1>{{data['result'][p]['product_name']}}</h1>
+                            <h1 style="width: 40%;">{{data['result'][p]['product_name']}}</h1>
                             <p>{{data['result'][p]['amount']}}</p>
                         </li>
                         {% endfor %}
                     {% endif %}
                 </ul>
             </div>
-            <h3>總金額：$ {{data['total']}}</h3>
+            <h3 style="margin-left: 80%;">總金額：$ {{data['total']}}</h3>
         </div>
         
     
@@ -97,24 +97,17 @@
         <hr>
         <div class="about" style="margin-left:20px ;">
             <h1>關於邀驗鑑貨</h1>
-            <a href="">人才招募</a>
-            <a href="">隱私權聲明</a>
-            <a href="">服務條款</a>
+            <a href="https://www.1111.com.tw/?agent=op_gpx_t_35K_in1214&utm_source=google&utm_medium=pmax&utm_content=o_35K&utm_campaign=main&gclid=CjwKCAiA76-dBhByEiwAA0_s9aGahhhHi2q2dqdcZAmkq9tKQ5KW0tH8OKl2YannGQvPPmpVyo4i5xoCRsQQAvD_BwE">人才招募</a>
+            <a href="https://www.iii.org.tw/FFPage.aspx?ff_sqno=5&fm_sqno=49">隱私權聲明</a>
+            <a href="https://www.gov.tw/cp.aspx?n=17">服務條款</a>
         </div>
         <div class="about" style="margin-left:20px ;">
             <h1>顧客權益</h1>
-            <a href="">聯絡我們</a>
-            <a href="">常見Q&A</a>
-            <a href="">防詐騙宣導</a>
-            <a href="">退換貨說明</a>
-            <a href="">24h到貨說明</a>
+            <a href="https://165.npa.gov.tw/#/">防詐騙宣導</a>
         </div>
         <div class="about" style="margin-left:20px ;">
-            <h1>企業合作</h1>
-            <a href="">招商專區</a>
-            <a href="">媒體聯繫</a>
-            <a href="">企業/大型採購</a>
-
+            <h1>回報問題</h1>
+            <a href="http://127.0.0.1:5000/report">意見反應</a>
         </div>
         <hr>
     </div>
