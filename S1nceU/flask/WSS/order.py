@@ -6,24 +6,16 @@ order = Blueprint('order', __name__, template_folder='templates')
 def ordercreate():
     db = mysql_unit.connect()
     if request.method == 'POST':
-        # print('create get request', request.method)
         try:
             user_id = TL.decode_token(TL.getcookie())["user_id"]
             ticket_id = request.json['ticket_id']
             total_price = request.json['total_price']
-            print('ticket_id',ticket_id)
-            print('total_price',total_price)
             data = {}
             data['ticket_id'] = ticket_id
             data['total_price'] = total_price
-            print(data)
-            #result = mysql_unit.create_cart(db,cart.json,user_id)
             result = mysql_unit.create_order(db,data,user_id)
-            #測試用 正式應抓取cookie
             db.commit()
             db.close()
-            print('購買成功success')
-            print(jsonify(result))
             return jsonify(result)
         except:
             print("Create Error")
@@ -35,17 +27,12 @@ def ordercheck():
     if request.method == 'GET':
         try:
             user_id = TL.decode_token(TL.getcookie())["user_id"]
-            #result = mysql_unit.create_cart(db,cart.json,user_id)
             result = mysql_unit.check_order(db,user_id)
             if result == "No found order":
                 length = 0
             else:
                 length = len(result)
-            #測試用 正式應抓取cookie
-            # db.commit()
             db.close()
-            print(result)
-            print(length)
             return render_template('order_list.html', data = locals())
         except:
             print("Check Error")
@@ -61,7 +48,6 @@ def orderin(id):
             db.close()
             length = len(result)
             total = float(total[0])
-            print(total)
             return render_template('order.html',data=locals())
         except:
             return "Check Error"

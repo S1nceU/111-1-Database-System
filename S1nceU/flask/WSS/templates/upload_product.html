@@ -20,6 +20,9 @@
 <body>
     <div class="tt"><!--上方浮動列-->
         <ul class="ti">
+            {% if data['flag'] %}
+                <script>alert("你已有商品的名稱重複了！！！")</script>
+            {% endif %}
             <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
             <li><a href="" @click.prevent="goHome()"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
             <li v-if="this.accountLevel == '0'">
@@ -63,15 +66,15 @@
                             <p style="margin-top: 25px;">商品圖片</p>
                         </div>
                         <div class="right_data_content">
-                            <input id = 'product_name' type = 'text' name = 'product_name' style="margin-top:0px;">
-                            <input id ='price' type ='text' name ='price'>
-                            <input id ='description' type ='text' name ='description'>
-                            <select name = 'label'>
+                            <input id = 'product_name' type = 'text' name = 'product_name' style="margin-top:0px;" required>
+                            <input id ='price' type ='text' name ='price' required>
+                            <input id ='description' type ='text' name ='description' required>
+                            <select name = 'label' required>
                                 {% for label in data['labels'] %}
                                     <option value="{{label}}">{{label}}</option>
                                 {% endfor %}
                             </select>
-                            <input id ='total_amount' type ='text' name ='total_amount'>   
+                            <input id ='total_amount' type ='text' name ='total_amount' required>   
                             <input  type="file"  name="filename" accept=".png" required style="margin-top:50px;"> 
 
                         </div>

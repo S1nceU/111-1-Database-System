@@ -21,7 +21,8 @@ def decode_token(token):
         return None
 def setcookie_logined(token_login):
     resp = make_response('login success')
-    resp.set_cookie(key='WSS', value=token_login,expires=time.time()+600)
+    # resp.set_cookie(key='WSS', value=token_login,expires=time.time()+600)
+    resp.set_cookie(key='WSS', value=token_login)
     return resp
 
 def getcookie():

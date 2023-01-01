@@ -1,4 +1,4 @@
-from flask import request, Blueprint, redirect, render_template
+from flask import request, Blueprint, redirect, render_template, flash
 from datetime import datetime
 import os, uuid
 import pathlib
@@ -15,19 +15,26 @@ def createproduct():
     db = mysql_unit.connect()
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
-    print('create_product method', request.method)
     if request.method == 'POST':
-        # try:
-        print(request.form)
         user_id = TL.decode_token(TL.getcookie())["user_id"]
         file = request.files['filename']
         if file.filename != '':
             file.filename = str(uuid.uuid5(uuid.NAMESPACE_DNS,currentTime + str(user_id))) + ".png"
             file.save(os.path.join(UPLOAD_FOLDER, file.filename))
         result = mysql_unit.create_product(db, request.form, user_id, file.filename)
-        # result = mysql_unit.create_product(db,request.json,user["user_id"], file.filename)
-        db.close()
-        return redirect("/seller")
+        
+        if result == "Create success.":
+            db.close()
+            return redirect("/seller")
+        else:
+            get_label = mysql_unit.get_label(db)
+            length_label = len(get_label)
+            labels = list()
+            for i in get_label.keys():
+                labels.append(i)
+            flag = True
+            db.close()
+            return render_template('upload_product.html', data = locals())
         # except:
         #     print("error RRRRRRRRR")
         #     db.close()
@@ -39,6 +46,7 @@ def createproduct():
         labels = list()
         for i in get_label.keys():
             labels.append(i)
+        flag = False
         return render_template('upload_product.html', data = locals())
     return "Create error!!"
 

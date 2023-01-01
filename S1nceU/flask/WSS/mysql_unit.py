@@ -55,7 +55,6 @@ def login_comfirm(db,FROM,WHERE):
             'password' : data[3],
             'status'   : data[5]
         }
-    print(data)
     return data,user_level
 
 # create account
@@ -76,7 +75,6 @@ def register_insert(db,data,users):
         data['account'],data['email']
     )
     
-    # print(condition_repeat)
         # account,email,id_number
     sql_cmd_repeat = """
             (select *
@@ -84,7 +82,6 @@ def register_insert(db,data,users):
             where customer.account = '%s' or customer.email = '%s' or customer.id_number = '%s' or seller.account = '%s' or seller.email = '%s' or seller.id_number = '%s' or admin.account = '%s' or admin.email ='%s')
             """%condition_repeat
     sql_cmd = """ INSERT INTO %s (username, account, password, email, address, phone, id_number, user_status) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",1) """%condition
-    # print(sql_cmd)
     account = db.cursor()
     account.execute(sql_cmd_repeat)
     data = account.fetchall()
@@ -130,7 +127,6 @@ def create_product(db,data,seller_id,filename):
         db.commit()                                              # push商品
         p_id = get_product_id(db,seller_id,data["product_name"]) # 拿到本商品的ID
         label_dict = get_label(db)                               # 得到所有標籤的字典  ex. {"3c" : 2}
-        print(label_dict[data["label"]])
         if data["label"] in label_dict.keys():
             set_category(db,p_id,label_dict[data["label"]])          # 設定商品標籤
         return "Create success."
@@ -212,7 +208,6 @@ def product_get_all(db):
 # set product label
 def set_category(db,product_id,label_id):
     condition = (product_id,label_id)
-    print(condition)
     sql_cmd_repeat = """
         SELECT *
         FROM category
@@ -233,7 +228,6 @@ def set_category(db,product_id,label_id):
 
 # get member information
 def memberInfo(db, who, userID):
-    # print('userID = ', userID)
     if who == 'seller':
         sql_cmd = """
             (select *
@@ -253,7 +247,6 @@ def memberInfo(db, who, userID):
     account = db.cursor()
     account.execute(sql_cmd)
     data = account.fetchone()
-    print(data)
     data = {
         'user_id' : data[0],
         'user_name' : data[1],
@@ -280,8 +273,6 @@ def get_sellerProduct(db, sellerID):
     PD = db.cursor()
     PD.execute(sql_cmd)
     data = PD.fetchall()
-    # print(data[0])
-    # print('len of data',len(data))
     temp = dict()
     temp['productName'] = list()
     temp['product_img'] = list()
@@ -456,11 +447,9 @@ def cart_check(db,user_id):
         from product
         where %s
         """%temp
-    print(sql_cmd_repeat)
     ppd2 = db.cursor()
     ppd2.execute(sql_cmd_repeat)
     data2 = ppd2.fetchall()
-    print(data2)
     result = []; run = -1; total = 0
     for i in data2:
         sql_cmd_ticket = """
@@ -481,7 +470,6 @@ def cart_check(db,user_id):
             'amount' : data[run][1],
             'ticket': ticket
         })
-    print(total)
     return result,total
 
 # 標籤搜尋
@@ -508,7 +496,6 @@ def product_get_tag(db, tag):
         temp['product_img'].append(data[i][3])
         temp['price'].append(data[i][2])
         temp['description'].append(data[i][4])
-    # print(temp)
     return temp
 
 # 內容搜尋框
@@ -533,7 +520,6 @@ def product_search_content(db, content):
         temp['product_img'].append(data[i][3])
         temp['price'].append(data[i][2])
         temp['description'].append(data[i][4])
-    # print(temp)
     return temp
 
 # add ticket for seller
@@ -656,7 +642,6 @@ def product_sell(db,products):
         product = currentproduct.fetchone()
         product_amount = int(product[0])
         WannaSellProductAmount.append(product_amount)
-        # print(currentproduct.)
         if product_amount - amount < 0: 
             flag = True
             cant_sell_product.append(product[1] + " inventory isn't enough!!")
@@ -730,7 +715,6 @@ def product_sell_ticket(db,products,tickets_id):
         product_amount = int(product[0])
         product_status = int(product[2])
         WannaSellProductAmount.append(product_amount)
-        # print(currentproduct.)
         if product_amount - amount < 0: 
             flag = True
             cant_sell_product.append("\n" + product[1] + " inventory isn't enough!!")
@@ -858,7 +842,6 @@ def create_order(db,data,user_id):
 #         temp2 = db.cursor()
 #         temp2.execute(sql_cmd_repeat)
 #         data_product = list(temp2.fetchall())
-#         print(data_product)
 #         result[run][0] = i[0]
 #         result[run][1] = i[1]
 #         result[run][2] = i[2]

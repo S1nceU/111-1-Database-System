@@ -12,7 +12,6 @@ def index_get():
     db = mysql_unit.connect()
     print('Re:method->',request.method)
     if request.method == 'GET':
-        print('get IN')
         try:
             user_data = TL.getcookie()
             username = TL.decode_token(user_data)['username']
@@ -88,10 +87,7 @@ def salerProduct():
         if user['user_level'] != 0:
             len(0)
         product = mysql_unit.get_sellerProduct(db, user['user_id'])
-        print(len(product))
         length = len(product['productName'])
-        print(product['product_id'])
-        # print(locals())
         if request.method == 'GET':
             db.close()
             return render_template('seller.html', data = locals())
