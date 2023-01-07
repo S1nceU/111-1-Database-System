@@ -1,7 +1,7 @@
 import pymysql
 from datetime import datetime
 
-# 連線
+# 連線 SQL
 def connect():                                                             
     db = pymysql.connect(host='localhost', port=3306, user='root', passwd='xu.6j03cj86u;6au/65k6', db='world')
     return db
@@ -10,7 +10,7 @@ def connect():
 def disconnect(db):
     db.close()
 
-# login
+# 登入
 def login_comfirm(db,FROM,WHERE):
     condition = (FROM,WHERE)
 
@@ -57,7 +57,7 @@ def login_comfirm(db,FROM,WHERE):
         }
     return data,user_level
 
-# create account
+# 創建帳號
 def register_insert(db,data,users):
     condition = (
         users,
@@ -91,7 +91,7 @@ def register_insert(db,data,users):
     else:
         return "Something repeat!!"
 
-# create product
+# 創建商品
 def create_product(db,data,seller_id,filename):
     currentDateAndTime = datetime.now()
     currentTime = currentDateAndTime.strftime("%D_%H_%M_%S")
@@ -133,7 +133,7 @@ def create_product(db,data,seller_id,filename):
     else:
         return "There is a same product name in your product list."
 
-# get all of labels
+# 得到所有的標籤
 def get_label(db):
     sql_cmd = """
         SELECT *
@@ -148,7 +148,7 @@ def get_label(db):
 
 
 
-# get product_id by product_name 
+# 透過賣家 ID 跟商品的名字找到對應的商品 ID
 def get_product_id(db,seller_id,product_name):
     sql_cmd = """
         SELECT product_id
@@ -160,7 +160,7 @@ def get_product_id(db,seller_id,product_name):
     result = product_id.fetchone()
     return result[0]
 
-# get product by product_ID
+# 檢視對應商品 ID 的商品資訊
 def product_get(db, productID):
     condition = (productID)
 
@@ -185,7 +185,7 @@ def product_get(db, productID):
     }
     return data
 
-# get all of products
+# 得到所有的商品
 def product_get_all(db):
     sql_cmd = """
         SELECT product.product_id, product.product_name, product.product_img, product.price, product.description
@@ -205,7 +205,7 @@ def product_get_all(db):
         })
     return result
 
-# set product label
+# 設定商品的標籤
 def set_category(db,product_id,label_id):
     condition = (product_id,label_id)
     sql_cmd_repeat = """
@@ -226,7 +226,7 @@ def set_category(db,product_id,label_id):
     else:
         return "There is a same product label in your product category."
 
-# get member information
+# 檢視對應 ID 的使用者所有資訊
 def memberInfo(db, who, userID):
     if who == 'seller':
         sql_cmd = """
@@ -260,7 +260,7 @@ def memberInfo(db, who, userID):
     }
     return data
 
-# get product by seller's user_id_s
+# 檢視對應賣家 ID 的所有商品
 def get_sellerProduct(db, sellerID):
     productlist = list()
     sql_cmd = """
@@ -291,7 +291,7 @@ def get_sellerProduct(db, sellerID):
         temp['product_status'].append(data[i][6])
     return temp
 
-# view all of users for admin
+# 檢視平台所有的使用者
 def admin_user_view(db):
     result = []
     sql_cmd_seller = """
@@ -313,7 +313,7 @@ def admin_user_view(db):
         result.append({"user_account" : i[0], "user_id" : i[1], "user_level" : "customer", "user_status" : i[2]})
     return result
 
-# view all of users for admin with user_id
+# 檢視平台所有的商品
 def admin_product_view(db):
     result = []
     sql_cmd = """
@@ -329,7 +329,7 @@ def admin_product_view(db):
         result.append({"product_name" : i[0], "product_id" : i[1], "user_id" : i[2], "product_img" : i[4], "product_status" : i[5]})
     return result
 
-# set account status 
+# 變更帳號的狀態
 def account_status(db,level,user_id,wanna_status):
     sql_cmd = """"""
     if level == "seller":
@@ -350,7 +350,7 @@ def account_status(db,level,user_id,wanna_status):
     operation.execute(sql_cmd)
     return "Change status success."
 
-# set product status
+# 變更商品的狀態
 def product_status(db,product_id,wanna_status):
     condition = (wanna_status,product_id)
     sql_cmd = """
@@ -362,7 +362,7 @@ def product_status(db,product_id,wanna_status):
     operation.execute(sql_cmd)
     return "Change status success."
 
-# add product to cart with user_id
+# 增加商品在該買家的購物車中
 def cart_add(db,data,user_id):
     condition = (
         data["product_id"],
@@ -399,7 +399,7 @@ def cart_add(db,data,user_id):
     wannacart.execute(sql_cmd)
     return "add success."
 
-# del product to cart with user_id
+# 刪除該買家的購物車內的商品
 def cart_delete(db,product_id,user_id):
     condition = (
         product_id,
@@ -414,6 +414,7 @@ def cart_delete(db,product_id,user_id):
     nocart.execute(sql_cmd)
     return "delete success."
 
+# 清除購物車
 def cart_delete_all(db,user_id):
     sql_cmd = """
         DELETE
@@ -424,7 +425,7 @@ def cart_delete_all(db,user_id):
     nocart.execute(sql_cmd)
     print("delete success.") 
     
-# view cart by user_id
+# 查看該買家的購物車
 def cart_check(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -522,7 +523,7 @@ def product_search_content(db, content):
         temp['description'].append(data[i][4])
     return temp
 
-# add ticket for seller
+# 賣家增加優惠券
 def ticket_add(db,data,user_id):
     condition = (
         # data['effective_date'],
@@ -543,7 +544,7 @@ def ticket_add(db,data,user_id):
     db.commit()
     return "Ticket add success."
 
-# view all can use tickets for seller
+# 查看該商品賣家可用的所有優惠券
 def ticket_view(db,user_id):
     condition = (
         user_id
@@ -567,7 +568,7 @@ def ticket_view(db,user_id):
         result.append(dic)
     return result
 
-# use ticket
+# 使用優惠券
 def ticket_use(db,tickets_id):
     flag = False
     WannaUseTicket = []
@@ -605,7 +606,7 @@ def ticket_use(db,tickets_id):
         db.commit()
     return "Use ticket success."
 
-# seller set ticket amount
+# 賣家調整優惠券的數量
 def ticket_del(db, user_id, ticket_id):
     condition = (
         user_id,
@@ -621,7 +622,7 @@ def ticket_del(db, user_id, ticket_id):
     db.commit()
     return "Delete ticlet success."
 
-# let product amount minis
+# 商品賣出時會減少
 def product_sell(db,products):
     flag = False
     WannaSellProductAmount = []
@@ -665,7 +666,7 @@ def product_sell(db,products):
         db.commit()
     return "Selled product success."
 
-
+# 賣出商品以及使用優惠券
 def product_sell_ticket(db,products,tickets_id):
     flag = False
     WannaUseTicket = {}
@@ -755,7 +756,7 @@ def product_sell_ticket(db,products,tickets_id):
         db.commit()
     return "Use ticket success."
 
-
+# 創造訂單
 def create_order(db,data,user_id):
     #抓取該user的cart資料
     sql_cmd_cart = """
@@ -819,36 +820,7 @@ def create_order(db,data,user_id):
     cart_delete_all(db,user_id)
     return "create success."
 
-
-# def check_order(db,user_id):
-#     condition = (user_id)
-#     sql_cmd = """
-#         select order.order_id, order.total_price, order.order_time, order.address
-#         from world.order
-#         where user_id_c = %s
-#     """%condition
-#     temp = db.cursor()
-#     temp.execute(sql_cmd)
-#     data = temp.fetchall()
-#     if(data == ()): return "No found order"
-#     result = [[0]*5  for i in range(len(data))]; run = -1
-#     for i in data:
-#         run += 1
-#         sql_cmd_repeat = """
-#             select order_product.product_id, order_product.amount
-#             from order_product
-#             where order_id = %s
-#         """%i[0]
-#         temp2 = db.cursor()
-#         temp2.execute(sql_cmd_repeat)
-#         data_product = list(temp2.fetchall())
-#         result[run][0] = i[0]
-#         result[run][1] = i[1]
-#         result[run][2] = i[2]
-#         result[run][3] = i[3]
-#         result[run][4] = data_product
-#     return result
-
+# 查看商品是否已存在購物車
 def check_order(db,user_id):
     condition = (user_id)
     sql_cmd = """
@@ -870,6 +842,7 @@ def check_order(db,user_id):
         })
     return result
 
+# 透過 order_id 查看該訂單資訊
 def order_in(db,order_id):
     condition = (order_id)
     sql_cmd = """
@@ -906,6 +879,7 @@ def order_in(db,order_id):
     total = list(temp3.fetchone())
     return result,total
 
+# 檢視所有回饋的訊息
 def admin_event_view(db):
     sql_cmd = """
         SELECT event_id, event_content, event_state, username 
@@ -923,6 +897,7 @@ def admin_event_view(db):
             result.append({"event_id":i[0], "event_content":i[1], "event_state":i[2], "username":i[3]})
     return result
 
+# 改變回饋訊息的狀態
 def event_status(db,event_id,wannastatus,user_id):
     condition = (
         wannastatus,
@@ -938,6 +913,7 @@ def event_status(db,event_id,wannastatus,user_id):
     wannaevent.execute(sql_cmd)
     return "Change status success."
 
+# 更新商品數量
 def product_update(db,product_id,addamount):
     sql_cmd_exist = """
         SELECT total_amount
@@ -962,6 +938,7 @@ def product_update(db,product_id,addamount):
     db.commit()
     return "Update success."
 
+# 新增回饋訊息
 def event_add(db,content):
     sql_cmd = """
         INSERT INTO to_do_thing (event_content,event_state,user_id)
