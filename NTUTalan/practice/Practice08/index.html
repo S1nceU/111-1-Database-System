@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Practice8</title>
+</head>
+<body>
+    <div id="list">
+        <form @submit.prevent="addItem">
+            <input v-model="newItem">
+            <button>submit</button>
+        </form>
+        <ul>
+            <li v-for="item in filterItems">
+                <input type="checkbox" v-model="item.done">
+                <span :class="{done: item.done}">{{ item.text }}</span>
+                <!-- :class="{類別: 條件}" -->
+                <button @click="removeItem(item)">X</button>
+            </li>
+        </ul>
+        <button @click="isHide = !isHide">{{isHide ? "Show all" : "Hide checked element!"}}</button>
+    </div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./index.js" defer></script>
+</body>
+</html>

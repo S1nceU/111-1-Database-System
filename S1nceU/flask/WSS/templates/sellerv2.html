@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的賣場</title>
+    <link rel="stylesheet" href="../static/css/seller.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="./static/src/saler.js"></script>
+</head>
+<body>
+    <div class="tt"><!--上方浮動列-->
+        <ul class="ti">
+            <li><div v-if="logged" class="tb_name">{{welcome}}</div></li>
+            <li><a href="" @click.prevent="goHome()"><div class="tb" style="background-color: rgb(14, 93, 79);">首頁</div></a></li>
+            <li v-if="this.accountLevel == '0'">
+                <a href="" @click.prevent="goSeller()"><div class="tb">賣場</div></a>
+            </li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goOrder()"><div class="tb">你的訂單</div></a>
+            </li>
+            <li v-if="this.accountLevel == '1'">
+                <a href="" @click.prevent="goCart()"><div class="tb">購物車</div></a>
+            </li>
+            <li v-if="this.accountLevel!=2"><a href="" @click.prevent="goMember()"><div class="tb">會員中心</div></a></li>
+            <li v-if="this.accountLevel==2"><a href="" @click.prevent="goAdmin()"><div class="tb" style="background-color: rgb(14, 93, 79);">監控中心</div></a></li>
+            <li><a>
+                <div v-if="!logged" class="tb" @click="goLogin">註冊/登入</div>
+                <div v-else class="tb" @click="Logout">登出</div>
+            </a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="search"> <!--搜尋欄--->
+            <img src="../static/img/icon.PNG" alt="" class="icon">
+            
+            
+        </div>
+        <div class="order_title">
+            <p style="font-size:50px;margin-bottom: 50px;">新增商品</p>
+            <a href="" @click.prevent="goUpload()"><button class="button-68" role="button">新增商品</button></a>
+            <p style="font-size:50px;margin-top: 50px;">商店</p>
+            <div class="order_head">
+                <p style="width: 30%;">圖片</p>
+                <p style="width: 28%;">商品名稱</p>
+                <p style="width: 20%;">商品價格</p>
+                <!---<p style="width: 21%;">可用折價券</p>--->
+                <p style="width: 12%;">庫存</p>
+                <p style="width: 15%; border-right: black solid 4px;">操作</p>
+
+            </div>
+            <div class="order">
+                <ul>
+
+                    {% for p in range(data['length']) %}
+                    <li>
+                        <div class="product_img">
+                            <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
+                        </div>
+                        <h1 style="width: 28%;">{{data['product']['productName'][p]}}</h1>
+                        <p style="width: 20%;">${{data['product']['price'][p]}}</p>
+                        <p>{{data['product']['amount'][p]}}</p>
+                        <div class="delete_item" >
+                                <div style="height:80px">
+                                <button class="button-54" role="button" style="background-color: rgb(246, 97, 97); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">停售</button>
+                                </div>
+                                <div class="updata_item" style="border-top: 4px black solid;height: 100px;">
+                                    <input type="number" name="tentacles" min="1" max="100" v-model="addCount" class="input_count">
+                                    <button class="button-54" role="button" style="background-color: rgb(131, 234, 246); font-size: 15px;" onclick="product_disable('{{data['product']['product_id'][p]}}')" class="delete">更新</button>
+                                </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+    
+    </div>
+<div class="something_important">
+    <div class="important_text"> <!---政令宣導-->
+        <h2>政令宣導</h2>
+        <p>1. 為防治動物傳染病，境外動物或動物產品等應施檢疫物輸入我國，應符合動物檢疫規定，並依規定申請檢疫。擅自輸入應施檢疫物者最高可處7年以下有期徒刑，得併科新臺幣300萬元以下罰金。未依規定申請檢疫者，將課以新臺幣100萬元以下罰鍰，並得按次處罰。</p>
+        <p>2. 境外商品不得隨貨贈送應施檢疫物。</p>
+        <p>3. 收件人違反動物傳染病防治條例第34條第3項規定，未將郵遞寄送輸入之應施檢疫物送交輸出入動物檢疫機關銷燬者，處新臺幣3萬元以上15萬元以下罰鍰。</p>
+    </div>
+</div>
+<div class="buttom"> <!---底部資訊-->
+    <div class="buttom_content">
+        <div class="left_buttom">
+            <img src="../static/img/icon_button.PNG" alt="" class="icon">
+            <p style="margin-top: 30px;">高雄市鳳山區自治街65巷8號5樓</p>
+            <p>電話(不含例假日)：0800-091-000</p>
+            <p>本公司不會以此電話號碼撥打給您，如有來電顯示此號碼，請勿理會</p>
+        </div>
+        <hr>
+        <div class="about" style="margin-left:20px ;">
+            <h1>關於邀驗鑑貨</h1>
+            <a href="">人才招募</a>
+            <a href="">隱私權聲明</a>
+            <a href="">服務條款</a>
+        </div>
+        <div class="about" style="margin-left:20px ;">
+            <h1>顧客權益</h1>
+            <a href="">聯絡我們</a>
+            <a href="">常見Q&A</a>
+            <a href="">防詐騙宣導</a>
+            <a href="">退換貨說明</a>
+            <a href="">24h到貨說明</a>
+        </div>
+        <div class="about" style="margin-left:20px ;">
+            <h1>企業合作</h1>
+            <a href="">招商專區</a>
+            <a href="">媒體聯繫</a>
+            <a href="">企業/大型採購</a>
+
+        </div>
+        <hr>
+    </div>
+    <hr>
+    <p style="text-align: center;color:white;margin-top:15px;margin-bottom:30px;">資料庫系統有限公司 版權所有 轉載必究
+        Database and Database Online are trademarks of Database Online Inc.</p>
+</div>
+<script>
+    async function product_disable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'0'})});
+        window.location.reload();
+    }
+    async function product_enable(id){
+        await fetch('admin_status_product/', {method: 'POST', headers: ({'Content-Type': 'application/json'}), body:JSON.stringify({'product_id': id,'wanna_status':'1'})});
+        window.location.reload();
+    }
+</script>
+</body>
+</html>

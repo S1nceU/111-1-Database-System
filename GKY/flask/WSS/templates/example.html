@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for p in range(data['length']) %}
+        <li>
+            <div class="product_img">
+                <a href = "http://127.0.0.1:5000/product/{{data['product']['product_id'][p]}}"><img src="../static/img/{{data['product']['product_img'][p]}}" alt="" class="rank_product" style="margin-left: 30px;"></a>
+            </div>
+            <h1>{{data['product']['productName'][p]}}</h1>
+            <p>${{data['product']['price'][p]}}</p>
+            <p>{{data['product']['amount'][p]}}</p>
+        </li>
+    {% endfor %}
+</body>
+</html>
